@@ -1,3 +1,8 @@
+"""Contains methods for calling and using Dall-e API
+As much as possible, do not change this directly unless necessary
+Instead, change the usage of the model in the other files
+"""
+
 import os
 import random
 from functools import partial
@@ -87,7 +92,7 @@ class DalleModel:
 
         # generate images
         images = []
-        for i in range(max(num_predictions // jax.device_count(), 1)):
+        for _ in range(max(num_predictions // jax.device_count(), 1)):
             # get a new key
             key, subkey = jax.random.split(key)
 

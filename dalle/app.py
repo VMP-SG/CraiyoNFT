@@ -1,3 +1,7 @@
+"""Original implementation by saharmor at https://github.com/saharmor/dalle-playground
+Adapted for the use of CraiyoNFT
+"""
+
 import argparse
 import base64
 import os
@@ -13,13 +17,15 @@ from consts import ModelSize
 
 app = Flask(__name__)
 CORS(app)
-print("--> Starting DALL-E Server. This might take up to two minutes.")
+print("--> Starting DALL-E Server. This might take up to a minute.")
 
 from dalle_model import DalleModel
 dalle_model = None
 
-parser = argparse.ArgumentParser(description = "A DALL-E app to turn your textual prompts into visionary delights")
-parser.add_argument("--port", type=int, default=8000, help = "backend port")
+# these arguments just fix, don't let people change
+# save in consts.py
+parser = argparse.ArgumentParser(description = "A DALL-E API to generate images from a prompt")
+parser.add_argument("--port", type=int, default=8080, help = "backend port")
 parser.add_argument("--model_version", type = parse_arg_dalle_version, default = ModelSize.MINI, help = "Mini, Mega, or Mega_full")
 parser.add_argument("--save_to_disk", type = parse_arg_boolean, default = False, help = "Should save generated images to disk")
 parser.add_argument("--img_format", type = str.lower, default = "JPEG", help = "Generated images format", choices=['jpeg', 'png'])
@@ -63,7 +69,8 @@ def health_check():
 
 with app.app_context():
     dalle_model = DalleModel(args.model_version)
-    dalle_model.generate_images("warm-up", 1)
+    # take out to minimise startup time
+    # dalle_model.generate_images("warm-up", 1)
     print("--> DALL-E Server is up and running!")
     print(f"--> Model selected - DALL-E {args.model_version}")
 
