@@ -26,6 +26,16 @@ args = parser.parse_args()
 model_size = Config.MODEL.value # enum to be used for DalleModel initialization
 image_format = Config.IMAGE_FORMAT.value.value
 
+# TODO
+""" Currently returns a json through http response (picked up by frontend API)
+    Change to:
+    1. Call backend process
+        a. Decodes json/base64 and obtain image
+        b. Store on IPFS
+        c. Get URL to images
+        d. Return to this function
+    2. Return URLs to images as json through http response
+"""
 @app.route("/dalle", methods=["POST"])
 @cross_origin()
 def generate_images_api():
