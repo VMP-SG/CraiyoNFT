@@ -1,4 +1,3 @@
 /venv
 /wandb
-/backend/__pycache__
-
+/dalle/__pycache__
