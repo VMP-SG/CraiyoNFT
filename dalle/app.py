@@ -10,7 +10,7 @@ from io import BytesIO
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-from consts import Config
+from config import Config
 
 app = Flask(__name__)
 CORS(app)
@@ -25,6 +25,7 @@ args = parser.parse_args()
 
 model_size = Config.MODEL.value # enum to be used for DalleModel initialization
 image_format = Config.IMAGE_FORMAT.value.value
+num_images = Config.NUM_OF_IMAGES.value
 
 # TODO
 """ Currently returns a json through http response (picked up by frontend API)
@@ -41,7 +42,6 @@ image_format = Config.IMAGE_FORMAT.value.value
 def generate_images_api():
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
-    num_images = json_data["num_images"]
     generated_imgs = dalle_model.generate_images(text_prompt, num_images)
 
     returned_generated_images = []
