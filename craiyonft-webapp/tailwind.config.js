@@ -2,7 +2,27 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'primary': '#36F599',
+        'secondary': '#4C67F4',
+        'blue-dark': '#1C2541',
+        'green-dark': '#284B54',
+        'gray-dark': '#485470',
+        'gray': '#7D8CAC',
+        'gray-light': '#99A7C7',
+        'gray-pale': '#C7D0E4',
+        'white-dark': '#F1F4FB',
+        'white-light': '#F8F9FB',
+        'white-pale': '#FCFBFB',
+        'white': '#FFFFFF'
+      }
+    },
+    fontFamily: {
+      'primary': ['Manrope', 'sans-serif'],
+      'secondary': ['DM Sans', 'sans-serif'],
+      'logo': ['Lato', 'sans-serif']
+    }
   },
   plugins: [],
 }
