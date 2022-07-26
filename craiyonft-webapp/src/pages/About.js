@@ -2,7 +2,7 @@ import MainLayout from "../layout/MainLayout";
 
 const About = () => {
   return (
-    <main style={{ padding: "1rem 0" }}>
+    <main>
       <MainLayout>
         <p>About</p>
       </MainLayout>
