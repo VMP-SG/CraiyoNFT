@@ -5,7 +5,7 @@ const MainLayout = ({ children }) => {
   return (
     <div>
       <MainHeader />
-      <div className="px-52 py-10">{children}</div>
+      <div className="px-32 py-10">{children}</div>
       <MainFooter />
     </div>
   );
