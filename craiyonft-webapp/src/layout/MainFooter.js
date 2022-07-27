@@ -3,8 +3,8 @@ import P from "../constants/paths";
 
 const MainFooter = () => {
   return (
-    <div className="flex flex-col items-center font-primary">
-      <div className="p-5 w-[var(--max-screen-width)] bg-gray-dark text-white">
+    <div className="flex flex-col items-center font-primary bg-gray-dark">
+      <div className="p-5 w-[var(--max-screen-width)] text-white">
         <div className="flex justify-start align-between p-10 my-10">
           <div className="ml-[80px] w-[290px]">
             <NavLink to={P.PATH_HOME}>
