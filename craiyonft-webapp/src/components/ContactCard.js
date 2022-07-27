@@ -5,7 +5,7 @@ const AboutCard = ({ image }) => {
   return (
     <div
       className={
-        "box-border border rounded-[21px] overflow-hidden my-10 w-[1000px]"
+        "box-border border rounded-[9px] overflow-hidden my-10 w-[700px]"
       }
     >
       <img className="w-full" src={image} alt="contact" />

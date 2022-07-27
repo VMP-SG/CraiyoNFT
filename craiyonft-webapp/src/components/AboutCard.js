@@ -3,7 +3,7 @@ import React from "react";
 const AboutCard = ({ name, image }) => {
   return (
     <div
-      className={`box-border border p-5 m-5 h-[400px] w-[300px] rounded-[10px] text-black flex flex-col items-center`}
+      className={`box-border border p-5 m-5 h-[400px] w-[300px] rounded-[8.5px] text-black flex flex-col items-center bg-white`}
     >
       <img
         src={image}
