@@ -5,7 +5,11 @@ const MainLayout = ({ children }) => {
   return (
     <div>
       <MainHeader />
-      <div className="px-52 py-10">{children}</div>
+      <div className="flex flex-col justify-center items-center">
+        <div className="px-32 py-10 max-w-[var(--max-screen-width)]">
+          {children}
+        </div>
+      </div>
       <MainFooter />
     </div>
   );
