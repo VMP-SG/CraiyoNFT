@@ -16,13 +16,16 @@ module.exports = {
         'white-light': '#F8F9FB',
         'white-pale': '#FCFBFB',
         'white': '#FFFFFF'
+      },
+      animation: {
+        'spin-once': 'spin 1s ease-in-out'
       }
     },
     fontFamily: {
       'primary': ['Manrope', 'sans-serif'],
       'secondary': ['DM Sans', 'sans-serif'],
       'logo': ['Lato', 'sans-serif']
-    }
+    },
   },
   plugins: [],
 }
