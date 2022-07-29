@@ -5,8 +5,24 @@ import HUIX from "../assets/huix.jpg";
 import KEVIN from "../assets/kevin.jpg";
 import HC from "../assets/hochi.png";
 import cat from "../assets/cat.png";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 const About = () => {
+  const location = useLocation();
+  const contactRef = useRef(null);
+  useEffect(() => {
+    if (location.state.location === "contact") {
+      const elTop = contactRef.current?.getBoundingClientRect().top;
+      if (elTop) {
+        const y = elTop + window.scrollY - 100;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [location]);
+  
   return (
     <div className="bg-[url('assets/AboutBackground1.png'),_url('assets/AboutBackground2.png')] bg-[position:right_top,_left_bottom_400px] bg-no-repeat bg-[length:900px,_900px]">
       <MainLayout>
@@ -31,7 +47,7 @@ const About = () => {
             <AboutCard name="Kevin Chang" image={KEVIN} />
             <AboutCard name="Chay Hui Xiang" image={HUIX} />
           </div>
-          <div className="flex flex-col text-center w-[600px] mt-32">
+          <div className="flex flex-col text-center w-[600px] mt-32" ref={contactRef}>
             <h1 className="font-extrabold text-6xl text-blue-dark font-primary m-5">
               Contact Us
             </h1>
