@@ -22,7 +22,7 @@ const About = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [location]);
-  
+
   return (
     <div className="bg-[url('assets/AboutBackground1.png'),_url('assets/AboutBackground2.png')] bg-[position:right_top,_left_bottom_400px] bg-no-repeat bg-[length:900px,_900px]">
       <MainLayout>

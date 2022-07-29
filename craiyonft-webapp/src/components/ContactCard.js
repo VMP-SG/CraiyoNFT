@@ -51,7 +51,7 @@ const AboutCard = ({ image }) => {
           />
         </div>
         <div className={`flex`}>
-          <PrimaryButton text="Contact Us" tw="mr-[12.73px]" />
+          <PrimaryButton text="Contact Us" className="mr-[12.73px]" />
           <button
             type="button"
             className="text-black font-medium rounded-lg text-sm p-1 text-center inline-flex items-center mr-2"

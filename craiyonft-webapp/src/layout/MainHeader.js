@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
-import Logo from "../assets/Logo.svg";
 import { NavLink, useLocation } from "react-router-dom";
-import P from "../constants/paths";
+import Logo from "../assets/Logo.svg";
+import Logout from "../assets/Logout.svg";
+import Refresh from "../assets/Refresh.svg";
+import Lamb from "../assets/Lamb.svg";
+import Modal from "../components/Modal/Modal";
 import PrimaryButton from "../components/PrimaryButton";
 import WalletButton from "../components/WalletButton";
+import ModalTextbox from "../components/Modal/ModalTextbox";
+import P from "../constants/paths";
+import ModalImage from "../components/Modal/ModalImage";
 
 const MainHeader = () => {
   const [atContact, setAtContact] = useState(false);
   const [enteredContact, setEnteredContact] = useState(false);
+  const [showWallet, setShowWallet] = useState(false);
   const location = useLocation();
+
+  const connectWalletHandler = () => {
+    console.log("Connect wallet pl0x")
+  }
 
   useEffect(() => {
     const listenToScroll = () => {
@@ -104,9 +115,24 @@ const MainHeader = () => {
             </NavLink>
           </li>
         </ul>
-        <PrimaryButton text="Create" tw="mr-[12.73px]" />
-        <WalletButton />
+        <PrimaryButton text="Create" className="mr-[12.73px]" />
+        <WalletButton onClickWallet={() => setShowWallet(true)}/>
       </div>
+      <Modal headingText="My Wallet" onClose={() => setShowWallet(false)} showWallet={showWallet}>
+        <ModalTextbox label="Wallet Address" className="mt-[8px]" src={Logout} iconClassName="left-[1px]">
+          <p className="my-[8px] text-[10.67px]">tz1000000000000000000000000000000000</p>
+        </ModalTextbox>
+        <ModalTextbox label="Wallet Address" className="mt-[16px]" src={Refresh}>
+          <div className="py-[8px] w-1/2 border-r text-[10.67px]">
+            <p>5.00 XTZ</p>
+          </div>
+          <div className="py-[8px] w-1/2 text-[10.67px]">
+            <p>8.45 USD</p>
+          </div>
+        </ModalTextbox>
+        <ModalImage src={Lamb} className="mt-[16px]" />
+        <PrimaryButton text="Connect Wallet" className="m-auto mt-[16px]" onClick={connectWalletHandler} />
+      </Modal>
     </nav>
   );
 };
