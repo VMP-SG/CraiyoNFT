@@ -2,8 +2,10 @@ import { NavLink } from "react-router-dom";
 import P from "../constants/paths";
 import Logo from "../assets/LogoB&W.svg";
 import Github from "../assets/GithubWhite.svg";
+import { useSelector } from "react-redux";
 
 const MainFooter = () => {
+  const address = useSelector((state) => state.wallet.address);
   return (
     <div className="flex flex-col items-center font-primary bg-gray-dark">
       <div className="p-5 w-[var(--max-screen-width)] text-white">
@@ -27,25 +29,28 @@ const MainFooter = () => {
           </div>
           <div className="mx-10">
             <p className="text-primary font-bold mb-3">Browse</p>
-            <p className="text-xs my-2">
+            <p className="text-xs my-2 hover:underline">
               <NavLink to={P.PATH_GALLERY}>Discover</NavLink>
             </p>
-            <p className="text-xs my-2">
-              <NavLink to={P.PATH_ABOUT}>About Us</NavLink>
+            <p className="text-xs my-2 hover:underline">
+              <NavLink to={P.PATH_ABOUT} state={{ location: "about" }}>About Us</NavLink>
             </p>
-            <p className="text-xs my-2">
-              <NavLink to={P.PATH_ABOUT}>Contact Us</NavLink>
+            <p className="text-xs my-2 hover:underline">
+              <NavLink to={P.PATH_ABOUT} state={{ location: "contact" }}>Contact Us</NavLink>
             </p>
-            <p className="text-xs my-2">
-              <NavLink to={P.PATH_ABOUT}>How it works</NavLink>
-            </p>
+            <a className="text-xs my-2 hover:underline" href="https://github.com/VMP-SG/CraiyoNFT/tree/main" target="_blank" rel="noopener noreferrer">
+              <p>How it works</p>
+            </a>
           </div>
           <div className="mx-10">
             <p className="text-primary font-bold mb-3">My Account</p>
-            <p className="text-xs my-2">
-              <NavLink to={P.PATH_ABOUT}>Profile</NavLink>
+            <p className="text-xs my-2 hover:underline">
+              <NavLink to={{
+                pathname: P.PATH_PROFILE,
+                search: `?address=${address}`
+              }}>Profile</NavLink>
             </p>
-            <p className="text-xs my-2">
+            <p className="text-xs my-2 hover:underline">
               <NavLink to={P.PATH_ABOUT}>Create</NavLink>
             </p>
           </div>
@@ -54,7 +59,11 @@ const MainFooter = () => {
           <div className="text-xs font-bold flex justify-center items-center w-[1000px] border-t-2 border-white-900 pt-2">
             {new Date().getFullYear()} - All Rights Reserved &copy; APYNIF |
             Powered by Team VMP-SG{" "}
-            <a href="https://github.com/VMP-SG" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://github.com/VMP-SG"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <button
                 type="button"
                 className="text-black font-medium rounded-lg text-xs p-1 text-center inline-flex items-center mx-2"
