@@ -3,7 +3,7 @@ import OutlinedButton from "../components/OutlinedButton";
 
 const NFTCard = ({ className, src, id, description }) => {
   return (
-    <div className={`w-[223.96px] h-[311.36px] bg-white border-gray-dark border ${className} rounded-[6px] pt-[12.81px] pl-[12.85px] pr-[13.3px] pb-[15.21px] font-primary`}>
+    <div className={`w-[223.96px] h-[311.36px] bg-white border-gray-dark border ${className} rounded-[6px] pt-[12.81px] pl-[12.85px] pr-[13.3px] pb-[15.21px] font-primary hover:border-2`}>
       <img src={src} height="197.8" width="100%" className="rounded-[5.62887px]" alt="NFT"/>
       <div className="flex items-center justify-between mt-[7.63px]">
         <span className="text-[12px] leading-[16.39px] font-bold text-gray-dark" >Placeholder Name</span>

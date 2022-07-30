@@ -20,17 +20,20 @@ import BigNumber from "bignumber.js";
 import Profile from '../assets/Profile.svg';
 import Cat from "../assets/WalletCat.svg";
 import { truncateAddress } from "../utils/address";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAddress, updateWalletStore, updateWallet } from "../store/wallet";
 
 const MainHeader = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
+  const address = useSelector(state => state.wallet.address);
+  const wallet = useSelector(state => state.wallet.wallet);
   const [atContact, setAtContact] = useState(false);
   const [enteredContact, setEnteredContact] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
-  const [address, setAddress] = useState("");
   const [balance, setBalance] = useState(BN.ZERO);
   const [clickedRefresh, setClickRefresh] = useState(false);
   const [tezosPrice, setTezosPrice] = useState(BN.ZERO);
-  const [wallet, setWallet] = useState(undefined);
   const [loadingBalance, setLoadingBalance] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
 
@@ -51,10 +54,10 @@ const MainHeader = () => {
       setLoadingAddress(true);
       const userAddress = await wallet.getPKH();
       await fetchUserBalance(userAddress);
-      setAddress(userAddress);
+      dispatch(updateAddress(userAddress));
       setLoadingAddress(false);
     }
-  }, [wallet, fetchUserBalance]);
+  }, [wallet, fetchUserBalance, dispatch]);
 
   const connectWalletHandler = () => {
     const walletConnection = async () => {
@@ -72,7 +75,7 @@ const MainHeader = () => {
         });
       }
       Tezos.setWalletProvider(newWallet);
-      setWallet(newWallet);
+      dispatch(updateWallet(newWallet));
     };
     try {
       walletConnection();
@@ -83,8 +86,7 @@ const MainHeader = () => {
 
   const disconnectWalletHandler = () => {
     wallet.client.destroy();
-    setWallet(undefined);
-    setAddress("");
+    dispatch(updateWalletStore({ wallet: undefined, address: "" }));
     setBalance(BN.ZERO);
   };
 
@@ -96,6 +98,16 @@ const MainHeader = () => {
   useEffect(() => {
     loadWalletInfo();
   },[loadWalletInfo]);
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setShowWallet(false);
+      }
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  },[]);
 
   useEffect(() => {
     const fetchTezosPrice = async () => {
@@ -201,8 +213,8 @@ const MainHeader = () => {
             </NavLink>
           </li>
         </ul>
-        <PrimaryButton text="Create" className="mr-[12.73px]" />
-        <WalletButton onClickWallet={() => setShowWallet(true)} src={address ? Cat : Profile} text={address ? truncateAddress(address) : "Wallet"} />
+        <PrimaryButton text="Create" className="mr-[12.73px]" disabled={!address} />
+        <WalletButton onClickWallet={() => setShowWallet(true)} src={address ? Cat : Profile} text={address ? truncateAddress(address) : "Wallet"} disabled={!address} />
       </div>
       <Modal
         headingText="My Wallet"

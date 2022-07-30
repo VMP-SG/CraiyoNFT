@@ -39,9 +39,12 @@ const About = () => {
               with the creators of Craiyon.
             </p>
           </section>
-          <h2 className="font-extrabold text-xl text-blue-dark font-primary mt-20 ml-5 self-start">
-            Meet the Creators
-          </h2>
+          <div className="font-extrabold text-[24px] text-blue-dark font-primary mt-20 ml-5 self-start relative">
+            <div className="absolute left-0 bottom-0 w-[50px] h-[12.67px] bg-[#FFB8DA] z-[-1]"/>
+            <p>
+              Meet the Creators
+            </p>
+          </div>
           <section className={`box-border flex justify-center`}>
             <AboutCard name="Ng Ho Chi" image={HC} />
             <AboutCard name="Kevin Chang" image={KEVIN} />

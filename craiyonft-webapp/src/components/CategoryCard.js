@@ -7,7 +7,7 @@ import OutlinedButton from "./OutlinedButton";
 
 const CategoryCard = ({ category }) => {
   return (
-    <div className="w-[218.63px] h-[337.65px] rounded-[6px] border border-gray-dark bg-white pt-[13.4px] pl-[16.68px] pr-[11.83px] font-primary">
+    <div className="w-[218.63px] h-[337.65px] rounded-[6px] border border-gray-dark bg-white pt-[13.4px] pl-[16.68px] pr-[11.83px] font-primary hover:border-2">
       <div className="w-full h-[190px] relative">
         <img src={Cloud} className="w-[163.99px] h-[160.91px] absolute top-0 right-0 rounded-[6px] border  border-gray-dark object-cover" alt="NFT1" />
         <img src={Robot} className="w-[163.99px] h-[160.91px] absolute top-[10px] right-[8px] rounded-[6px] border  border-gray-dark object-cover" alt="NFT1" />

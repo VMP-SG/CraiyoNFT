@@ -56,8 +56,9 @@ const AboutCard = ({ image }) => {
             type="button"
             className="text-black font-medium rounded-lg text-sm p-1 text-center inline-flex items-center mr-2"
           >
-            <img src={Github} alt="Github" />
-            <span className="sr-only">Icon description</span>
+            <a href="https://github.com/VMP-SG" target="_blank" rel="noopener noreferrer">
+              <img src={Github} alt="Github" />
+            </a>
           </button>
         </div>
       </div>
