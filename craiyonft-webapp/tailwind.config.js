@@ -18,7 +18,10 @@ module.exports = {
         'white': '#FFFFFF'
       },
       animation: {
-        'spin-once': 'spin 1s ease-in-out'
+        'spin-once': 'spin 1s ease-in-out',
+        'pulse-1.75': 'pulse 1.75s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-1.5': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-2.25': 'pulse 2.25s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       }
     },
     fontFamily: {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import Lamb from "../assets/Lamb.svg";
+import Lamb from "../assets/placeholders/Lamb.svg";
 import Logo from "../assets/Logo.svg";
 import Logout from "../assets/Logout.svg";
 import Refresh from "../assets/Refresh.svg";
@@ -132,7 +132,7 @@ const MainHeader = () => {
   }, [location, enteredContact]);
 
   return (
-    <nav className="flex w-full justify-center drop-shadow-md bg-white h-[57.6px] sticky top-0">
+    <nav className="flex w-full justify-center drop-shadow-md bg-white h-[57.6px] sticky top-0 z-10">
       <div className="flex items-center max-w-[var(--max-screen-width)] w-full">
         <NavLink to={P.PATH_HOME}>
           <div className="flex ml-[80px] bg-white-pale items-center font-logo text-[17.07px]">
@@ -207,7 +207,7 @@ const MainHeader = () => {
       <Modal
         headingText="My Wallet"
         onClose={() => setShowWallet(false)}
-        showWallet={showWallet}
+        open={showWallet}
       >
         <ModalTextbox
           label="Wallet Address"
