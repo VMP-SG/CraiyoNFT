@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Lamb from "../assets/placeholders/Lamb.svg";
 import Logo from "../assets/Logo.svg";
 import Logout from "../assets/Logout.svg";
@@ -26,6 +26,7 @@ import { updateAddress, updateWalletStore, updateWallet } from "../store/wallet"
 const MainHeader = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const address = useSelector(state => state.wallet.address);
   const wallet = useSelector(state => state.wallet.wallet);
   const [atContact, setAtContact] = useState(false);
@@ -98,6 +99,14 @@ const MainHeader = () => {
   useEffect(() => {
     loadWalletInfo();
   },[loadWalletInfo]);
+
+  const viewProfileHandler = () => {
+    navigate({
+      pathname: P.PATH_PROFILE,
+      search: `?address=${address}`
+    });
+    setShowWallet(false);
+  }
 
   useEffect(() => {
     const handleEscape = (event) => {
@@ -200,17 +209,13 @@ const MainHeader = () => {
             </NavLink>
           </li>
           <li className="h-full flex items-center">
-            <NavLink
-              to={P.PATH_MINT}
-              className={(navData) =>
-                (navData.isActive
-                  ? "border-b text-blue-dark border-blue-dark"
-                  : "hover:border-b hover:text-secondary border-secondary") +
-                " h-full flex items-center"
-              }
+            <a
+              href="https://github.com/VMP-SG/CraiyoNFT/tree/main"
+              className="hover:border-b hover:text-secondary border-secondary h-full flex items-center"
+              target="_blank" rel="noopener noreferrer"
             >
               How it works
-            </NavLink>
+            </a>
           </li>
         </ul>
         <PrimaryButton text="Create" className="mr-[12.73px]" disabled={!address} />
@@ -251,7 +256,7 @@ const MainHeader = () => {
         <PrimaryButton
           text={address ? "View Profile" : "Connect Wallet"}
           className="m-auto mt-[16px]"
-          onClick={connectWalletHandler}
+          onClick={address ? viewProfileHandler : connectWalletHandler}
         />
       </Modal>
     </nav>

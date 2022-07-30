@@ -1,10 +1,15 @@
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import P from "../constants/paths";
 
 const WalletButton = ({ onClickWallet, src, text, disabled }) => {
   const navigate = useNavigate();
+  const address = useSelector(state => state.wallet.address);
   const profileHandler = () => {
-    navigate(P.PATH_MINT)
+    navigate({
+      pathname: P.PATH_PROFILE,
+      search: `?address=${address}`
+    });
   }
 
   return (

@@ -26,7 +26,7 @@ const CategoryCard = ({ category }) => {
           <p className="font-secondary text-[9.33px] leading-[12.15px] text-gray-light">Items</p>
         </div>
       </div>
-      <OutlinedButton height={29.33} className="mt-[18px] w-[9rem]" text="Explore category" />
+      <OutlinedButton className="mt-[18px] w-[9rem] h-[29.33px]" text="Explore category" />
     </div>
   );
 }

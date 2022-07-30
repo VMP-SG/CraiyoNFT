@@ -13,7 +13,7 @@ const NFTCard = ({ className, src, id, description }) => {
         <span className="text-[10px] leading-[13.66px]">{description}</span>
         <img src={Lightning} alt="Logo" height="12.36px" />
       </div>
-      <OutlinedButton text="Buy now" className="text-[10.67px]" height={27.52} width={89.37} />
+      <OutlinedButton text="Buy now" className="text-[10.67px] h-[27.52px] w-[89.37px]" />
     </div>
   );  
 }

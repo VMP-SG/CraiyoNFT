@@ -27,46 +27,46 @@ const Home = () => {
               <span className="font-extrabold">Discover,</span> create{" "}
               <span className="font-extrabold">and</span> show off
             </p>
-            <p className="font-extrabold relative">
-              extraordinary NFTs
+            <div className="font-extrabold relative">
+              <p>extraordinary NFTs</p>
               <div className="w-[92.2px] h-[25.92px] bg-[#A661FF] absolute bottom-1 right-[5.5rem] bg-opacity-30 z-[-1]" />
-            </p>
+            </div>
             <div className="mt-[22.58px] flex justify-center gap-[17px]">
               <PrimaryButton text="Get Started" className="px-[17.33px]" />
-              <SecondaryButton text="Learn more" />
+              <SecondaryButton text="Learn more" href="https://github.com/VMP-SG/CraiyoNFT/tree/main" />
             </div>
           </section>
           <section className="mt-[39.1px] h-[443.51px] w-[1070.91px] relative">
             <NFTCard
-              className="rotate-[-0.9deg] absolute left-[1rem] top-[1rem] scale-110 animate-pulse z-20"
+              className="rotate-[-0.9deg] absolute left-[1rem] top-[1rem] scale-110 animate-pulse z-20 hover:animate-none"
               src={Lamb}
               id="0000"
               description="Sheep Coffee Cap Green Horns"
             />
             <NFTCard
-              className="rotate-[9.98deg] absolute left-[17rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20"
+              className="rotate-[9.98deg] absolute left-[17rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
               src={Robot}
               id="0001"
               description="Robot Candle Needle Blow Orange"
             />
             <NFTCard
-              className="rotate-[0.38deg] absolute right-[18rem] bottom-12 scale-110 animate-pulse z-20"
+              className="rotate-[0.38deg] absolute right-[18rem] bottom-12 scale-110 animate-pulse z-20 hover:animate-none"
               src={Bird}
               id="0002"
               description="Gray Bird Headphones Machine Sky"
             />
             <NFTCard
-              className="rotate-[8.62deg] absolute right-[2rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20"
+              className="rotate-[8.62deg] absolute right-[2rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
               src={Cloud}
               id="0003"
               description="3D Cloud Hat Ethereum Rainbow"
             />
           </section>
           <section className="mt-[61.4px] self-start w-[1150px]">
-            <p className="font-extrabold text-[21.33px] text-gray-dark relative w-max leading-[29.14px]">
+            <div className="font-extrabold text-[21.33px] text-gray-dark relative w-max leading-[29.14px]">
               <div className="absolute right-[-8px] bottom-0 bg-[#6DFF61] bg-opacity-30 h-[16.18px] w-[92.59px] z-[-1]" />
-              Browse by category
-            </p>
+              <p>Browse by category</p>
+            </div>
             <div className="flex gap-[18.13px] mt-[32.33px] relative">
               <CategoryCard category="Sheep" />
               <CategoryCard category="Sheep" />
