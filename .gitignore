@@ -1,3 +1,5 @@
 /venv
 /wandb
 /dalle/__pycache__
+
+.DS_Store
