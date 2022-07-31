@@ -20,16 +20,22 @@ const Gallery = () => {
     }
   }, [c]);
   return (
-    <MainLayout>
-      <div ref={panoRef} className="max-h-0 max-w-0" />
-      <button
-        onClick={() => {
-          c.mozRequestFullScreen();
-        }}
-      >
-        View token
-      </button>
-    </MainLayout>
+    <div>
+      <MainLayout>
+        <main className="flex flex-col justify-center items-center font-primary text-[42.67px] leading-[58.28px]">
+          <div ref={panoRef} className="max-h-0 max-w-0" />
+          <button
+            onClick={() => {
+              c.mozRequestFullScreen();
+            }}
+          >
+            View token
+          </button>
+          <p>Test</p>
+          <p>More Tests</p>
+        </main>
+      </MainLayout>
+    </div>
   );
 };
 

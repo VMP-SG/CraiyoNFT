@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import Lamb from "../assets/Lamb.svg";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import Lamb from "../assets/placeholders/Lamb.svg";
 import Logo from "../assets/Logo.svg";
 import Logout from "../assets/Logout.svg";
 import Refresh from "../assets/Refresh.svg";
@@ -20,17 +20,21 @@ import BigNumber from "bignumber.js";
 import Profile from '../assets/Profile.svg';
 import Cat from "../assets/WalletCat.svg";
 import { truncateAddress } from "../utils/address";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAddress, updateWalletStore, updateWallet } from "../store/wallet";
 
 const MainHeader = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+  const address = useSelector(state => state.wallet.address);
+  const wallet = useSelector(state => state.wallet.wallet);
   const [atContact, setAtContact] = useState(false);
   const [enteredContact, setEnteredContact] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
-  const [address, setAddress] = useState("");
   const [balance, setBalance] = useState(BN.ZERO);
   const [clickedRefresh, setClickRefresh] = useState(false);
   const [tezosPrice, setTezosPrice] = useState(BN.ZERO);
-  const [wallet, setWallet] = useState(undefined);
   const [loadingBalance, setLoadingBalance] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
 
@@ -51,10 +55,10 @@ const MainHeader = () => {
       setLoadingAddress(true);
       const userAddress = await wallet.getPKH();
       await fetchUserBalance(userAddress);
-      setAddress(userAddress);
+      dispatch(updateAddress(userAddress));
       setLoadingAddress(false);
     }
-  }, [wallet, fetchUserBalance]);
+  }, [wallet, fetchUserBalance, dispatch]);
 
   const connectWalletHandler = () => {
     const walletConnection = async () => {
@@ -72,7 +76,7 @@ const MainHeader = () => {
         });
       }
       Tezos.setWalletProvider(newWallet);
-      setWallet(newWallet);
+      dispatch(updateWallet(newWallet));
     };
     try {
       walletConnection();
@@ -83,8 +87,7 @@ const MainHeader = () => {
 
   const disconnectWalletHandler = () => {
     wallet.client.destroy();
-    setWallet(undefined);
-    setAddress("");
+    dispatch(updateWalletStore({ wallet: undefined, address: "" }));
     setBalance(BN.ZERO);
   };
 
@@ -96,6 +99,24 @@ const MainHeader = () => {
   useEffect(() => {
     loadWalletInfo();
   },[loadWalletInfo]);
+
+  const viewProfileHandler = () => {
+    navigate({
+      pathname: P.PATH_PROFILE,
+      search: `?address=${address}`
+    });
+    setShowWallet(false);
+  }
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setShowWallet(false);
+      }
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  },[]);
 
   useEffect(() => {
     const fetchTezosPrice = async () => {
@@ -132,7 +153,7 @@ const MainHeader = () => {
   }, [location, enteredContact]);
 
   return (
-    <nav className="flex w-full justify-center drop-shadow-md bg-white h-[57.6px] sticky top-0">
+    <nav className="flex w-full justify-center drop-shadow-md bg-white h-[57.6px] sticky top-0 z-10">
       <div className="flex items-center max-w-[var(--max-screen-width)] w-full">
         <NavLink to={P.PATH_HOME}>
           <div className="flex ml-[80px] bg-white-pale items-center font-logo text-[17.07px]">
@@ -188,26 +209,22 @@ const MainHeader = () => {
             </NavLink>
           </li>
           <li className="h-full flex items-center">
-            <NavLink
-              to={P.PATH_MINT}
-              className={(navData) =>
-                (navData.isActive
-                  ? "border-b text-blue-dark border-blue-dark"
-                  : "hover:border-b hover:text-secondary border-secondary") +
-                " h-full flex items-center"
-              }
+            <a
+              href="https://github.com/VMP-SG/CraiyoNFT/tree/main"
+              className="hover:border-b hover:text-secondary border-secondary h-full flex items-center"
+              target="_blank" rel="noopener noreferrer"
             >
               How it works
-            </NavLink>
+            </a>
           </li>
         </ul>
-        <PrimaryButton text="Create" className="mr-[12.73px]" />
-        <WalletButton onClickWallet={() => setShowWallet(true)} src={address ? Cat : Profile} text={address ? truncateAddress(address) : "Wallet"} />
+        <PrimaryButton text="Create" className="mr-[12.73px]" disabled={!address} />
+        <WalletButton onClickWallet={() => setShowWallet(true)} src={address ? Cat : Profile} text={address ? truncateAddress(address) : "Wallet"} disabled={!address} />
       </div>
       <Modal
         headingText="My Wallet"
         onClose={() => setShowWallet(false)}
-        showWallet={showWallet}
+        open={showWallet}
       >
         <ModalTextbox
           label="Wallet Address"
@@ -239,7 +256,7 @@ const MainHeader = () => {
         <PrimaryButton
           text={address ? "View Profile" : "Connect Wallet"}
           className="m-auto mt-[16px]"
-          onClick={connectWalletHandler}
+          onClick={address ? viewProfileHandler : connectWalletHandler}
         />
       </Modal>
     </nav>

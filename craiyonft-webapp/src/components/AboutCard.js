@@ -18,7 +18,7 @@ const AboutCard = ({ name, image }) => {
         {name}
         <img src={VerifiedCheck} alt="Verified Check" />
       </div>
-      <OutlinedButton onClick={() => {}} text="View More" />
+      <OutlinedButton onClick={() => {}} text="View More" className="h-[50px] w-[120px]" />
     </div>
   );
 };
