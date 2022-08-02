@@ -1,3 +1,5 @@
+**/node_modules/
 /venv
 /wandb
 /dalle/__pycache__
+/backend/jsipfs
