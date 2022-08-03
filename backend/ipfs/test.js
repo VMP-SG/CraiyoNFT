@@ -1,45 +1,18 @@
-const path = require("path");
+const { IpfsNode } = require("./ipfs-node");
 
-async function loadIpfs() {
-  const { create } = await import("ipfs");
-  const jsipfsPath = path.join(__dirname, "jsipfs");
-  const API = "/ip4/127.0.0.1/tcp/5002";
-  const config = {
-    Addresses: {
-      API,
-    },
-  };
-  const options = {
-    repo: jsipfsPath,
-    start: true,
-    config,
-  };
+async function main() {
+  const ipfs = await IpfsNode.startNode();
 
-  const node = await create(options);
+  const add = await ipfs.addFiles("test");
+  console.log(add);
 
-  return node;
-}
-
-async function test() {
-  const node = await loadIpfs();
-
-  const { globSource } = await import("ipfs");
-  const pathToFiles = path.join(__dirname, "test");
-  // const files = await node.addAll(globSource(pathToFiles, "**/*"));
-  // const file = await files.next();
-  // console.log(file);
-
-  for await (const file of node.addAll(globSource(pathToFiles, "**/*"))) {
-    console.log(file);
+  const cids = [];
+  for (const addition of add) {
+    cids.push(addition.cid);
   }
 
-  const cid = "QmSdNDti9QPLMCfQbjN6yyUg9xKyEY41baUzpBe8vBcCvn";
-
-  for await (const buf of node.get(cid)) {
-    console.log(buf);
-  }
-
-  await node.stop();
+  const read = await ipfs.readFiles(cids);
+  console.log(read);
 }
 
-test();
+main();
