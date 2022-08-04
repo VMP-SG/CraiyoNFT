@@ -18,7 +18,7 @@ const WalletButton = ({ onClickWallet, src, text, disabled }) => {
         <img src={src} alt="Profile" />
       </button>
       <button className='border border-gray-dark rounded-tr-[16px] rounded-br-[16px] h-[29.33px] w-[68.23px] relative -left-[1px] font-secondary text-gray-dark text-[11.3333px] hover:border-2' onClick={onClickWallet}>
-        {text}
+        <p className="leading-[10px]">{text}</p>
       </button>
     </>
   );

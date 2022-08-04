@@ -14,6 +14,7 @@
     "bignumber.js": "^9.0.2",
     "panolens": "^0.12.1",
     "path": "^0.12.7",
+    "random-words": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
@@ -24,7 +25,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false react-app-rewired start",
+    "start": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
