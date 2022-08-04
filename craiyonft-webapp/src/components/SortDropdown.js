@@ -1,5 +1,6 @@
 import React from "react";
 import Sort from "../assets/Sort.svg";
+import SORT from "../constants/sort";
 
 const SortItem = ({ text, onSelect, className }) => {
   return (
@@ -12,7 +13,14 @@ const SortItem = ({ text, onSelect, className }) => {
   );
 };
 
-const options = ["Recently Added (Ascending)", "Recently Added (Descending)"];
+const options = [
+  SORT.DATE_ASC,
+  SORT.DATE_DES,
+  SORT.ALPHABETICAL_ASC,
+  SORT.ALPHABETICAL_DES,
+  SORT.ADDRESS_ASC,
+  SORT.ADDRESS_DES,
+];
 
 const SortDropdown = ({ text, setSort }) => {
   const [open, setOpen] = React.useState(false);
@@ -22,21 +30,25 @@ const SortDropdown = ({ text, setSort }) => {
   };
   return (
     <div>
-      <button
-        className={`text-[10.67px] h-[29.33px] w-[250px] m-2 border border-gray-dark hover:border-2 flex items-center rounded-[21px] text-blue-dark bg-white font-primary leading-[15.48px] font-medium mt-5 justify-evenly`}
-        onClick={() => {
-          setOpen(!open);
-        }}
-        // onBlur={() => {
-        //   setOpen(false);
-        // }}
+      <div
+        className="cursor-pointer"
+        tabIndex={0}
+        onFocus={() => setOpen(open)}
+        onBlur={() => setOpen(false)}
       >
-        {text}
-        <img src={Sort} alt="sort" width="13.4%" className="h-4 w-4 mr-2" />
-      </button>
-      {open && (
+        <div
+          className={`text-[10.67px] h-[29.33px] w-[250px] m-2 border border-gray-dark hover:border-2 flex items-center rounded-[21px] text-blue-dark bg-white font-primary leading-[15.48px] font-medium mt-5 justify-evenly`}
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          {text}
+          <img src={Sort} alt="sort" width="13.4%" className="h-4 w-4 mr-2" />
+        </div>
         <ul
-          className="absolute bg-white w-[250px] m-2 mt-0 border border-gray-dark rounded-[10px] overflow-hidden"
+          className={`absolute bg-white w-[250px] m-2 mt-0 border border-gray-dark rounded-[10px] ${
+            open ? "visibile" : "invisible"
+          }`}
           aria-labelledby="dropdownMenuButton1"
         >
           {options.map((option) => (
@@ -44,11 +56,11 @@ const SortDropdown = ({ text, setSort }) => {
               key={option}
               text={option}
               onSelect={onSelect}
-              className={"cursor-pointer hover:bg-[#F2EDED]"}
+              className={"cursor-pointer hover:bg-gray-light"}
             />
           ))}
         </ul>
-      )}
+      </div>
     </div>
   );
 };

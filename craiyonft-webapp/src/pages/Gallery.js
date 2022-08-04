@@ -6,9 +6,10 @@ import CardSpacing from "../components/spacings/CardSpacing";
 import CategoryChip from "../components/CategoryChip";
 import CategoryButton from "../components/CategoryButton";
 import SortDropdown from "../components/SortDropdown";
+import SORT from "../constants/sort";
 
 const Gallery = () => {
-  const [sort, setSort] = React.useState("Recently Added (Ascending)");
+  const [sort, setSort] = React.useState(SORT.DATE_ASC);
   const [categoryList, setCategoryList] = React.useState([]);
   const [searchText, setSearchText] = React.useState("");
   const deleteChip = (text) => {
@@ -25,11 +26,26 @@ const Gallery = () => {
       />
     );
   });
+  const compare =
+    sort === SORT.DATE_ASC
+      ? (a, b) => a.cindex > b.cindex
+      : sort === SORT.DATE_DES
+      ? (a, b) => a.cindex < b.cindex
+      : sort === SORT.ALPHABETICAL_ASC
+      ? (a, b) => a.name.localeCompare(b.name)
+      : sort === SORT.ALPHABETICAL_DES
+      ? (a, b) => b.name.localeCompare(a.name)
+      : sort === SORT.ADDRESS_ASC
+      ? (a, b) => b.address.localeCompare(a.address)
+      : sort === SORT.ADDRESS_DES
+      ? (a, b) => b.address.localeCompare(a.address)
+      : null;
   const gallery = gallerytest
     ? gallerytest.data["collection"]
         .filter((item) =>
           categoryList.every((category) => item.description.includes(category))
         )
+        .sort((a, b) => compare(a, b))
         .map((item, i) => {
           return (
             <CardSpacing key={item.cindex}>
