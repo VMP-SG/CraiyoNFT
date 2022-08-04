@@ -1,13 +1,12 @@
-const { IpfsNode } = require("./ipfs-node");
+const { IpfsNode } = require("./IpfsNode");
 
 async function main() {
   const ipfs = await IpfsNode.startNode();
 
-  const add = await ipfs.addFiles("test");
-  console.log(add);
-
+  const add = await ipfs.addFiles("/Users/kevin/.bash_profile");
   const cids = [];
   for (const addition of add) {
+    console.log(addition);
     cids.push(addition.cid);
   }
 

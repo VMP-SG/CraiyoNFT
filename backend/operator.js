@@ -1,6 +1,8 @@
 const { IpfsNode } = require("./ipfs/IpfsNode");
+const fs = require("fs");
 const utils = require("./utils");
 const path = require("path");
+const JsonBigint = require("json-bigint");
 
 const BACKENDURL = "http://192.168.4.245:8080";
 
@@ -9,7 +11,7 @@ class Operator {
     this.ipfs;
   }
 
-  static imageDir = path.join(__dirname, "images");
+  static imageDir = path.join("./backend", "images");
 
   static async init() {
     try {
@@ -24,8 +26,12 @@ class Operator {
   async generateImages(prompt) {
     try {
       const images = await this.callDalleService(prompt);
-      const file = this.storeImages(images);
-      const uri = await this.addImages(file);
+      console.log(images);
+      const filepath = this.storeImages(images, prompt);
+      console.log(filepath);
+      const logs = await this.ipfs.addFiles(filepath);
+      const cid = logs[0].cid;
+      console.log(cid);
       const metadata = await this.compileMetadata(uri, prompt);
       const metaUri = await this.addMetadata(metadata);
       const mint = await this.mintNFT(metaUri);
@@ -52,20 +58,21 @@ class Operator {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      return response;
+      const res = JsonBigint.parse(JSON.stringify(response.text()));
+      return res;
     } catch (error) {
+      console.log(error);
       throw new Error("Timeout");
     }
   }
 
   storeImages(images, prompt) {
-    const data = JSON.stringify(images, null, 2);
     const filePath = path.join(
       Operator.imageDir,
       `${utils.convertPrompt(prompt)}.json`
     );
     try {
-      fs.writeFile(filePath, data, function (error) {
+      fs.writeFile(filePath, images, function (error) {
         if (error) {
           console.log(error);
         }
@@ -75,14 +82,6 @@ class Operator {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  async addImages(file) {
-    const value = {
-      path: file,
-      content,
-    };
-    const add = await this.ipfs.addFiles(value);
   }
 
   async compileMetadata(uri, prompt) {}
