@@ -36,7 +36,7 @@ const SortDropdown = ({ text, setSort }) => {
       </button>
       {open && (
         <ul
-          className="absolute bg-white w-[250px] m-2 mt-0 border border-gray-dark rounded-[10px]"
+          className="absolute bg-white w-[250px] m-2 mt-0 border border-gray-dark rounded-[10px] overflow-hidden"
           aria-labelledby="dropdownMenuButton1"
         >
           {options.map((option) => (
@@ -44,7 +44,7 @@ const SortDropdown = ({ text, setSort }) => {
               key={option}
               text={option}
               onSelect={onSelect}
-              className={"cursor-pointer hover:bg-gray-light"}
+              className={"cursor-pointer hover:bg-[#F2EDED]"}
             />
           ))}
         </ul>
