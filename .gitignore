@@ -1,6 +1,6 @@
 **/node_modules
-/venv
-/wandb
+**/venv
 **/__pycache__
+**/wandb
 /backend/ipfs/jsipfs
 /backend/ipfs/images
