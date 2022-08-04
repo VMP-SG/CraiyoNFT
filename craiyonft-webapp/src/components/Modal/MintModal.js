@@ -7,13 +7,22 @@ import Trash from "../../assets/Trash.svg";
 import Bear from "../../assets/placeholders/Bear.svg";
 import randomWords from "random-words";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateMint } from "../../store/ui";
 
-const MintModal = ({ showMint, setShowMint }) => {
+const errorTypes = {
+  insufficient: "insufficient",
+  tooMany: "tooMany"
+}
+
+const MintModal = () => {
+  const dispatch = useDispatch();
+  const showMint = useSelector(state => state.ui.showMint);
   const address = useSelector(state => state.wallet.address);
   const [words, setWords] = useState([]);
   const [chosenWords, setChosenWords] = useState([]);
   const [clickedRefresh, setClickRefresh] = useState(false);
+  const [error, setError] = useState(undefined);
   const generateWords = () => {
     const words = randomWords(10);
     setWords(words);
@@ -46,6 +55,18 @@ const MintModal = ({ showMint, setShowMint }) => {
     generateWords();
   }
 
+  const createNFTHandler = () => {
+    if (chosenWords.length < 5) {
+      setError(errorTypes.insufficient);
+      return;
+    } else if (chosenWords.length > 5) {
+      setError(errorTypes.tooMany);
+      return;
+    } else {
+      setError(undefined);
+    }
+  }
+
   useEffect(() => {
     generateWords();
   },[]);
@@ -53,7 +74,7 @@ const MintModal = ({ showMint, setShowMint }) => {
   return (
     <Modal 
       headingText="Mint New NFT"
-      onClose={() => setShowMint(false)}
+      onClose={() => dispatch(updateMint(false))}
       open={showMint}
     >
       <ModalTextbox
@@ -64,7 +85,7 @@ const MintModal = ({ showMint, setShowMint }) => {
         iconClassName={clickedRefresh && "animate-spin-once"}
         onAnimationEnd={() => setClickRefresh(false)}
       >
-        <div className="flex flex-col py-[8px] text-gray text-[10.67px]">
+        <div className="flex flex-col py-[8px] text-gray text-[11px]">
           <p>{words.slice(0,5).map((word, index) =>
             <React.Fragment key={index}>
               <span className="hover:text-gray-dark hover:underline cursor-pointer" onClick={() => addWord(word)}>{word}</span>
@@ -86,11 +107,12 @@ const MintModal = ({ showMint, setShowMint }) => {
         className="mt-[16px]"
         src={Trash}
         onClick={removeAllWords}
+        error={error}
       >
-        <p className="py-[8px] text-gray text-[10.67px]">
+        <p className="py-[8px] text-gray text-[11px]">
           {
             chosenWords.length === 0 ? 
-            <span>&nbsp;</span> :
+            <span className="cursor-default">&nbsp;</span> :
             chosenWords.map((word, index) => 
             <React.Fragment key={index}>
               <span className="hover:text-gray-dark hover:underline cursor-pointer" onClick={() => removeWord(word)}>{word}</span>
@@ -99,11 +121,13 @@ const MintModal = ({ showMint, setShowMint }) => {
           }
         </p>
       </ModalTextbox>
+      {error === errorTypes.insufficient && <p className="text-error text-[11px]">Insufficient words selected</p>}
+      {error === errorTypes.tooMany && <p className="text-error text-[11px]">Too many words selected</p>}
       <ModalTextbox
         label="Wallet Address"
         className="mt-[16px]"
       >
-        <p className="py-[8px] text-[10.67px]">{address}</p>
+        <p className="py-[8px] text-[11px]">{address}</p>
       </ModalTextbox>
       <ModalImage
         src={Bear}
@@ -112,6 +136,7 @@ const MintModal = ({ showMint, setShowMint }) => {
       <PrimaryButton 
         text="Create NFT"
         className="m-auto mt-[16px]"
+        onClick={createNFTHandler}
       />
     </Modal>
   );

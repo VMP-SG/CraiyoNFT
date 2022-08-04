@@ -7,17 +7,18 @@ import P from "../constants/paths";
 import Profile from '../assets/Profile.svg';
 import Cat from "../assets/WalletCat.svg";
 import { truncateAddress } from "../utils/address";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import WalletModal from "../components/Modal/WalletModal";
 import MintModal from "../components/Modal/MintModal";
+import { updateMint } from "../store/ui";
 
 const MainHeader = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const address = useSelector(state => state.wallet.address);
   const [atContact, setAtContact] = useState(false);
   const [enteredContact, setEnteredContact] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
-  const [showMint, setShowMint] = useState(false);
 
   useEffect(() => {
     const listenToScroll = () => {
@@ -107,17 +108,14 @@ const MainHeader = () => {
             </a>
           </li>
         </ul>
-        <PrimaryButton text="Create" className="mr-[12.73px]" disabled={!address} onClick={() => setShowMint(true)} />
+        <PrimaryButton text="Create" className="mr-[12.73px]" disabled={!address} onClick={() => dispatch(updateMint(true))} />
         <WalletButton onClickWallet={() => setShowWallet(true)} src={address ? Cat : Profile} text={address ? truncateAddress(address) : "Wallet"} disabled={!address} />
       </div>
       <WalletModal 
         setShowWallet={setShowWallet}
         showWallet={showWallet}
       />
-      <MintModal 
-        setShowMint={setShowMint}
-        showMint={showMint}
-      />
+      <MintModal />
     </nav>
   );
 };
