@@ -15,7 +15,7 @@ import P from "../constants/paths";
 const Home = () => {
   const navigate = useNavigate();
   const contactUsHandler = () => {
-    navigate(P.PATH_ABOUT, { state: { location: "contact" }});
+    navigate(P.PATH_ABOUT, { state: { location: "contact" } });
   };
 
   return (
@@ -33,33 +33,44 @@ const Home = () => {
             </div>
             <div className="mt-[22.58px] flex justify-center gap-[17px]">
               <PrimaryButton text="Get Started" className="px-[17.33px]" />
-              <SecondaryButton text="Learn more" href="https://github.com/VMP-SG/CraiyoNFT/tree/main" />
+              <SecondaryButton
+                text="Learn more"
+                href="https://github.com/VMP-SG/CraiyoNFT/tree/main"
+              />
             </div>
           </section>
           <section className="mt-[39.1px] h-[443.51px] w-[1070.91px] relative">
             <NFTCard
+              name={"Bob Ali Muthu Curry"}
               className="rotate-[-0.9deg] absolute left-[1rem] top-[1rem] scale-110 animate-pulse z-20 hover:animate-none"
-              src={Lamb}
-              id="0000"
+              preview={Lamb}
+              id={0}
               description="Sheep Coffee Cap Green Horns"
+              address="tz218937132"
             />
             <NFTCard
+              name={"Bob Ali Muthu Curry"}
               className="rotate-[9.98deg] absolute left-[17rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
-              src={Robot}
-              id="0001"
+              preview={Robot}
+              id={1}
               description="Robot Candle Needle Blow Orange"
+              address="tz218937132"
             />
             <NFTCard
+              name={"Bob Ali Muthu Curry"}
               className="rotate-[0.38deg] absolute right-[18rem] bottom-12 scale-110 animate-pulse z-20 hover:animate-none"
-              src={Bird}
-              id="0002"
+              preview={Bird}
+              id={2}
               description="Gray Bird Headphones Machine Sky"
+              address="tz218937132"
             />
             <NFTCard
+              name={"Bob Ali Muthu Curry"}
               className="rotate-[8.62deg] absolute right-[2rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
-              src={Cloud}
-              id="0003"
+              preview={Cloud}
+              id={3}
               description="3D Cloud Hat Ethereum Rainbow"
+              address="tz218937132"
             />
           </section>
           <section className="mt-[61.4px] self-start w-[1150px]">
@@ -86,7 +97,7 @@ const Home = () => {
                 <div className="relative ml-[20px] w-[194.04px] h-[77.75px] flex justify-center items-center">
                   <div className="w-[139.41px] h-[39.38px] relative">
                     <div className="w-[97%] h-[88%] bg-gray-dark absolute bg-opacity-30 right-0 bottom-0 rounded-[7px]" />
-                    <button 
+                    <button
                       className="w-[97%] h-[88%] bg-green-dark hover:bg-[#A0F1CA] text-[13.33px] font-bold text-white hover:text-green-dark hover:border rounded-[7px] leading-[18.21px] absolute flex justify-center items-center"
                       onClick={contactUsHandler}
                     >

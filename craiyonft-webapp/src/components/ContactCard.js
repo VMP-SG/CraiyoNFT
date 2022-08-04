@@ -2,7 +2,7 @@ import React from "react";
 import PrimaryButton from "./PrimaryButton";
 import Github from "../assets/Github.svg";
 
-const AboutCard = ({ image }) => {
+const ContactCard = ({ image }) => {
   return (
     <div
       className={
@@ -56,7 +56,11 @@ const AboutCard = ({ image }) => {
             type="button"
             className="text-black font-medium rounded-lg text-sm p-1 text-center inline-flex items-center mr-2"
           >
-            <a href="https://github.com/VMP-SG" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://github.com/VMP-SG"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src={Github} alt="Github" />
             </a>
           </button>
@@ -66,4 +70,4 @@ const AboutCard = ({ image }) => {
   );
 };
 
-export default AboutCard;
+export default ContactCard;
