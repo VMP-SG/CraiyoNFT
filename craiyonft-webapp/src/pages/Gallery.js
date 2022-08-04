@@ -3,24 +3,46 @@ import MainLayout from "../layout/MainLayout";
 import gallerytest from "../testdata/gallery.json";
 import NFTCard from "../components/NFTCard";
 import CardSpacing from "../components/spacings/CardSpacing";
-import OutlinedButton from "../components/OutlinedButton";
+import CategoryChip from "../components/CategoryChip";
+import CategoryButton from "../components/CategoryButton";
+import SortDropdown from "../components/SortDropdown";
 
 const Gallery = () => {
-  const [sort, setSort] = React.useState("Recently Added");
+  const [sort, setSort] = React.useState("Recently Added (Ascending)");
+  const [categoryList, setCategoryList] = React.useState([]);
+  const [searchText, setSearchText] = React.useState("");
+  const deleteChip = (text) => {
+    const filteredCategoryList = categoryList.filter((item) => item !== text);
+    setCategoryList(filteredCategoryList);
+  };
+  const categoryChipList = categoryList.map((category, index) => {
+    return (
+      <CategoryChip
+        key={index}
+        text={category}
+        className={"text-[10.67px] px-3 h-[29.33px] m-2"}
+        onClose={deleteChip}
+      />
+    );
+  });
   const gallery = gallerytest
-    ? gallerytest.data["collection"].map((item, i) => {
-        return (
-          <CardSpacing>
-            <NFTCard
-              name={item.name}
-              description={item.description}
-              id={item.cindex}
-              preview={item.preview}
-              address={item.address}
-            />
-          </CardSpacing>
-        );
-      })
+    ? gallerytest.data["collection"]
+        .filter((item) =>
+          categoryList.every((category) => item.description.includes(category))
+        )
+        .map((item, i) => {
+          return (
+            <CardSpacing key={item.cindex}>
+              <NFTCard
+                name={item.name}
+                description={item.description}
+                id={item.cindex}
+                preview={item.preview}
+                address={item.address}
+              />
+            </CardSpacing>
+          );
+        })
     : null;
   return (
     <div>
@@ -32,16 +54,28 @@ const Gallery = () => {
             <p>Discover more NFTs</p>
           </div>
           <div className="flex justify-between items-center w-full">
-            <OutlinedButton
-              text="Category"
-              className="text-[10.67px] h-[29.33px] w-[98.02px] m-2"
-            />
-            <OutlinedButton
-              text={`Sort by: ${sort}`}
-              className="text-[10.67px] h-[29.33px] w-[175.42px] m-2"
-            />
+            <div className="flex items-center">
+              <CategoryButton
+                text="Category"
+                className="text-[10.67px] h-[29.33px] px-3 m-2"
+                categoryList={categoryList}
+                setCategoryList={setCategoryList}
+                searchText={searchText}
+                setSearchText={setSearchText}
+              />
+              {categoryChipList}
+            </div>
+            <SortDropdown text={`Sort by: ${sort}`} setSort={setSort} />
           </div>
-          <div className="grid grid-cols-5 gap 4">{gallery}</div>
+          <div className="grid grid-cols-5 gap 4">
+            {gallery.length > 0 ? (
+              gallery
+            ) : (
+              <p className="flex flex-col justify-center items-center font-primary ml-2">
+                There are no NFTs with such specifications.
+              </p>
+            )}
+          </div>
         </main>
       </MainLayout>
     </div>
