@@ -16,7 +16,7 @@ const Profile = () => {
         <MainLayout>
           <main className="flex flex-col justify-center items-center font-primary text-[42.67px] leading-[58.28px]">
             <img src={Cover} alt="Cover" />
-            <ProfileAvatar className="top-24" />
+            <ProfileAvatar className="top-20" />
             <section className="mt-[40px] text-[18.67px] font-semibold leading-[25.5px]">
               <p>{address}</p>
               <p className="mt-[4px] flex leading-[16.39px] justify-center text-[12px]">
