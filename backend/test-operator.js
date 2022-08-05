@@ -6,9 +6,9 @@ async function main() {
   const prompt = "flying chicken nugget with rice";
   const cid = "QmepCouyLp6iHu5bAjvcJrWqBHhvF1xPoZpuspA1BSp45e";
   try {
-    // const log = await operator.generateImages(prompt);
-    const temp = utils.convertCid(cid);
-    const log = await operator.getImages(temp);
+    const log = await operator.mintToken(prompt);
+    // const temp = utils.convertCid(cid);
+    // const log = await operator.getImages(temp);
     console.log(log);
   } catch (error) {
     console.log(error);

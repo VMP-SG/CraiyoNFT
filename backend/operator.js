@@ -7,12 +7,15 @@ const JsonBigint = require("json-bigint");
 const BACKENDURL = "http://192.168.4.245:8080";
 
 class Operator {
+  // useless constructor
   constructor() {
     this.ipfs;
   }
 
+  // used as constant for image directory
   static imageDir = path.join("./backend", "images");
 
+  // static factory method, inits ipfs node
   static async init() {
     try {
       const operator = new Operator();
@@ -23,18 +26,32 @@ class Operator {
     }
   }
 
-  async generateImages(prompt) {
+  // generate images using prompt, adds to ipfs and mints
+  async mintToken(prompt) {
     try {
-      const images = await this.callDalleService(prompt);
+      // generate images
+      const images = await this.generateImages(prompt);
+      console.log(generated);
+
+      // store images
       const filepath = this.storeImages(images, prompt);
-      const logs = await this.ipfs.addFiles(filepath);
-      const cid = logs[0].cid;
-      const metadata = await this.compileMetadata(cid, prompt);
-      console.log(metadata);
-      const file = await this.getImages(cid);
-      console.log(file);
-      const metaUri = await this.addMetadata(metadata);
-      const mint = await this.mintNFT(metaUri);
+      console.log(stored);
+
+      // add images to ipfs and retrieve first and only cid
+      const fileCids = await this.ipfs.addFiles(filepath);
+      const fileCid = fileCids[0].cid;
+      console.log(fileCid);
+
+      // prepare metadata with file cid
+      const metadata = await this.compileMetadata(fileCid, prompt);
+
+      // add metadata to ipfs and retrieve first and only cid
+      const metaRes = await this.ipfs.addFiles(metadata);
+      const metaCid = metaRes[0].cid;
+      console.log(metaCid);
+
+      // mint nft with metadata cid
+      const mint = await this.mintToken(metaCid);
       console.log(mint);
       return `images for prompt: ${prompt} generated`;
     } catch (error) {
@@ -42,7 +59,9 @@ class Operator {
     }
   }
 
-  async callDalleService(prompt) {
+  // creates images using dall-e service
+  async generateImages(prompt) {
+    // content object
     const content = {
       method: "POST",
       headers: {
@@ -53,65 +72,78 @@ class Operator {
       }),
     };
 
+    // actual http call
     try {
       const response = await fetch(BACKENDURL + `/dalle`, content);
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      const res = response.json();
-      return res;
+      const images = response.json();
+      return images;
     } catch (error) {
       console.log(error);
       throw new Error("Timeout");
     }
   }
 
+  // stores images temporarily as a json file in img dir
   storeImages(images, prompt) {
+    // converts json to string
     const data = JSON.stringify(images, null, 2);
-    const filePath = path.join(
-      Operator.imageDir,
-      `${utils.convertPrompt(prompt)}.json`
-    );
+    const filename = `${utils.convertPrompt(prompt)}.json`;
+
+    // relative path for use in ipfs
+    const relativePath = path.join(Operator.imageDir, filename);
+
+    // absolute path for current use in writing file
+    const absolutePath = path.join(__dirname, "images", filename);
+
     try {
-      fs.writeFile(filePath, data, function (error) {
+      fs.writeFile(absolutePath, data, function (error) {
         if (error) {
           console.log(error);
         }
       });
 
-      return filePath;
+      return relativePath;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async compileMetadata(cid, prompt) {
-    const words = prompt.split(/\s+/);
+  // creates metadata of date time, and prompt
+  async compileMetadata(fileCid, prompt) {
+    const dateTime = utils.getDateTime();
     const metadata = {
+      dateTime,
       prompt,
-      firstWord: words[0],
-      secondWord: words[1],
-      thirdWord: words[2],
-      fourthWord: words[3],
-      fifthWord: words[4],
-      cid: cid.toString(),
+      cid: fileCid.toString(),
     };
     return metadata;
   }
 
-  async addMetadata(metadata) {}
+  // calls smart contract to mint actual nft
+  async mintToken(metaCid) {
+    return "";
+  }
 
-  async mintNFT(metaUri) {}
-
+  // retrieves images from ipfs with cid, and returns json object
   async getImages(cid) {
+    // gets file with ipfs node
     const data = await this.ipfs.readFile(cid);
+
+    // adds text together in chunks
     const stringBuilder = [];
     const textDecoder = new TextDecoder();
     for (const chunk of data) {
       stringBuilder.push(textDecoder.decode(chunk));
     }
+
+    // removes first chunk
     stringBuilder.shift();
     const fullString = stringBuilder.join("");
+
+    // returns as json object
     const res = JsonBigint.parse(fullString);
     return res;
   }

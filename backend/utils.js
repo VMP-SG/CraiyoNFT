@@ -10,4 +10,10 @@ function convertCid(encoding) {
   return res;
 }
 
-module.exports = { convertPrompt, convertCid };
+function getDateTime() {
+  const today = new Date();
+  const dateTime = today.toUTCString();
+  return dateTime;
+}
+
+module.exports = { convertPrompt, convertCid, getDateTime };
