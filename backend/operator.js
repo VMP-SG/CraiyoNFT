@@ -58,7 +58,7 @@ class Operator {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      const res = JsonBigint.parse(JSON.stringify(response.text()));
+      const res = response.json();
       return res;
     } catch (error) {
       console.log(error);
@@ -67,12 +67,13 @@ class Operator {
   }
 
   storeImages(images, prompt) {
+    const data = JSON.stringify(images, null, 2);
     const filePath = path.join(
       Operator.imageDir,
       `${utils.convertPrompt(prompt)}.json`
     );
     try {
-      fs.writeFile(filePath, images, function (error) {
+      fs.writeFile(filePath, data, function (error) {
         if (error) {
           console.log(error);
         }

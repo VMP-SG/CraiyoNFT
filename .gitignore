@@ -3,4 +3,4 @@
 **/__pycache__
 **/wandb
 /backend/ipfs/jsipfs
-/backend/ipfs/images
+/backend/images
