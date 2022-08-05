@@ -19,8 +19,8 @@ class IpfsNode {
   // starts the node
   async initialize() {
     // dynamic import
-    const { create, globSource } = await import("ipfs");
-    ipfs = { create, globSource };
+    const { create, globSource, CID } = await import("ipfs");
+    ipfs = { create, globSource, CID };
 
     // prepare config for starting node
     const config = {

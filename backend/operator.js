@@ -26,13 +26,13 @@ class Operator {
   async generateImages(prompt) {
     try {
       const images = await this.callDalleService(prompt);
-      console.log(images);
       const filepath = this.storeImages(images, prompt);
-      console.log(filepath);
       const logs = await this.ipfs.addFiles(filepath);
       const cid = logs[0].cid;
-      console.log(cid);
-      const metadata = await this.compileMetadata(uri, prompt);
+      const metadata = await this.compileMetadata(cid, prompt);
+      console.log(metadata);
+      const file = await this.getImages(cid);
+      console.log(file);
       const metaUri = await this.addMetadata(metadata);
       const mint = await this.mintNFT(metaUri);
       console.log(mint);
@@ -85,13 +85,29 @@ class Operator {
     }
   }
 
-  async compileMetadata(uri, prompt) {}
+  async compileMetadata(cid, prompt) {
+    const words = prompt.split(/\s+/);
+    const metadata = {
+      prompt,
+      firstWord: words[0],
+      secondWord: words[1],
+      thirdWord: words[2],
+      fourthWord: words[3],
+      fifthWord: words[4],
+      cid: cid.toString(),
+    };
+    return metadata;
+  }
 
   async addMetadata(metadata) {}
 
   async mintNFT(metaUri) {}
 
-  async getImages(cids) {}
+  async getImages(cid) {
+    const data = this.ipfs.readFile(cid);
+    const res = data;
+    return res;
+  }
 }
 
 module.exports = { Operator };
