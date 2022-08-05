@@ -104,8 +104,15 @@ class Operator {
   async mintNFT(metaUri) {}
 
   async getImages(cid) {
-    const data = this.ipfs.readFile(cid);
-    const res = data;
+    const data = await this.ipfs.readFile(cid);
+    const stringBuilder = [];
+    const textDecoder = new TextDecoder();
+    for (const chunk of data) {
+      stringBuilder.push(textDecoder.decode(chunk));
+    }
+    stringBuilder.shift();
+    const fullString = stringBuilder.join("");
+    const res = JsonBigint.parse(fullString);
     return res;
   }
 }
