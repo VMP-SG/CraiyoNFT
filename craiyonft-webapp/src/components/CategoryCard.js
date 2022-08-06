@@ -4,8 +4,17 @@ import Robot from "../assets/placeholders/Robot.svg";
 import Cloud from "../assets/placeholders/Cloud.svg";
 import Divider from "./Divider";
 import OutlinedButton from "./OutlinedButton";
+import { useNavigate } from "react-router-dom";
+import P from "../constants/paths";
 
 const CategoryCard = ({ category }) => {
+  const navigate = useNavigate();
+  const exploreCategoryHandler = () => {
+    navigate(
+      P.PATH_GALLERY, { state: { category } }
+    );
+  }
+
   return (
     <div className="w-[218.63px] h-[337.65px] rounded-[6px] border border-gray-dark bg-white pt-[13.4px] pl-[16.68px] pr-[11.83px] font-primary hover:border-2">
       <div className="w-full h-[190px] relative">
@@ -26,7 +35,7 @@ const CategoryCard = ({ category }) => {
           <p className="font-secondary text-[9.33px] leading-[12.15px] text-gray-light">Items</p>
         </div>
       </div>
-      <OutlinedButton className="mt-[18px] w-[9rem] h-[29.33px]" text="Explore category" />
+      <OutlinedButton className="mt-[18px] w-[9rem] h-[29.33px]" text="Explore category" onClick={exploreCategoryHandler}/>
     </div>
   );
 }

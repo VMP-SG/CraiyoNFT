@@ -7,10 +7,12 @@ import CategoryChip from "../components/CategoryChip";
 import CategoryButton from "../components/CategoryButton";
 import SortDropdown from "../components/SortDropdown";
 import SORT from "../constants/sort";
+import { useLocation } from "react-router-dom";
 
 const Gallery = () => {
+  const location = useLocation();
   const [sort, setSort] = React.useState(SORT.DATE_ASC);
-  const [categoryList, setCategoryList] = React.useState([]);
+  const [categoryList, setCategoryList] = React.useState(location.state ? [location.state.category] : []);
   const [searchText, setSearchText] = React.useState("");
   const deleteChip = (text) => {
     const filteredCategoryList = categoryList.filter((item) => item !== text);
