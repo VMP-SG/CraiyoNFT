@@ -27,27 +27,30 @@ class Operator {
   }
 
   // generate images using prompt, adds to ipfs and mints
-  async mintToken(prompt) {
+  async mintNFT(prompt) {
     try {
       // generate images
       const images = await this.generateImages(prompt);
-      console.log(generated);
+      console.log("generated");
 
       // store images
       const filepath = this.storeImages(images, prompt);
-      console.log(stored);
+      console.log("stored");
 
       // add images to ipfs and retrieve first and only cid
-      const fileCids = await this.ipfs.addFiles(filepath);
-      const fileCid = fileCids[0].cid;
+      const fileRes = await this.ipfs.addFiles(filepath);
+      const fileCid = fileRes.cid;
       console.log(fileCid);
 
       // prepare metadata with file cid
-      const metadata = await this.compileMetadata(fileCid, prompt);
+      const { metadataPath, metadata } = await this.compileMetadata(
+        fileCid,
+        prompt
+      );
 
       // add metadata to ipfs and retrieve first and only cid
-      const metaRes = await this.ipfs.addFiles(metadata);
-      const metaCid = metaRes[0].cid;
+      const metaRes = await this.ipfs.addFiles(metadataPath, metadata);
+      const metaCid = metaRes.cid;
       console.log(metaCid);
 
       // mint nft with metadata cid
@@ -67,9 +70,13 @@ class Operator {
       headers: {
         "Bypass-Tunnel-Reminder": "go",
       },
-      body: JSON.stringify({
-        text: prompt,
-      }),
+      body: JSON.stringify(
+        {
+          text: prompt,
+        },
+        null,
+        2
+      ),
     };
 
     // actual http call
@@ -114,6 +121,8 @@ class Operator {
   // creates metadata of date time, and prompt
   async compileMetadata(fileCid, prompt) {
     const dateTime = utils.getDateTime();
+    const filename = `${utils.convertPrompt(prompt)}_meta.json`;
+    const metadataPath = path.join(Operator.imageDir, filename);
     const metadata = {
       dateTime,
       prompt,

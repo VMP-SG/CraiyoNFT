@@ -5,15 +5,10 @@ function convertPrompt(string) {
   return res;
 }
 
-function convertCid(encoding) {
-  const res = new CID(encoding);
-  return res;
-}
-
 function getDateTime() {
   const today = new Date();
   const dateTime = today.toUTCString();
   return dateTime;
 }
 
-module.exports = { convertPrompt, convertCid, getDateTime };
+module.exports = { convertPrompt, getDateTime };

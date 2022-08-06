@@ -44,14 +44,23 @@ class IpfsNode {
   }
 
   // add files to IPFS as bytes
-  async addFiles(filepath) {
-    const logs = [];
-    for await (const file of this.node.addAll(
-      ipfs.globSource(filepath, "**/*")
-    )) {
-      logs.push(file);
+  async addFiles(filepath, content) {
+    if (!content) {
+      const logs = [];
+      for await (const file of this.node.addAll(
+        ipfs.globSource(filepath, "**/*")
+      )) {
+        logs.push(file);
+      }
+      return logs[0];
+    } else {
+      const file = {
+        path: filepath,
+        content: JSON.stringify(content, null, 2),
+      };
+      const log = await this.node.add(file);
+      return log;
     }
-    return logs;
   }
 
   // read file from IPFS to bytes
