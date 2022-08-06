@@ -109,7 +109,7 @@ const MainHeader = () => {
           </li>
         </ul>
         <PrimaryButton text="Create" className="mr-[12.73px]" disabled={!address} onClick={() => dispatch(updateMint(true))} />
-        <WalletButton onClickWallet={() => setShowWallet(true)} src={address ? Cat : Profile} text={address ? truncateAddress(address) : "Wallet"} disabled={!address} />
+        <WalletButton onClickWallet={() => setShowWallet(true)} src={address ? Cat : Profile} text={address ? truncateAddress(address, 5, 2) : "Wallet"} disabled={!address} />
       </div>
       <WalletModal 
         setShowWallet={setShowWallet}

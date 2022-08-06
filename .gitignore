@@ -1,5 +1,6 @@
 /venv
 /wandb
+/deployment
 /dalle/__pycache__
 
 .DS_Store
