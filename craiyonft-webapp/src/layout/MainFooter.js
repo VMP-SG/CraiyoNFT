@@ -2,9 +2,11 @@ import { NavLink } from "react-router-dom";
 import P from "../constants/paths";
 import Logo from "../assets/LogoB&W.svg";
 import Github from "../assets/GithubWhite.svg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateMint } from "../store/ui";
 
 const MainFooter = () => {
+  const dispatch = useDispatch();
   const address = useSelector((state) => state.wallet.address);
   return (
     <div className="flex flex-col items-center font-primary bg-gray-dark">
@@ -50,8 +52,8 @@ const MainFooter = () => {
                 search: `?address=${address}`
               }}>Profile</NavLink>
             </p>
-            <p className="text-xs my-2 hover:underline">
-              <NavLink to={P.PATH_ABOUT}>Create</NavLink>
+            <p className={`text-xs my-2 ${address ? "hover:underline cursor-pointer" : ""}`} onClick={address ? () => dispatch(updateMint(true)) : undefined}>
+              Create
             </p>
           </div>
         </div>

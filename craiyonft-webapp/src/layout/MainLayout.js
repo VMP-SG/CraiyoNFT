@@ -6,7 +6,7 @@ const MainLayout = ({ children }) => {
     <div>
       <MainHeader />
       <div className="flex flex-col justify-center items-center">
-        <div className="py-10 max-w-[var(--max-screen-width)]">
+        <div className="pb-10 max-w-[var(--max-screen-width)]">
           {children}
         </div>
       </div>

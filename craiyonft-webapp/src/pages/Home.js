@@ -22,7 +22,7 @@ const Home = () => {
     <div className="bg-[url('assets/HomeBackground.svg')] bg-[position:center_top] bg-no-repeat">
       <MainLayout>
         <main className="flex flex-col justify-center items-center font-primary text-[42.67px] leading-[58.28px]">
-          <section className="text-center mt-[40px]">
+          <section className="text-center mt-[80px]">
             <p>
               <span className="font-extrabold">Discover,</span> create{" "}
               <span className="font-extrabold">and</span> show off

@@ -27,7 +27,7 @@ const About = () => {
     <div className="bg-[url('assets/AboutBackground1.png'),_url('assets/AboutBackground2.png')] bg-[position:right_top,_left_bottom_400px] bg-no-repeat bg-[length:900px,_900px]">
       <MainLayout>
         <main className="flex flex-col justify-center items-center">
-          <section className="flex flex-col font-primary text-center w-[800px] mt-5">
+          <section className="flex flex-col font-primary text-center w-[800px] mt-16">
             <h1 className="font-extrabold text-6xl text-blue-dark  m-5">
               About Us
             </h1>
