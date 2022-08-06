@@ -46,7 +46,7 @@ const MainHeader = () => {
     <nav className="flex w-full justify-center drop-shadow-md bg-white h-[57.6px] sticky top-0 z-10">
       <div className="flex items-center max-w-[var(--max-screen-width)] w-full">
         <NavLink to={P.PATH_HOME}>
-          <div className="flex ml-[80px] bg-white-pale items-center font-logo text-[17.07px]">
+          <div className="flex ml-[80px] items-center font-logo text-[17.07px]">
             <img src={Logo} alt="Logo" className="h-[32px]" />
             <span className="h-[19.65px] leading-[20.48px] text-primary ml-[4.27px]">
               Craiyo
