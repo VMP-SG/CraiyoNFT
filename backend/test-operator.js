@@ -4,11 +4,13 @@ const utils = require("./utils");
 async function main() {
   const operator = await Operator.init();
   try {
-    console.log(await mintNFTTest(operator));
+    // console.log(await mintNFTTest(operator));
     // console.log(await generateTest(operator));
     // console.log(await storeTest(operator));
+    // console.log(await storeMetaTest(operator));
     // console.log(await addTest(operator));
     // console.log(await addMetaTest(operator));
+    console.log(await readTest(operator));
   } catch (error) {
     console.log(error);
   }
@@ -30,8 +32,9 @@ async function generateTest(operator) {
 
 // tests retrieval of file from ipfs
 async function readTest(operator) {
-  const cid = "QmepCouyLp6iHu5bAjvcJrWqBHhvF1xPoZpuspA1BSp45e";
-  const log = await operator.getImages(cid);
+  // const cid = "QmU61ij6yM61SCz6r92TeKqtnkep5eUmQ53aid7FWuVo14"; // images
+  const cid = "QmcqyTTVHr9aFtdtA96EfnhWkszAQWr8nva3f1LmHdD4L8"; // meta
+  const log = await operator.getMetadata(cid);
   return log;
 }
 
@@ -42,7 +45,19 @@ async function storeTest(operator) {
     generatedImgs: ["asdfasd", "asdfasdf", "aklsdfjlaskd"],
     generatedImgFormat: "png",
   };
-  const log = await operator.storeImages(images, prompt);
+  const log = await operator.storeFile(images, prompt, "images");
+  return log;
+}
+
+// tests temp storage of json file
+async function storeMetaTest(operator) {
+  const prompt = "fake image test";
+  const metadata = {
+    dateTime: "asldkfjalsdkfj",
+    prompt,
+    cid: "Qm0000000000111",
+  };
+  const log = await operator.storeFile(metadata, prompt, "metadata");
   return log;
 }
 
@@ -56,13 +71,8 @@ async function addTest(operator) {
 
 // tests adding metadata to ipfs
 async function addMetaTest(operator) {
-  const filepath = "backend/images/fake_meta_test.json";
-  const content = {
-    dateTime: "asdfa",
-    prompt: "asdfasdf asdf",
-    cid: "aslkjdfa",
-  };
-  const log = await operator.ipfs.addFiles(filepath, content);
+  const filepath = "backend/images/fake_image_test_meta.json";
+  const log = await operator.ipfs.addFiles(filepath);
   const cid = log.cid;
   return cid;
 }

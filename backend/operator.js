@@ -2,7 +2,6 @@ const { IpfsNode } = require("./ipfs/IpfsNode");
 const fs = require("fs");
 const utils = require("./utils");
 const path = require("path");
-const JsonBigint = require("json-bigint");
 
 const BACKENDURL = "http://192.168.4.245:8080";
 
@@ -31,11 +30,9 @@ class Operator {
     try {
       // generate images
       const images = await this.generateImages(prompt);
-      console.log("generated");
 
       // store images
-      const filepath = this.storeImages(images, prompt);
-      console.log("stored");
+      const filepath = this.storeFile(images, prompt, "images");
 
       // add images to ipfs and retrieve first and only cid
       const fileRes = await this.ipfs.addFiles(filepath);
@@ -43,20 +40,16 @@ class Operator {
       console.log(fileCid);
 
       // prepare metadata with file cid
-      const { metadataPath, metadata } = await this.compileMetadata(
-        fileCid,
-        prompt
-      );
+      const metadata = await this.compileMetadata(fileCid, prompt);
+
+      // stores metadata
+      const metadataPath = this.storeFile(metadata, prompt, "metadata");
 
       // add metadata to ipfs and retrieve first and only cid
-      const metaRes = await this.ipfs.addFiles(metadataPath, metadata);
+      const metaRes = await this.ipfs.addFiles(metadataPath);
       const metaCid = metaRes.cid;
-      console.log(metaCid);
-
-      // mint nft with metadata cid
-      const mint = await this.mintToken(metaCid);
-      console.log(mint);
-      return `images for prompt: ${prompt} generated`;
+      console.log(`images for prompt: ${prompt} generated`);
+      return metaCid;
     } catch (error) {
       console.log(error);
     }
@@ -93,11 +86,18 @@ class Operator {
     }
   }
 
-  // stores images temporarily as a json file in img dir
-  storeImages(images, prompt) {
+  // stores file temporarily as a json file in img dir
+  storeFile(content, prompt, type) {
     // converts json to string
-    const data = JSON.stringify(images, null, 2);
-    const filename = `${utils.convertPrompt(prompt)}.json`;
+    const data = JSON.stringify(content, null, 2);
+    let filename;
+    if (type === "images") {
+      filename = `${utils.convertPrompt(prompt)}.json`;
+    } else if (type === "metadata") {
+      filename = `${utils.convertPrompt(prompt)}_meta.json`;
+    } else {
+      throw new Error(`Invalid type of data`);
+    }
 
     // relative path for use in ipfs
     const relativePath = path.join(Operator.imageDir, filename);
@@ -121,22 +121,15 @@ class Operator {
   // creates metadata of date time, and prompt
   async compileMetadata(fileCid, prompt) {
     const dateTime = utils.getDateTime();
-    const filename = `${utils.convertPrompt(prompt)}_meta.json`;
-    const metadataPath = path.join(Operator.imageDir, filename);
     const metadata = {
       dateTime,
       prompt,
       cid: fileCid.toString(),
     };
-    return { metadataPath, metadata };
+    return metadata;
   }
 
-  // calls smart contract to mint actual nft
-  async mintToken(metaCid) {
-    return null;
-  }
-
-  // retrieves images from ipfs with cid, and returns json object
+  // retrieves file from ipfs with cid, and returns json object
   async getImages(cid) {
     // gets file with ipfs node
     const data = await this.ipfs.readFile(cid);
@@ -155,6 +148,19 @@ class Operator {
     // returns as json object
     const res = JsonBigint.parse(fullString);
     return res;
+  }
+
+  // retrieves metadata of images
+  async getMetadata(metaCid) {
+    const res = await this.ipfs.readFile(metaCid);
+    return res;
+  }
+
+  // retrieves preview data for multiple metadata cids
+  async getPreviewData(metaCids) {
+    const previewData = [];
+    for (const metaCid of metaCids) {
+    }
   }
 }
 

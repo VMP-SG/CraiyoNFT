@@ -1,4 +1,5 @@
 const path = require("path");
+const JsonBigint = require("json-bigint");
 
 let ipfs;
 const IPFSPATH = path.join(__dirname, "jsipfs");
@@ -44,32 +45,29 @@ class IpfsNode {
   }
 
   // add files to IPFS as bytes
-  async addFiles(filepath, content) {
-    if (!content) {
-      const logs = [];
-      for await (const file of this.node.addAll(
-        ipfs.globSource(filepath, "**/*")
-      )) {
-        logs.push(file);
-      }
-      return logs[0];
-    } else {
-      const file = {
-        path: filepath,
-        content: JSON.stringify(content, null, 2),
-      };
-      const log = await this.node.add(file);
-      return log;
+  async addFiles(filepath) {
+    const logs = [];
+    for await (const file of this.node.addAll(
+      ipfs.globSource(filepath, "**/*")
+    )) {
+      logs.push(file);
     }
+    return logs[0];
   }
 
   // read file from IPFS to bytes
   async readFile(cid) {
-    const bufs = [];
-    for await (const buf of this.node.get(cid)) {
-      bufs.push(buf);
+    const stringBuilder = [];
+    const textDecoder = new TextDecoder();
+    for await (const chunk of this.node.get(cid)) {
+      stringBuilder.push(textDecoder.decode(chunk));
     }
-    return bufs;
+
+    const fullString = stringBuilder[1];
+
+    // returns as json object
+    const res = JsonBigint.parse(fullString);
+    return res;
   }
 
   // read files from IPFS
