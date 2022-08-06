@@ -79,7 +79,8 @@ const WalletModal = ({ showWallet, setShowWallet }) => {
 
   const fetchUserBalance = useCallback(async(address) => {
     setLoadingBalance(true);
-    const userBalance = await Tezos.tz.getBalance(address);
+    const fetchedBalance = await Tezos.tz.getBalance(address);
+    const userBalance = fetchedBalance.shiftedBy(-6);
     setBalance(userBalance);
     setLoadingBalance(false);
   },[Tezos.tz]);
