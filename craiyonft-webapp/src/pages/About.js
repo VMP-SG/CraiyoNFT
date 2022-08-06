@@ -40,17 +40,30 @@ const About = () => {
             </p>
           </section>
           <div className="font-extrabold text-[24px] text-blue-dark font-primary mt-20 ml-5 self-start relative">
-            <div className="absolute left-0 bottom-0 w-[50px] h-[12.67px] bg-[#FFB8DA] z-[-1]"/>
-            <p>
-              Meet the Creators
-            </p>
+            <div className="absolute left-0 bottom-0 w-[50px] h-[12.67px] bg-[#FFB8DA] z-[-1]" />
+            <p>Meet the Creators</p>
           </div>
           <section className={`box-border flex justify-center`}>
-            <AboutCard name="Ng Ho Chi" image={HC} />
-            <AboutCard name="Kevin Chang" image={KEVIN} />
-            <AboutCard name="Chay Hui Xiang" image={HUIX} />
+            <AboutCard
+              name="Ng Ho Chi"
+              image={HC}
+              url={"https://www.linkedin.com/in/nghochi/"}
+            />
+            <AboutCard
+              name="Kevin Chang"
+              image={KEVIN}
+              url={"https://www.linkedin.com/in/kevin-chang-jon-kit-25759314a/"}
+            />
+            <AboutCard
+              name="Chay Hui Xiang"
+              image={HUIX}
+              url={"https://www.linkedin.com/in/hui-xiang/"}
+            />
           </section>
-          <section className="flex flex-col text-center w-[600px] mt-32" ref={contactRef}>
+          <section
+            className="flex flex-col text-center w-[600px] mt-32"
+            ref={contactRef}
+          >
             <h1 className="font-extrabold text-6xl text-blue-dark font-primary m-5">
               Contact Us
             </h1>

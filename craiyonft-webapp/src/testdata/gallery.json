@@ -1,0 +1,118 @@
+{
+  "data": {
+    "featured": {
+      "name": "Big card",
+      "description": "Big Robot Candle Needle Blow Orange",
+      "cindex": 1,
+      "address": "abcxyz",
+      "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+      "image": "assets/spaceship_edited.jpg"
+    },
+    "collection": [
+      {
+        "name": "Card 1",
+        "description": "Bob Ali Muthu Curry",
+        "cindex": 2,
+        "preview": "https://media-exp1.licdn.com/dms/image/C4E03AQGvAWAlmhfiTg/profile-displayphoto-shrink_800_800/0/1650531599704?e=1665014400&v=beta&t=MQ-kJEhM8Bkj30zr7LPZnUtuLD46QQdJAZk67fsi2Ro",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 2",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 3,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 3",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 4,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 4",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 5,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 5",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 6,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 6",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 7,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 7",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 8,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 8",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 9,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 9",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 10,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 10",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 11,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 11",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 12,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 12",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 13,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      },
+      {
+        "name": "Card 13",
+        "description": "Robot Candle Needle Blow Orange",
+        "cindex": 14,
+        "preview": "https://pbs.twimg.com/profile_images/1213985687453589504/2rBfQ20A_400x400.jpg",
+        "image": "assets/spaceship_edited.jpg",
+        "address": "tz1278937128937"
+      }
+    ]
+  }
+}
