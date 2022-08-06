@@ -1,5 +1,5 @@
-export const truncateAddress = (address) => {
-  return `${address.substring(0, 5)}...${address.substring(address.length-2)}`
+export const truncateAddress = (address, startIndex, endIndex) => {
+  return `${address.substring(0, startIndex)}...${address.substring(address.length-endIndex)}`
 }
 
 export const isTezosAddress = (address) => {

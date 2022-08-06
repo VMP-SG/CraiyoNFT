@@ -19,7 +19,7 @@ const Modal = ({ children, open, headingText, onClose, className }) => {
           <div className="w-[333.33px] bg-white shadow-md rounded-[13.33px] pt-[13.33px] pb-[16.33px] px-[21.33px]">
             <div className="flex justify-center w-full relative">
               <p className="text-blue-dark text-[24px] font-extrabold leading-[32.78px]">{headingText}</p>
-              <img src={Close} alt="Close Modal" className="absolute right-0 top-[4px] cursor-pointer h-[22.67px]" onClick={onClose} />
+              {onClose && <img src={Close} alt="Close Modal" className="absolute right-0 top-[4px] cursor-pointer h-[22.67px]" onClick={onClose} />}
             </div>
             {children}
           </div>
