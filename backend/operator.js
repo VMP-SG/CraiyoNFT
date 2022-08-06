@@ -128,12 +128,12 @@ class Operator {
       prompt,
       cid: fileCid.toString(),
     };
-    return metadata;
+    return { metadataPath, metadata };
   }
 
   // calls smart contract to mint actual nft
   async mintToken(metaCid) {
-    return "";
+    return null;
   }
 
   // retrieves images from ipfs with cid, and returns json object
