@@ -46,7 +46,7 @@ const SortDropdown = ({ text, setSort }) => {
           <img src={Sort} alt="sort" width="13.4%" className="h-4 w-4 mr-2" />
         </div>
         <ul
-          className={`absolute bg-white w-[250px] m-2 mt-0 border border-gray-dark rounded-[10px] ${
+          className={`absolute bg-white w-[250px] m-2 mt-0 border border-gray-dark rounded-[10px] overflow-hidden ${
             open ? "visibile" : "invisible"
           }`}
           aria-labelledby="dropdownMenuButton1"
@@ -56,7 +56,7 @@ const SortDropdown = ({ text, setSort }) => {
               key={option}
               text={option}
               onSelect={onSelect}
-              className={"cursor-pointer hover:bg-gray-light"}
+              className={"cursor-pointer hover:bg-white-dark"}
             />
           ))}
         </ul>
