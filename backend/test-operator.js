@@ -33,8 +33,8 @@ async function generateTest(operator) {
 // tests retrieval of file from ipfs
 async function readTest(operator) {
   // const cid = "QmU61ij6yM61SCz6r92TeKqtnkep5eUmQ53aid7FWuVo14"; // images
-  const cid = "QmcqyTTVHr9aFtdtA96EfnhWkszAQWr8nva3f1LmHdD4L8"; // meta
-  const log = await operator.getMetadata(cid);
+  const cid = "QmZF1BGBkstx2Qm7euprZB6nsQjM31KP9pVg4ZoWRgVdcY"; // meta
+  const log = await operator.getImages(cid);
   return log;
 }
 
@@ -55,7 +55,7 @@ async function storeMetaTest(operator) {
   const metadata = {
     dateTime: "asldkfjalsdkfj",
     prompt,
-    cid: "Qm0000000000111",
+    cid: "QmU61ij6yM61SCz6r92TeKqtnkep5eUmQ53aid7FWuVo14",
   };
   const log = await operator.storeFile(metadata, prompt, "metadata");
   return log;
@@ -64,7 +64,7 @@ async function storeMetaTest(operator) {
 // tests adding images to ipfs
 async function addTest(operator) {
   const filepath = "backend/images/fake_image_test.json";
-  const log = await operator.ipfs.addFiles(filepath);
+  const log = await operator.ipfs.addFile(filepath);
   const cid = log.cid;
   return cid;
 }
@@ -72,7 +72,7 @@ async function addTest(operator) {
 // tests adding metadata to ipfs
 async function addMetaTest(operator) {
   const filepath = "backend/images/fake_image_test_meta.json";
-  const log = await operator.ipfs.addFiles(filepath);
+  const log = await operator.ipfs.addFile(filepath);
   const cid = log.cid;
   return cid;
 }

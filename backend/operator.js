@@ -35,9 +35,9 @@ class Operator {
       const filepath = this.storeFile(images, prompt, "images");
 
       // add images to ipfs and retrieve first and only cid
-      const fileRes = await this.ipfs.addFiles(filepath);
+      const fileRes = await this.ipfs.addFile(filepath);
       const fileCid = fileRes.cid;
-      console.log(fileCid);
+      // console.log(fileCid);
 
       // prepare metadata with file cid
       const metadata = await this.compileMetadata(fileCid, prompt);
@@ -46,9 +46,14 @@ class Operator {
       const metadataPath = this.storeFile(metadata, prompt, "metadata");
 
       // add metadata to ipfs and retrieve first and only cid
-      const metaRes = await this.ipfs.addFiles(metadataPath);
+      const metaRes = await this.ipfs.addFile(metadataPath);
       const metaCid = metaRes.cid;
+      // console.log(metaCid);
       console.log(`images for prompt: ${prompt} generated`);
+
+      // removes temp files
+      this.removeTempFiles(prompt);
+
       return metaCid;
     } catch (error) {
       console.log(error);
@@ -129,38 +134,33 @@ class Operator {
     return metadata;
   }
 
+  // removes temp files created for mint
+  async removeTempFiles(prompt) {}
+
   // retrieves file from ipfs with cid, and returns json object
-  async getImages(cid) {
-    // gets file with ipfs node
-    const data = await this.ipfs.readFile(cid);
-
-    // adds text together in chunks
-    const stringBuilder = [];
-    const textDecoder = new TextDecoder();
-    for (const chunk of data) {
-      stringBuilder.push(textDecoder.decode(chunk));
-    }
-
-    // removes first chunk
-    stringBuilder.shift();
-    const fullString = stringBuilder.join("");
-
-    // returns as json object
-    const res = JsonBigint.parse(fullString);
-    return res;
-  }
-
-  // retrieves metadata of images
-  async getMetadata(metaCid) {
-    const res = await this.ipfs.readFile(metaCid);
-    return res;
+  async getImages(metaCid) {
+    const metadata = await this.ipfs.readFile(metaCid);
+    const imagesCid = metadata.cid;
+    const images = await this.ipfs.readFile(imagesCid);
+    return images;
   }
 
   // retrieves preview data for multiple metadata cids
   async getPreviewData(metaCids) {
     const previewData = [];
     for (const metaCid of metaCids) {
+      const metadata = await this.ipfs.readFile(metaCid);
+      const imagesCid = metadata.cid;
+      const images = await this.ipfs.readFile(imagesCid);
+      const firstImage = images["generatedImgs"][0];
+      const data = {
+        datetime: metadata.datetime,
+        prompt: metadata.prompt,
+        firstImage,
+      };
+      previewData.push(data);
     }
+    return previewData;
   }
 }
 

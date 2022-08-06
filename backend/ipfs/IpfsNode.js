@@ -45,7 +45,7 @@ class IpfsNode {
   }
 
   // add files to IPFS as bytes
-  async addFiles(filepath) {
+  async addFile(filepath) {
     const logs = [];
     for await (const file of this.node.addAll(
       ipfs.globSource(filepath, "**/*")
