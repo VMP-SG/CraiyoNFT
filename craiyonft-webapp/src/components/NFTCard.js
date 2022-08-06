@@ -37,10 +37,10 @@ const NFTCard = ({ name, className, preview, id, description, address }) => {
       >
         <ModalImage src={preview} className="mt-[16px]" />
         <ModalTextbox label="Metadata" className="mt-[8px]">
-          {description}
+          <p className="text-[10.67px] py-[8px]">{description}</p>
         </ModalTextbox>
         <ModalTextbox label="Wallet Address" className="mt-[8px]">
-          {address}
+          <p className="text-[10.67px] py-[8px]">{address}</p>
         </ModalTextbox>
         <PrimaryButton
           text="Explore NFT"

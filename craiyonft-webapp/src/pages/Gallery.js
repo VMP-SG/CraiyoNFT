@@ -83,7 +83,7 @@ const Gallery = () => {
             </div>
             <SortDropdown text={`Sort by: ${sort}`} setSort={setSort} />
           </div>
-          <div className="grid grid-cols-5 gap 4">
+          <div className="grid grid-cols-5">
             {gallery.length > 0 ? (
               gallery
             ) : (

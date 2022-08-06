@@ -5,7 +5,7 @@ import SORT from "../constants/sort";
 const SortItem = ({ text, onSelect, className }) => {
   return (
     <li
-      className={`flex justify-center p-2 text-[10.67px] ${className}`}
+      className={`flex justify-center p-2 text-[10.67px] h-[32px] leading-[16px] ${className}`}
       onClick={() => onSelect(text)}
     >
       {text}
