@@ -10,7 +10,8 @@ async function main() {
     // console.log(await storeMetaTest(operator));
     // console.log(await addTest(operator));
     // console.log(await addMetaTest(operator));
-    console.log(await readTest(operator));
+    // console.log(await readTest(operator));
+    console.log(await removeTest(operator));
   } catch (error) {
     console.log(error);
   }
@@ -34,7 +35,7 @@ async function generateTest(operator) {
 async function readTest(operator) {
   // const cid = "QmU61ij6yM61SCz6r92TeKqtnkep5eUmQ53aid7FWuVo14"; // images
   const cid = "QmZF1BGBkstx2Qm7euprZB6nsQjM31KP9pVg4ZoWRgVdcY"; // meta
-  const log = await operator.getImages(cid);
+  const log = await operator.getData(cid);
   return log;
 }
 
@@ -75,6 +76,12 @@ async function addMetaTest(operator) {
   const log = await operator.ipfs.addFile(filepath);
   const cid = log.cid;
   return cid;
+}
+
+// tests removal of temp files
+async function removeTest(operator) {
+  const prompt = "flying chicken nugget with rice";
+  operator.removeTempFiles(prompt);
 }
 
 main();

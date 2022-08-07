@@ -3,7 +3,7 @@ const fs = require("fs");
 const utils = require("./utils");
 const path = require("path");
 
-const BACKENDURL = "http://192.168.4.245:8080";
+const BACKENDURL = "http://172.29.139.174:8080";
 
 class Operator {
   // useless constructor
@@ -135,32 +135,32 @@ class Operator {
   }
 
   // removes temp files created for mint
-  async removeTempFiles(prompt) {}
+  async removeTempFiles(prompt) {
+    const convertedPrompt = utils.convertPrompt(prompt);
+    const filename = `${convertedPrompt}.json`;
+    const metadataName = `${convertedPrompt}_meta.json`;
+    const filepath = path.join(Operator.imageDir, filename);
+    const metadataPath = path.join(Operator.imageDir, metadataName);
+    const callback = (error) => {
+      if (error) {
+        console.log(error);
+      }
+    };
+    fs.unlink(filepath, callback);
+    fs.unlink(metadataPath, callback);
+  }
 
   // retrieves file from ipfs with cid, and returns json object
-  async getImages(metaCid) {
+  async getData(metaCid) {
     const metadata = await this.ipfs.readFile(metaCid);
     const imagesCid = metadata.cid;
     const images = await this.ipfs.readFile(imagesCid);
-    return images;
-  }
-
-  // retrieves preview data for multiple metadata cids
-  async getPreviewData(metaCids) {
-    const previewData = [];
-    for (const metaCid of metaCids) {
-      const metadata = await this.ipfs.readFile(metaCid);
-      const imagesCid = metadata.cid;
-      const images = await this.ipfs.readFile(imagesCid);
-      const firstImage = images["generatedImgs"][0];
-      const data = {
-        datetime: metadata.datetime,
-        prompt: metadata.prompt,
-        firstImage,
-      };
-      previewData.push(data);
-    }
-    return previewData;
+    const result = {
+      dateTime: metadata.dateTime,
+      prompt: metadata.prompt,
+      images,
+    };
+    return result;
   }
 }
 
