@@ -4,4 +4,4 @@ from consts import ModelSize, ImageFormat
 class Config(Enum):
     MODEL = ModelSize.MINI
     IMAGE_FORMAT = ImageFormat.PNG
-    NUM_OF_IMAGES = 6
+    NUM_OF_IMAGES = 1
