@@ -4,3 +4,5 @@
 **/wandb
 /backend/ipfs/jsipfs
 /backend/images
+/deployment
+.DS_Store
