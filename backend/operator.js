@@ -51,7 +51,7 @@ class Operator {
       // console.log(metaCid);
       console.log(`images for prompt: ${prompt} generated`);
 
-      // removes temp files
+      // removes temp files in an async call
       this.removeTempFiles(prompt);
 
       return metaCid;
