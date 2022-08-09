@@ -5,7 +5,6 @@ import Cover from "../assets/ProfileCover.png";
 import ProfileAvatar from "../components/ProfileAvatar";
 import VerifiedCheck from "../assets/VerifiedCheck.svg";
 import NFTCard from "../components/NFTCard";
-import Lamb from "../assets/placeholders/Lamb.svg";
 import profiletest from "../testdata/profile.json";
 import { useState } from "react";
 import CategoryButton from "../components/CategoryButton";

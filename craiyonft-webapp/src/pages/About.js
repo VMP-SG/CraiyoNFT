@@ -48,16 +48,19 @@ const About = () => {
               name="Ng Ho Chi"
               image={HC}
               url={"https://www.linkedin.com/in/nghochi/"}
+              address="tz1agHVDYkH74EdTk2GVNcXBgRqmmRgD6RoB"
             />
             <AboutCard
               name="Kevin Chang"
               image={KEVIN}
               url={"https://www.linkedin.com/in/kevin-chang-jon-kit-25759314a/"}
+              address="tz1c8Vr4mMbVg8WvqxDqqC4vyX4WiWQKpLoT"
             />
             <AboutCard
               name="Chay Hui Xiang"
               image={HUIX}
               url={"https://www.linkedin.com/in/hui-xiang/"}
+              address="tz1VrzLy7tMMVc5sWbvXEAmYmUsKj6mQnWWK"
             />
           </section>
           <section

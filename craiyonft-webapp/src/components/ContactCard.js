@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 import Github from "../assets/Github.svg";
+import Spinner from "./Spinner";
 
 const ContactCard = ({ image }) => {
+  const [buttonContent, setButtonContent] = useState(<p>Contact Us</p>);
+  const [sentMessage, setSentMessage] = useState(false);
+  const contactHandler = () => {
+    setButtonContent(<Spinner variant="light" />);
+    setTimeout(() => {
+      setButtonContent(<p>Contact Us</p>);
+      setSentMessage(true);
+    },8000);
+  }
   return (
     <div
       className={
@@ -10,7 +20,7 @@ const ContactCard = ({ image }) => {
       }
     >
       <img className="w-full" src={image} alt="contact" />
-      <div className="px-6 py-4">
+      <div className="px-6 py-4" onFocus={() => setSentMessage(false)}>
         <div className={`my-3`}>
           <label
             htmlFor="fullname"
@@ -50,20 +60,23 @@ const ContactCard = ({ image }) => {
             className="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           />
         </div>
-        <div className={`flex`}>
-          <PrimaryButton text="Contact Us" className="mr-[12.73px]" />
-          <button
-            type="button"
-            className="text-black font-medium rounded-lg text-sm p-1 text-center inline-flex items-center mr-2"
-          >
-            <a
-              href="https://github.com/VMP-SG"
-              target="_blank"
-              rel="noopener noreferrer"
+        <div className={`flex justify-between items-center`}>
+          <div className="flex">
+            <PrimaryButton text={buttonContent} className="mr-[12.73px]" onClick={contactHandler}/>
+            <button
+              type="button"
+              className="text-black font-medium rounded-lg text-sm p-1 text-center inline-flex items-center mr-2"
             >
-              <img src={Github} alt="Github" />
-            </a>
-          </button>
+              <a
+                href="https://github.com/VMP-SG"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={Github} alt="Github" />
+              </a>
+            </button>
+          </div>
+          {sentMessage && <p>Message Sent!</p>}
         </div>
       </div>
     </div>
