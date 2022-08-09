@@ -43,7 +43,9 @@ const Gallery = () => {
   const gallery = gallerytest
     ? gallerytest.data["collection"]
         .filter((item) =>
-          categoryList.every((category) => item.description.includes(category))
+          categoryList.every((category) =>
+            item.description.toLowerCase().includes(category.toLowerCase())
+          )
         )
         .sort((a, b) => compare(a, b))
         .map((item, i) => {
@@ -64,7 +66,7 @@ const Gallery = () => {
     <div>
       {/*  text-[42.67px] leading-[58.28px] */}
       <MainLayout>
-        <main className="flex flex-col justify-center items-center font-primary">
+        <main className="flex flex-col justify-center items-center font-primary w-[1169.83px]">
           <div className="font-extrabold text-[24px] text-blue-dark font-primary mt-10 ml-2 self-start relative">
             <div className="absolute left-0 bottom-0 w-[50px] h-[12.67px] bg-[#FFB8DA] z-[-1]" />
             <p>Discover more NFTs</p>
