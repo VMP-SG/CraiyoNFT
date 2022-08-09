@@ -36,9 +36,9 @@ const Profile = () => {
   });
   const compare =
     sort === SORT.DATE_ASC
-      ? (a, b) => a.cindex > b.cindex
+      ? (a, b) => a.cindex - b.cindex
       : sort === SORT.DATE_DES
-      ? (a, b) => a.cindex < b.cindex
+      ? (a, b) => b.cindex - a.cindex
       : sort === SORT.ALPHABETICAL_ASC
       ? (a, b) => a.name.localeCompare(b.name)
       : sort === SORT.ALPHABETICAL_DES
@@ -48,7 +48,7 @@ const Profile = () => {
       : sort === SORT.ADDRESS_DES
       ? (a, b) => b.address.localeCompare(a.address)
       : null;
-    const data = profiletest
+  const data = profiletest
     ? profiletest.data
         .filter((item) =>
           categoryList.every((category) => item.description.includes(category))
@@ -85,39 +85,39 @@ const Profile = () => {
               </p>
             </section>
             <section className="mt-[22px] w-full px-[3.25rem]">
-            <div className="flex justify-between items-center w-full">
-              <div className="flex items-center">
-                <CategoryButton
-                  text="Category"
-                  className="text-[10.67px] h-[29.33px] px-3 m-2"
-                  categoryList={categoryList}
-                  setCategoryList={setCategoryList}
-                  searchText={searchText}
-                  setSearchText={setSearchText}
-                />
-                {categoryChipList}
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center">
+                  <CategoryButton
+                    text="Category"
+                    className="text-[10.67px] h-[29.33px] px-3 m-2"
+                    categoryList={categoryList}
+                    setCategoryList={setCategoryList}
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                  />
+                  {categoryChipList}
+                </div>
+                <SortDropdown text={`Sort by: ${sort}`} setSort={setSort} />
               </div>
-              <SortDropdown text={`Sort by: ${sort}`} setSort={setSort} />
-            </div>
             </section>
             {/* <section className="mt-[20px] mb-[75px]">
             
             </section> */}
             <section className="grid grid-cols-5">
-            {data.length > 0 ? (
-              data
-            ) : (
-              <p className="flex flex-col justify-center items-center font-primary ml-2">
-                There are no NFTs with such specifications.
-              </p>
-            )}
+              {data.length > 0 ? (
+                data
+              ) : (
+                <p className="flex flex-col justify-center items-center font-primary ml-2">
+                  There are no NFTs with such specifications.
+                </p>
+              )}
             </section>
           </main>
         </MainLayout>
       </div>
     );
   } else {
-    return <Navigate to="/" replace />
+    return <Navigate to="/" replace />;
   }
 };
 

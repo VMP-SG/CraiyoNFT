@@ -28,9 +28,9 @@ const Gallery = () => {
   });
   const compare =
     sort === SORT.DATE_ASC
-      ? (a, b) => a.cindex > b.cindex
+      ? (a, b) => a.cindex - b.cindex
       : sort === SORT.DATE_DES
-      ? (a, b) => a.cindex < b.cindex
+      ? (a, b) => b.cindex - a.cindex
       : sort === SORT.ALPHABETICAL_ASC
       ? (a, b) => a.name.localeCompare(b.name)
       : sort === SORT.ALPHABETICAL_DES

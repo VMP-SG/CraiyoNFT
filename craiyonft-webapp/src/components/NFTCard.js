@@ -8,6 +8,7 @@ import ModalTextbox from "../components/Modal/ModalTextbox";
 import PrimaryButton from "../components/PrimaryButton";
 
 import background from "../assets/spaceship_edited.jpg";
+import { toggleFullScreen } from "../utils/utilFunctions";
 
 const NFTCard = ({ name, className, preview, id, description, address }) => {
   const panoRef = React.useRef(null);
@@ -46,7 +47,7 @@ const NFTCard = ({ name, className, preview, id, description, address }) => {
           text="Explore NFT"
           className="m-auto mt-[16px]"
           onClick={() => {
-            c.mozRequestFullScreen();
+            toggleFullScreen(c);
           }}
         />
       </Modal>
