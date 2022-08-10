@@ -10,13 +10,16 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateMint } from "../../store/ui";
 import Spinner from "../Spinner";
+import RPC, { CONTRACTADDRESS, BACKENDADDRESS } from "../../constants/tezos";
+import { TezosToolkit, MichelsonMap } from "@taquito/taquito";
+import { char2Bytes } from '@taquito/utils';
 
 const errorTypes = {
   insufficient: "insufficient",
   tooMany: "tooMany"
 }
 
-const MintModal = () => {
+const MintModal = ({ wallet }) => {
   const dispatch = useDispatch();
   const [time, setTime] = useState(600);
   const dateString = useMemo(() => {
@@ -33,6 +36,11 @@ const MintModal = () => {
   const [chosenWords, setChosenWords] = useState([]);
   const [clickedRefresh, setClickRefresh] = useState(false);
   const [error, setError] = useState(undefined);
+
+  const Tezos = useMemo(() => {
+    return new TezosToolkit(RPC.GHOSTNET);
+  }, []);
+
   const generateWords = () => {
     const words = randomWords(10);
     setWords(words);
@@ -65,7 +73,7 @@ const MintModal = () => {
     generateWords();
   }
 
-  const createNFTHandler = () => {
+  const createNFTHandler = async() => {
     if (chosenWords.length < 5) {
       setError(errorTypes.insufficient);
       return;
@@ -74,9 +82,29 @@ const MintModal = () => {
       return;
     } else {
       setError(undefined);
+      const content = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({"prompt": "flying chicken nugget with flies"})
+      };
+      const response = await fetch(BACKENDADDRESS, content);
+      if (!response.ok) {
+        console.error(response.statusText);
+        return;
+      }
+      const cid = await response.text();
+      Tezos.setProvider({ wallet });
+      const contract = await Tezos.wallet.at(CONTRACTADDRESS);
+      const metadata = MichelsonMap.fromLiteral({
+        cid: char2Bytes(cid),
+      });
+      const op = contract.methods.mint([{ to_: address, metadata }]).send();
+      await op.confirmation();
     }
 
-    setCreatingNFT(true);
+    // setCreatingNFT(true);
   }
 
   useEffect(() => {

@@ -16,13 +16,12 @@ import { TezosToolkit } from "@taquito/taquito";
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { NetworkType } from "@airgap/beacon-wallet";
 import { useNavigate } from "react-router-dom";
-import { updateAddress, updateWalletStore, updateWallet } from "../../store/wallet";
+import { updateAddress } from "../../store/wallet";
 
-const WalletModal = ({ showWallet, setShowWallet }) => {
+const WalletModal = ({ showWallet, setShowWallet, setWallet, wallet }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const address = useSelector(state => state.wallet.address);
-  const wallet = useSelector(state => state.wallet.wallet);
   const [tezosPrice, setTezosPrice] = useState(BN.ZERO);
   const [loadingBalance, setLoadingBalance] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
@@ -49,7 +48,7 @@ const WalletModal = ({ showWallet, setShowWallet }) => {
         });
       }
       Tezos.setWalletProvider(newWallet);
-      dispatch(updateWallet(newWallet));
+      setWallet(newWallet);
     };
     try {
       walletConnection();
@@ -60,7 +59,8 @@ const WalletModal = ({ showWallet, setShowWallet }) => {
 
   const disconnectWalletHandler = () => {
     wallet.client.destroy();
-    dispatch(updateWalletStore({ wallet: undefined, address: "" }));
+    dispatch(updateAddress(""));
+    setWallet(undefined);
     setBalance(BN.ZERO);
   };
 
