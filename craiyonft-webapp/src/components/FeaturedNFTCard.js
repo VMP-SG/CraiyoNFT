@@ -4,6 +4,7 @@ import Lightning from "../assets/Lightning.svg";
 import OutlinedButton from "../components/OutlinedButton";
 
 import background from "../assets/spaceship_edited.jpg";
+import { toggleFullScreen } from "../utils/utilFunctions";
 
 const FeaturedNFTCard = ({ className, preview, id, description }) => {
   const panoRef = React.useRef(null);
@@ -49,7 +50,7 @@ const FeaturedNFTCard = ({ className, preview, id, description }) => {
           text="View now"
           className="text-[10.67px] h-[27.52px] w-[89.37px]"
           onClick={() => {
-            c.mozRequestFullScreen();
+            toggleFullScreen(c);
           }}
         />
       </div>

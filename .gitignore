@@ -1,6 +1,8 @@
-/venv
-/wandb
+**/node_modules
+**/venv
+**/__pycache__
+**/wandb
+/backend/ipfs/jsipfs
+/backend/images
 /deployment
-/dalle/__pycache__
-
 .DS_Store
