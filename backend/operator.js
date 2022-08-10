@@ -2,8 +2,9 @@ const { IpfsNode } = require("./ipfs/IpfsNode");
 const fs = require("fs");
 const utils = require("./utils");
 const path = require("path");
+const fetch = require("node-fetch");
 
-const BACKENDURL = "http://172.29.139.174:8080";
+const BACKENDURL = "https://main-dalle-server-scy6500.endpoint.ainize.ai/generate";
 
 class Operator {
   // useless constructor
@@ -12,7 +13,7 @@ class Operator {
   }
 
   // used as constant for image directory
-  static imageDir = path.join("./backend", "images");
+  static imageDir = "./images";
 
   // static factory method, inits ipfs node
   static async init() {
@@ -66,20 +67,14 @@ class Operator {
     const content = {
       method: "POST",
       headers: {
-        "Bypass-Tunnel-Reminder": "go",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(
-        {
-          text: prompt,
-        },
-        null,
-        2
-      ),
+      body: JSON.stringify({"text":prompt, "num_images":6})
     };
 
     // actual http call
     try {
-      const response = await fetch(BACKENDURL + `/dalle`, content);
+      const response = await fetch(BACKENDURL, content);
       if (!response.ok) {
         throw new Error(response.statusText);
       }

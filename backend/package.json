@@ -6,7 +6,10 @@
   "license": "MIT",
   "dependencies": {
     "cids": "^1.1.9",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
     "ipfs": "^0.63.5",
-    "json-bigint": "^1.0.0"
+    "json-bigint": "^1.0.0",
+    "node-fetch": "2.6.1"
   }
 }
