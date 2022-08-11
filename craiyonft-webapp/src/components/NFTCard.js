@@ -1,7 +1,6 @@
 import React from "react";
 import * as PANOLENS from "panolens";
 import axios from "axios";
-import Jimp from "jimp";
 
 import Lightning from "../assets/Lightning.svg";
 import OutlinedButton from "../components/OutlinedButton";

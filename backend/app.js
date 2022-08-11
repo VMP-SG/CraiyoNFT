@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const Jimp = require("jimp");
 const axios = require("axios");
 
@@ -31,6 +31,7 @@ app.post("/mintnft", async (req, res) => {
     const prompt = req.body.prompt;
     console.log(`received prompt: ${prompt}`);
     const log = await operator.mintNFT(prompt);
+    res.send(log.toString());
     console.log(`mintnft request closed with cid of ${log}`);
   } catch (error) {
     console.error(error);
@@ -48,6 +49,23 @@ app.post("/getdata", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+});
+
+app.post("/getdatas", async (req, res) => {
+  logIP(req);
+  const cids = req.body.cids;
+  const data = [];
+  for (const cid of cids) {
+    console.log(`received cid: ${cid}`);
+    try {
+      const log = await operator.getData(cid);
+      data.push(log);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  res.send(data);
+  console.log("getdatas request closed");
 });
 
 app.post("/getimage", async (req, res) => {

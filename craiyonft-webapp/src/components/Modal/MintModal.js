@@ -10,6 +10,8 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateMint } from "../../store/ui";
 import Spinner from "../Spinner";
+import Check from "../../assets/Check.svg";
+import Cross from "../../assets/Cross.svg";
 import RPC, { CONTRACTADDRESS, BACKENDADDRESS } from "../../constants/tezos";
 import { TezosToolkit, MichelsonMap } from "@taquito/taquito";
 import { char2Bytes } from '@taquito/utils';
@@ -19,9 +21,16 @@ const errorTypes = {
   tooMany: "tooMany"
 }
 
+const nftCreationStatus = {
+  yetToStart: "yetToStart",
+  inProgress: "inProgress",
+  done: "done",
+  error: "error"
+}
+
 const MintModal = ({ wallet }) => {
   const dispatch = useDispatch();
-  const [time, setTime] = useState(600);
+  const [time, setTime] = useState(180);
   const dateString = useMemo(() => {
     let date = new Date(0);
     date.setSeconds(time);
@@ -31,7 +40,8 @@ const MintModal = ({ wallet }) => {
 
   const showMint = useSelector(state => state.ui.showMint);
   const address = useSelector(state => state.wallet.address);
-  const [creatingNFT, setCreatingNFT] = useState(false);
+  const [creatingNFTStatus, setCreatingNFTStatus] = useState(nftCreationStatus.yetToStart);
+  const [creatingNFTText, setCreatingNFTText] = useState("");
   const [words, setWords] = useState([]);
   const [chosenWords, setChosenWords] = useState([]);
   const [clickedRefresh, setClickRefresh] = useState(false);
@@ -82,34 +92,45 @@ const MintModal = ({ wallet }) => {
       return;
     } else {
       setError(undefined);
-      const content = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({"prompt": "flying chicken nugget with flies"})
-      };
-      const response = await fetch(BACKENDADDRESS, content);
-      if (!response.ok) {
-        console.error(response.statusText);
-        return;
+      setTime(180);
+      setCreatingNFTStatus(nftCreationStatus.inProgress);
+      setCreatingNFTText("Creating NFT...");
+      try {
+        const content = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({"prompt": chosenWords.join(" ")})
+        };
+        const response = await fetch(BACKENDADDRESS + "/mintnft", content);
+        if (!response.ok) {
+          console.error(response.statusText);
+          return;
+        }
+        const cid = await response.text();
+        if (!cid) {
+          throw new Error("No CID returned");
+        }
+        setCreatingNFTText("Initiating Transaction...");
+        Tezos.setProvider({ wallet });
+        const contract = await Tezos.wallet.at(CONTRACTADDRESS);
+        // const metadata = MichelsonMap.fromLiteral({
+          // cid: char2Bytes(cid),
+        // });
+        const op = contract.methods.mint([{ to_: address, cid }]).send();
+        await op.confirmation();
+        setCreatingNFTStatus(nftCreationStatus.done);
+      } catch (error) {
+        console.error(error);
+        setCreatingNFTStatus(nftCreationStatus.error);
       }
-      const cid = await response.text();
-      Tezos.setProvider({ wallet });
-      const contract = await Tezos.wallet.at(CONTRACTADDRESS);
-      const metadata = MichelsonMap.fromLiteral({
-        cid: char2Bytes(cid),
-      });
-      const op = contract.methods.mint([{ to_: address, metadata }]).send();
-      await op.confirmation();
     }
-
-    // setCreatingNFT(true);
   }
 
   useEffect(() => {
     let timer;
-    if (creatingNFT) {
+    if (creatingNFTStatus === nftCreationStatus.inProgress) {
       timer = setTimeout(() => {
         setTime((prevTime) => {
           return prevTime - 1;
@@ -126,7 +147,7 @@ const MintModal = ({ wallet }) => {
     generateWords();
   },[]);
 
-  if (creatingNFT) {
+  if (creatingNFTStatus === nftCreationStatus.inProgress) {
     return (
       <Modal 
         headingText="Mint New NFT"
@@ -134,13 +155,28 @@ const MintModal = ({ wallet }) => {
       >
         <div className="flex justify-center flex-col mt-[16px]">
           <Spinner className="h-16" />
-          <p className="text-sm text-center mt-[16px] font-extrabold">Creating NFT...</p>
+          <p className="text-sm text-center mt-[16px] font-extrabold">{creatingNFTText}</p>
           <p className="text-sm text-center font-extrabold">Please do not close the tab.</p>
           <p className="text-xs text-center mt-[4px] text-gray">Estimated Time Left: <span>{dateString}</span></p>
         </div>
       </Modal>
     );
-  } else {
+  } else if (creatingNFTStatus === nftCreationStatus.done || creatingNFTStatus === nftCreationStatus.error) {
+    const error = creatingNFTStatus === nftCreationStatus.error;
+    return (
+    <Modal
+      headingText="Mint New NFT"
+      open={showMint}
+      onClose={() => dispatch(updateMint(false))}
+    >
+      <div className="flex justify-center flex-col mt-[16px]">
+        <img src={error ? Cross : Check} alt="Check" width="64px" className={`m-auto ${error ? undefined : "m-auto animate-bounce"}`} />
+        <p className="text-sm text-center mt-[16px] font-extrabold">{creatingNFTText}</p>
+        <p className="text-sm text-center font-extrabold">{error ? "An error was encountered." : "Your NFT has been minted!"}</p>
+      </div>
+    </Modal>
+    )
+  } else if (creatingNFTStatus === nftCreationStatus.yetToStart) {
     return (
       <Modal 
         headingText="Mint New NFT"

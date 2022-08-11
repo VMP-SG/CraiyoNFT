@@ -4,6 +4,6 @@ const RPC = {
 }
 
 export const CONTRACTADDRESS = "KT1CdeWH2YvVNmk1YJZdzjJttCsqRh3gY83c";
-export const BACKENDADDRESS = "https://craiyonft.nghochi.xyz/mintnft";
+export const BACKENDADDRESS = "https://a734-219-75-72-115.ap.ngrok.io";
 
 export default RPC;

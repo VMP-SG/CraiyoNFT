@@ -1,9 +1,9 @@
 import MainLayout from "../layout/MainLayout";
 import AboutCard from "../components/AboutCard";
 import ContactCard from "../components/ContactCard";
-import HUIX from "../assets/huix.jpg";
-import KEVIN from "../assets/kevin.jpg";
-import HC from "../assets/hochi.png";
+import HUIX from "../assets/cartoon_dog_drink_alcohol_2.png";
+import KEVIN from "../assets/cartoon_frog_doing_pullups_3.png";
+import HC from "../assets/monkey_using_a_computer_2.png";
 import cat from "../assets/cat.png";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
