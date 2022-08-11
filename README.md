@@ -7,6 +7,7 @@ CraiyoNFT was a project inspired by Craiyon. As a bunch of individuals intereste
 The CraiyoNFT webapp is built using React. Simply install Node.js and node package dependencies to begin.
 
 ```bash
+cd craiyonft-webapp/
 yarn install
 yarn start
 ```
@@ -18,6 +19,7 @@ The webapp will be running on [http://localhost:3000](http://localhost:3000) by 
 The CraiyoNFT backend is built using express.js and ipfs. Simply install Node.js and node package dependencies to begin.
 
 ```bash
+cd backend/
 yarn install
 yarn start
 ```
