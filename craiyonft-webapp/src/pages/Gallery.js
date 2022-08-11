@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useEffect } from "react";
 import MainLayout from "../layout/MainLayout";
 import gallerytest from "../testdata/gallery.json";
 import NFTCard from "../components/NFTCard";
@@ -8,6 +8,8 @@ import CategoryButton from "../components/CategoryButton";
 import SortDropdown from "../components/SortDropdown";
 import SORT from "../constants/sort";
 import { useLocation } from "react-router-dom";
+import RPC, { CONTRACTADDRESS } from "../constants/tezos";
+import { TezosToolkit } from "@taquito/taquito";
 
 const Gallery = () => {
   const location = useLocation();
@@ -20,6 +22,23 @@ const Gallery = () => {
     const filteredCategoryList = categoryList.filter((item) => item !== text);
     setCategoryList(filteredCategoryList);
   };
+
+  const Tezos = useMemo(() => {
+    return new TezosToolkit(RPC.GHOSTNET);
+  }, []);
+
+  useEffect(() => {
+    const contractInteraction = async() => {
+      const contract = await Tezos.wallet.at(CONTRACTADDRESS);
+      const contractStorage = await contract.storage();
+      const nftCount = await contractStorage.last_token_id.toNumber();
+      const nftDataArg = [...Array(nftCount).keys()];
+      const nftData = await contractStorage.token_metadata.getMultipleValues(nftDataArg);
+      console.log(nftData);
+    }
+    contractInteraction();
+  },[Tezos]);
+
   const categoryChipList = categoryList.map((category, index) => {
     return (
       <CategoryChip
