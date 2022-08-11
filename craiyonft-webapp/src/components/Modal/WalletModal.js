@@ -106,7 +106,7 @@ const WalletModal = ({ showWallet, setShowWallet, setWallet, wallet }) => {
       setTezosPrice(new BigNumber(price));
     };
     fetchTezosPrice();
-  });
+  },[]);
   
   useEffect(() => {
     loadWalletInfo();

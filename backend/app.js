@@ -21,9 +21,9 @@ Operator.init().then((result) => {
 });
 
 const logIP = (req) => {
-  var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
-  console.log(`Incoming request from IP: ${ip}`)
-}
+  var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  console.log(`Incoming request from IP: ${ip}`);
+};
 
 app.post("/mintnft", async (req, res) => {
   logIP(req);
@@ -76,8 +76,8 @@ app.post("/getimage", async (req, res) => {
   //   "stars_resized.png",
   // ];
   try {
-  //   const selectedBGName =
-  //     backgroundarray[Math.floor(Math.random() * backgroundarray.length)];
+    //   const selectedBGName =
+    //     backgroundarray[Math.floor(Math.random() * backgroundarray.length)];
     const cid = req.body.cid;
     console.log(`Received CID: ${cid}`);
     const imagebuffer = await operator.getData(cid);
@@ -92,7 +92,8 @@ app.post("/getimage", async (req, res) => {
       background.blit(img, position, 1000);
       position += 590;
     }
-    background.quality(60).write("blit.png", res.download("blit.png"));
+    const bgimg = await background.quality(60).getBase64Async("image/png");
+    res.send({ image: bgimg });
     console.log("getimage request closed");
   } catch (error) {
     console.error(error);
