@@ -47,7 +47,6 @@ const WalletModal = ({ showWallet, setShowWallet, setWallet, wallet }) => {
           },
         });
       }
-      Tezos.setWalletProvider(newWallet);
       setWallet(newWallet);
     };
     try {
