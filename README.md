@@ -62,7 +62,7 @@ Response:
 }
 ```
 
-#### `POST /getdataS`
+#### `POST /getdatas`
 
 Description:
 `Get NFT Data for a multiple CIDs`
@@ -89,4 +89,38 @@ Response:
   }
   ...
 ]
+```
+
+#### `POST /getimage`
+
+Description:
+`Get stitched 3D image for single NFT`
+
+Request Body:
+```JSON
+{
+  "cid": "INSERT CID HERE"
+}
+```
+
+Response:  
+```
+Stitched Image
+```
+
+#### `POST /mintnft`
+
+Description:
+`Get stitched 3D image for single NFT`
+
+Request Body:
+```JSON
+{
+  "prompt": "INSERT 5 WORD PROMPT HERE"
+}
+```
+
+Response:  
+```
+QmSzTPMHYNE9nTHmetWmBn8xvkaTFKWQtRRX3tKKjfHry7
 ```
