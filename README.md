@@ -113,7 +113,7 @@ Stitched Image
 #### `POST /mintnft`
 
 Description:
-`Get stitched 3D image for single NFT`
+`Mint NFT with 5 word prompt`
 
 Request Body:
 ```JSON
