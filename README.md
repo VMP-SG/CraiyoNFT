@@ -49,7 +49,7 @@ Description:
 Request Body:
 ```JSON
 {
-  "cid": CID
+  "cid": "INSERT CID HERE"
 }
 ```
 
@@ -58,6 +58,35 @@ Response:
 {
   "dateTime": "Wed, 10 Aug 2022 08:34:44 GMT",
   "prompt": "flying chicken nugget with rice",
-  "images": [6x base64 encoded images]
+  "images": ["6X BASE64 ENCODED IMAGES"]
 }
+```
+
+#### `POST /getdataS`
+
+Description:
+`Get NFT Data for a multiple CIDs`
+
+Request Body:
+```JSON
+{
+  "cids": ["CID1", "CID2", "..."]
+}
+```
+
+Response:  
+```JSON
+[
+  {
+    "dateTime": "...",
+    "prompt": "...",
+    "images": ["6X BASE64 ENCODED IMAGES"]
+  },
+  {
+    "dateTime": "...",
+    "prompt": "...",
+    "images": ["6X BASE64 ENCODED IMAGES"]
+  }
+  ...
+]
 ```
