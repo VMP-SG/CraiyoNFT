@@ -45,13 +45,13 @@ app.post("/getdata", (req, res) => {
 });
 
 app.post("/getimage", async (req, res) => {
-  const backgroundarray = [
-    "abandoned_resized.jpg",
-    "shearing_resized.jpg",
-    "stars_resized.png",
-  ];
-  const selectedBGName =
-    backgroundarray[Math.floor(Math.random() * backgroundarray.length)];
+  // const backgroundarray = [
+  //   "abandoned_resized.jpg",
+  //   "shearing_resized.jpg",
+  //   "stars_resized.png",
+  // ];
+  // const selectedBGName =
+  //   backgroundarray[Math.floor(Math.random() * backgroundarray.length)];
   const cid = req.body.cid;
   const imagebuffer = await axios.post(
     "https://craiyonft.nghochi.xyz/getdata",
@@ -60,14 +60,17 @@ app.post("/getimage", async (req, res) => {
     }
   );
   const images = imagebuffer.data.images;
-  const background = await Jimp.read(`./assets/${selectedBGName}`);
+  if (!images) {
+    res.send("Please send a correct CID.");
+  }
+  const background = await Jimp.read(`./assets/stars_resized.png`);
   let position = 590;
   for (let image of images) {
     let img = await Jimp.read(Buffer.from(image, "base64"));
     background.blit(img, position, 1000);
     position += 590;
   }
-  background.write("blit.png", res.download("blit.png"));
+  background.quality(60).write("blit.jpg", res.download("blit.jpg"));
 });
 
 app.get("/", (req, res) => {
