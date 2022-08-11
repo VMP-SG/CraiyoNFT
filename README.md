@@ -28,13 +28,13 @@ The server will be running on [http://localhost:8080](http://localhost:8080) by 
 
 #### `GET /`
 
+Description:
+`Health Check to ensure that the server is up and running`
+
 Request Body:
 ```
 -
 ```
-
-Description:
-`Health Check to ensure that the server is up and running`
 
 Response:  
 ```
@@ -43,4 +43,21 @@ POST to /getdata or /getdatas or /getimage or /mintnft
 
 #### `POST /getdata`
 
+Description:
+`Get NFT Data for a single CID`
 
+Request Body:
+```JSON
+{
+  "cid": CID
+}
+```
+
+Response:  
+```JSON
+{
+  "dateTime": "Wed, 10 Aug 2022 08:34:44 GMT",
+  "prompt": "flying chicken nugget with rice",
+  "images": [6x base64 encoded images]
+}
+```
