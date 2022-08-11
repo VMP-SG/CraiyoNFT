@@ -8,7 +8,7 @@ import CategoryButton from "../components/CategoryButton";
 import SortDropdown from "../components/SortDropdown";
 import SORT from "../constants/sort";
 import { useLocation } from "react-router-dom";
-import RPC, { CONTRACTADDRESS } from "../constants/tezos";
+import RPC, { CONTRACTADDRESS, BACKENDADDRESS } from "../constants/tezos";
 import { TezosToolkit } from "@taquito/taquito";
 import { bytes2Char } from "@taquito/utils";
 
@@ -30,16 +30,31 @@ const Gallery = () => {
 
   useEffect(() => {
     const contractInteraction = async() => {
+      // calling the smart contract
       const contract = await Tezos.wallet.at(CONTRACTADDRESS);
       const contractStorage = await contract.storage();
       const nftCount = await contractStorage.last_token_id.toNumber();
       const nftDataArg = [...Array(nftCount).keys()];
-      const nftData = await contractStorage.token_metadata.getMultipleValues(nftDataArg);
-      const nftArray = Array.from(nftData.valueMap.values());
+      const nftMetaData = await contractStorage.token_metadata.getMultipleValues(nftDataArg);
+      const nftArray = Array.from(nftMetaData.valueMap.values());
+      const cidArray = [];
       nftArray.forEach((nft) => {
-        const nftCIDBytes = nft.token_info.valueMap.get("\"metadata_cid\"");
-        console.log(bytes2Char(nftCIDBytes))
+        const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
+        cidArray.push(bytes2Char(nftCIDBytes));
       });
+
+      // getting prompts from backend server
+      const content = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({cids: cidArray})
+      };
+      const nftDataResponse = await fetch(BACKENDADDRESS + "/getdatas", content);
+      const nftData = await nftDataResponse.json();
+      console.log(nftData);
+
     }
     contractInteraction();
   },[Tezos]);

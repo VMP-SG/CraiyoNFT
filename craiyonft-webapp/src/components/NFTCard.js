@@ -13,6 +13,7 @@ import huix from "../assets/huix.jpg";
 import stars from "../assets/stars_resized.png";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
+import { BACKENDADDRESS } from "../constants/tezos";
 
 const NFTCard = ({ className, cid }) => {
   const name = "Placeholder Name";
@@ -25,7 +26,7 @@ const NFTCard = ({ className, cid }) => {
   const [showModal, setShowModal] = React.useState(false);
   React.useEffect(() => {
     axios
-      .post("https://craiyonft-backend-3apmyxpbda-uc.a.run.app/getdata", {
+      .post(BACKENDADDRESS + "/getdata", {
         cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
       })
       .then((res) => {
@@ -36,7 +37,7 @@ const NFTCard = ({ className, cid }) => {
         setDate(data.dateTime);
       });
     axios
-      .post("https://craiyonft-backend-3apmyxpbda-uc.a.run.app/getimage", {
+      .post(BACKENDADDRESS + "/getimage", {
         cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
       })
       .then((res) => {
