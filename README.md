@@ -29,14 +29,18 @@ The server will be running on [http://localhost:8080](http://localhost:8080) by 
 #### `GET /`
 
 Request Body:
-`-`
+```
+-
+```
 
 Description:
 `Health Check to ensure that the server is up and running`
 
 Response:  
-`POST to /getdata or /getdatas or /getimage or /mintnft`
+```
+POST to /getdata or /getdatas or /getimage or /mintnft
+```
 
-`POST /getdata`
+#### `POST /getdata`
 
 
