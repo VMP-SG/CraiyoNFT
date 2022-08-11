@@ -9,42 +9,30 @@ import ModalImage from "../components/Modal/ModalImage";
 import ModalTextbox from "../components/Modal/ModalTextbox";
 import PrimaryButton from "../components/PrimaryButton";
 
-import huix from "../assets/huix.jpg";
 import stars from "../assets/stars_resized.png";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
 import { BACKENDADDRESS } from "../constants/tezos";
 
-const NFTCard = ({ className, cid }) => {
+const NFTCard = ({ className, cid, preview, description, date }) => {
   const name = "Placeholder Name";
   const panoRef = React.useRef(null);
-  const [preview, setPreview] = React.useState(huix);
-  const [description, setDescription] = React.useState("");
-  const [date, setDate] = React.useState("");
   const [background, setBackground] = React.useState(stars);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
   React.useEffect(() => {
-    axios
-      .post(BACKENDADDRESS + "/getdata", {
-        cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
-      })
-      .then((res) => {
-        const data = res.data;
-        console.log(data);
-        setPreview(data.images[0]);
-        setDescription(data.prompt);
-        setDate(data.dateTime);
-      });
-    axios
-      .post(BACKENDADDRESS + "/getimage", {
-        cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
-      })
-      .then((res) => {
-        const im = res.data.image;
-        setBackground(im);
-      });
-  }, []);
+    if (showModal) {
+      axios
+        .post(BACKENDADDRESS + "/getimage", {
+          cid,
+        })
+        .then((res) => {
+          const im = res.data.image;
+          console.log(im);
+          setBackground(im);
+        });
+    }
+  }, [showModal, cid]);
   React.useEffect(() => {
     const ctr = panoRef.current;
     if (!ctr) return;

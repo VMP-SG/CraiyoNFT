@@ -113,7 +113,6 @@ const MintModal = ({ wallet }) => {
         if (!cid) {
           throw new Error("No CID returned");
         }
-        console.log(typeof address, address);
         setCreatingNFTText("Initiating Transaction...");
         Tezos.setProvider({ wallet });
         const contract = await Tezos.wallet.at(CONTRACTADDRESS);
