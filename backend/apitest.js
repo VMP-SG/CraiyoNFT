@@ -9,7 +9,7 @@ const content = {
   body: JSON.stringify({"prompt": "flying chicken nugget with flies"})
 };
 
-const BACKENDURL = "https://protected-tor-25692.herokuapp.com/mintnft"
+const BACKENDURL = "https://craiyonft.nghochi.xyz/mintnft"
 
 
 const httpCall = async() => {

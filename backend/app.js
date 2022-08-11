@@ -74,7 +74,7 @@ app.post("/getimage", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("POST to /getData or /mintnft");
+  res.send("POST to /getdata or /mintnft");
 });
 
 app.listen(port, () => {
