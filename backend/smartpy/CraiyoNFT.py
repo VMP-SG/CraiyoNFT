@@ -10,29 +10,22 @@ class CraiyoNft(
         FA2.Fa2Nft.__init__(self, metadata, token_metadata = token_metadata, ledger = ledger, policy = policy, metadata_base = metadata_base)
 
     @sp.entry_point
-    def mint(self, action):
+    def mint(self, batch):
         sp.set_type(
-            action,
-            sp.TRecord(
-                to_=sp.TAddress,
-                cid=sp.TString,
-            ).layout(("to_", "cid"))
+            batch,
+            sp.TList(
+                sp.TRecord(
+                    to_=sp.TAddress,
+                    metadata=sp.TMap(sp.TString, sp.TBytes),
+                ).layout(("to_", "metadata"))
+            ),
         )
-        token_id = sp.compute(self.data.last_token_id)
-        micmap = sp.map(l = {
-            "decimals" : sp.utils.bytes_of_string("%d" % 0),
-            "name" : sp.utils.bytes_of_string("CraiyoNFT"),
-            "symbol" : sp.utils.bytes_of_string("CYNFT"),
-            "metadata_cid" : sp.utils.bytes_of_string("%s" % action.cid)
-        })
-        metadata = sp.record(token_id=token_id, token_info=micmap)
-        self.data.token_metadata[token_id] = metadata
-        self.data.ledger[token_id] = action.to_
-        self.data.last_token_id += 1
-
-    @sp.offchain_view(pure = True)
-    def all_metadata_cids(self):
-        sp.result(self.data.token_metadata)
+        with sp.for_("action", batch) as action:
+            token_id = sp.compute(self.data.last_token_id)
+            metadata = sp.record(token_id=token_id, token_info=action.metadata)
+            self.data.token_metadata[token_id] = metadata
+            self.data.ledger[token_id] = action.to_
+            self.data.last_token_id += 1
 
 def core_test(craiyoNft):
 
@@ -46,21 +39,25 @@ def core_test(craiyoNft):
         sc.show([alice, bob])
         sc += craiyoNft
 
-        NFT0 = "Qmfoaksjdfoaksjdfokasjdofkija"
-        NFT1 = "QM09dsf9ij91i342j0sfd123hrsf0"
-        craiyoNft.mint(
+        NFT0 = FA2.make_metadata(
+            name     = "Example FA2",
+            decimals = 0,
+            symbol   = "EFA2" )
+        NFT1 = FA2.make_metadata(
+            name     = "Example FA2",
+            decimals = 0,
+            symbol   = "EFA2-2" )
+        craiyoNft.mint([
             sp.record(
-                to_  = alice.address,
-                cid = NFT0
-            )).run(sender = bob)
-        craiyoNft.mint(
+                to_  = alice.address, # Who will receive the original mint
+                metadata = NFT0
+            )]).run(sender = bob)
+        craiyoNft.mint([
             sp.record(
                 to_  = bob.address,
-                cid = NFT1
-            )).run(sender = alice)
+                metadata = NFT1
+            )]).run(sender = alice)
 
-        # viewing test for all cids
-        sc.show(craiyoNft.all_metadata_cids())
         sc.show(craiyoNft.token_metadata(1))
 
 if "templates" not in __name__:
