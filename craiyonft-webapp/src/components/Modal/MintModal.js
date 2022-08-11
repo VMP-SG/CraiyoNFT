@@ -13,8 +13,9 @@ import Spinner from "../Spinner";
 import Check from "../../assets/Check.svg";
 import Cross from "../../assets/Cross.svg";
 import RPC, { CONTRACTADDRESS, BACKENDADDRESS } from "../../constants/tezos";
-import { TezosToolkit, MichelsonMap } from "@taquito/taquito";
-import { char2Bytes } from '@taquito/utils';
+import { TezosToolkit } from "@taquito/taquito";
+// import { MichelsonMap } from "@taquito/taquito";
+// import { char2Bytes } from '@taquito/utils';
 
 const errorTypes = {
   insufficient: "insufficient",
