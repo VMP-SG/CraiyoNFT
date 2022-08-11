@@ -51,16 +51,16 @@ Description:
 Request Body:
 ```JSON
 {
-  "cid": "INSERT CID HERE"
+"cid": "INSERT CID HERE"
 }
 ```
 
 Response:  
 ```JSON
 {
-  "dateTime": "Wed, 10 Aug 2022 08:34:44 GMT",
-  "prompt": "flying chicken nugget with rice",
-  "images": ["6X BASE64 ENCODED IMAGES"]
+"dateTime": "Wed, 10 Aug 2022 08:34:44 GMT",
+"prompt": "flying chicken nugget with rice",
+"images": ["6X BASE64 ENCODED IMAGES"]
 }
 ```
 
@@ -72,24 +72,24 @@ Description:
 Request Body:
 ```JSON
 {
-  "cids": ["CID1", "CID2", "..."]
+"cids": ["CID1", "CID2", "..."]
 }
 ```
 
 Response:  
 ```JSON
 [
-  {
-    "dateTime": "...",
-    "prompt": "...",
-    "images": ["6X BASE64 ENCODED IMAGES"]
-  },
-  {
-    "dateTime": "...",
-    "prompt": "...",
-    "images": ["6X BASE64 ENCODED IMAGES"]
-  }
-  ...
+{
+"dateTime": "...",
+"prompt": "...",
+"images": ["6X BASE64 ENCODED IMAGES"]
+},
+{
+"dateTime": "...",
+"prompt": "...",
+"images": ["6X BASE64 ENCODED IMAGES"]
+}
+...
 ]
 ```
 
@@ -101,7 +101,7 @@ Description:
 Request Body:
 ```JSON
 {
-  "cid": "INSERT CID HERE"
+"cid": "INSERT CID HERE"
 }
 ```
 
@@ -118,7 +118,7 @@ Description:
 Request Body:
 ```JSON
 {
-  "prompt": "INSERT 5 WORD PROMPT HERE"
+"prompt": "INSERT 5 WORD PROMPT HERE"
 }
 ```
 
@@ -128,3 +128,12 @@ QmSzTPMHYNE9nTHmetWmBn8xvkaTFKWQtRRX3tKKjfHry7
 ```
 
 ## Smart Contract
+
+CraiyoNFT utilises a smart contract for the minting and reading of NFTs. 
+The smart contract is written in SmartPy, and deployed on Tezos Ghostnet.
+
+### Features
+
+The CraiyoNFT smart contract makes use of the FA2 library for upholding FA2 standard tokens.
+
+The smart contract is capable of minting additional tokens, and querying for all minted tokens with an off-chain view.
