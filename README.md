@@ -1,1 +1,139 @@
-# CraiyoNFT
+# CraiyoNFT Documentation
+
+CraiyoNFT was a project inspired by Craiyon. As a bunch of individuals interested in both Defi and Machine Learning, we decided to incorporate both of these elements together, and hence the CraiyoNFT marketplace was born. We are in no way affiliated with the creators of Craiyon.
+
+## CraiyoNFT Webapp
+
+The CraiyoNFT webapp is built using React. Simply install Node.js and node package dependencies to begin.
+
+```bash
+cd craiyonft-webapp/
+yarn install
+yarn start
+```
+
+The webapp will be running on [http://localhost:3000](http://localhost:3000) by default
+
+## CraiyoNFT Backend
+
+The CraiyoNFT backend is built using express.js and ipfs. Simply install Node.js and node package dependencies to begin.
+
+```bash
+cd backend/
+yarn install
+yarn start
+```
+
+The server will be running on [http://localhost:8080](http://localhost:8080) by default
+
+### Endpoints
+
+#### `GET /`
+
+Description:
+`Health Check to ensure that the server is up and running`
+
+Request Body:
+```
+-
+```
+
+Response:  
+```
+POST to /getdata or /getdatas or /getimage or /mintnft
+```
+
+#### `POST /getdata`
+
+Description:
+`Get NFT Data for a single CID`
+
+Request Body:
+```JSON
+{
+"cid": "INSERT CID HERE"
+}
+```
+
+Response:  
+```JSON
+{
+"dateTime": "Wed, 10 Aug 2022 08:34:44 GMT",
+"prompt": "flying chicken nugget with rice",
+"images": ["6X BASE64 ENCODED IMAGES"]
+}
+```
+
+#### `POST /getdatas`
+
+Description:
+`Get NFT Data for a multiple CIDs`
+
+Request Body:
+```JSON
+{
+"cids": ["CID1", "CID2", "..."]
+}
+```
+
+Response:  
+```JSON
+[
+{
+"dateTime": "...",
+"prompt": "...",
+"images": ["6X BASE64 ENCODED IMAGES"]
+},
+{
+"dateTime": "...",
+"prompt": "...",
+"images": ["6X BASE64 ENCODED IMAGES"]
+}
+...
+]
+```
+
+#### `POST /getimage`
+
+Description:
+`Get stitched 3D image for single NFT`
+
+Request Body:
+```JSON
+{
+"cid": "INSERT CID HERE"
+}
+```
+
+Response:  
+```
+Stitched Image
+```
+
+#### `POST /mintnft`
+
+Description:
+`Mint NFT with 5 word prompt`
+
+Request Body:
+```JSON
+{
+"prompt": "INSERT 5 WORD PROMPT HERE"
+}
+```
+
+Response:  
+```
+QmSzTPMHYNE9nTHmetWmBn8xvkaTFKWQtRRX3tKKjfHry7
+```
+
+## Smart Contract
+
+CraiyoNFT utilises a smart contract for the minting and reading of NFTs. 
+The smart contract is written in SmartPy, and deployed on Tezos Ghostnet.
+
+### Features
+
+The CraiyoNFT smart contract makes use of the FA2 library for upholding FA2 standard tokens.
+
+The smart contract is capable of minting additional tokens, and querying for all minted tokens with an off-chain view.

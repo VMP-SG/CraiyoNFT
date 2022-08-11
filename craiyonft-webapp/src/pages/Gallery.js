@@ -7,10 +7,14 @@ import CategoryChip from "../components/CategoryChip";
 import CategoryButton from "../components/CategoryButton";
 import SortDropdown from "../components/SortDropdown";
 import SORT from "../constants/sort";
+import { useLocation } from "react-router-dom";
 
 const Gallery = () => {
+  const location = useLocation();
   const [sort, setSort] = React.useState(SORT.DATE_ASC);
-  const [categoryList, setCategoryList] = React.useState([]);
+  const [categoryList, setCategoryList] = React.useState(
+    location.state ? [location.state.category] : []
+  );
   const [searchText, setSearchText] = React.useState("");
   const deleteChip = (text) => {
     const filteredCategoryList = categoryList.filter((item) => item !== text);
@@ -28,9 +32,9 @@ const Gallery = () => {
   });
   const compare =
     sort === SORT.DATE_ASC
-      ? (a, b) => a.cindex > b.cindex
+      ? (a, b) => a.cindex - b.cindex
       : sort === SORT.DATE_DES
-      ? (a, b) => a.cindex < b.cindex
+      ? (a, b) => b.cindex - a.cindex
       : sort === SORT.ALPHABETICAL_ASC
       ? (a, b) => a.name.localeCompare(b.name)
       : sort === SORT.ALPHABETICAL_DES
@@ -43,19 +47,15 @@ const Gallery = () => {
   const gallery = gallerytest
     ? gallerytest.data["collection"]
         .filter((item) =>
-          categoryList.every((category) => item.description.includes(category))
+          categoryList.every((category) =>
+            item.description.toLowerCase().includes(category.toLowerCase())
+          )
         )
         .sort((a, b) => compare(a, b))
         .map((item, i) => {
           return (
             <CardSpacing key={item.cindex}>
-              <NFTCard
-                name={item.name}
-                description={item.description}
-                id={item.cindex}
-                preview={item.preview}
-                address={item.address}
-              />
+              <NFTCard cid={item.cindex} />
             </CardSpacing>
           );
         })
@@ -64,7 +64,7 @@ const Gallery = () => {
     <div>
       {/*  text-[42.67px] leading-[58.28px] */}
       <MainLayout>
-        <main className="flex flex-col justify-center items-center font-primary">
+        <main className="flex flex-col justify-center items-center font-primary w-[1169.83px]">
           <div className="font-extrabold text-[24px] text-blue-dark font-primary mt-10 ml-2 self-start relative">
             <div className="absolute left-0 bottom-0 w-[50px] h-[12.67px] bg-[#FFB8DA] z-[-1]" />
             <p>Discover more NFTs</p>
