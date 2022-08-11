@@ -24,10 +24,10 @@ yarn start
 
 The server will be running on [http://localhost:8080](http://localhost:8080) by default
 
-###Endpoints
+### Endpoints
 
-`GET /`
+`GET /`. 
 Health Check to ensure that the server is up and running
 
-Response:
+Response:  
 `POST to /getdata or /getdatas or /getimage or /mintnft`
