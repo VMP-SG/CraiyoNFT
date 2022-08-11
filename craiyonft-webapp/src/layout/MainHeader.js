@@ -16,6 +16,7 @@ const MainHeader = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const address = useSelector(state => state.wallet.address);
+  const [wallet, setWallet] = useState(undefined);
   const [atContact, setAtContact] = useState(false);
   const [enteredContact, setEnteredContact] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
@@ -114,8 +115,10 @@ const MainHeader = () => {
       <WalletModal 
         setShowWallet={setShowWallet}
         showWallet={showWallet}
+        setWallet={setWallet}
+        wallet={wallet}
       />
-      <MintModal />
+      <MintModal wallet={wallet} />
     </nav>
   );
 };

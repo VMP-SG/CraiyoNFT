@@ -1,5 +1,8 @@
 import React from "react";
 import * as PANOLENS from "panolens";
+import axios from "axios";
+import Jimp from "jimp";
+
 import Lightning from "../assets/Lightning.svg";
 import OutlinedButton from "../components/OutlinedButton";
 import Modal from "../components/Modal/Modal";
@@ -7,13 +10,32 @@ import ModalImage from "../components/Modal/ModalImage";
 import ModalTextbox from "../components/Modal/ModalTextbox";
 import PrimaryButton from "../components/PrimaryButton";
 
-import background from "../assets/spaceship_edited.jpg";
+import huix from "../assets/huix.jpg";
+import stars from "../assets/stars_resized.png";
+// import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
 
-const NFTCard = ({ name, className, preview, id, description, address }) => {
+const NFTCard = ({ className, cid }) => {
+  const name = "Placeholder Name";
   const panoRef = React.useRef(null);
+  const [preview, setPreview] = React.useState(huix);
+  const [description, setDescription] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const [background, setBackground] = React.useState(stars);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
+  React.useEffect(() => {
+    axios.post("https://craiyonft.nghochi.xyz/getdata").then((res) => {
+      const data = res.data;
+      setPreview(Buffer.from(data.images[0], "base64"));
+      setDescription(data.prompt);
+      setDate(data.dateTime);
+    });
+    axios.post("https://craiyonft.nghochi.xyz/getimage").then((res) => {
+      const data = res.data;
+      setBackground(data);
+    });
+  }, []);
   React.useEffect(() => {
     const ctr = panoRef.current;
     if (!ctr) return;
@@ -40,8 +62,8 @@ const NFTCard = ({ name, className, preview, id, description, address }) => {
         <ModalTextbox label="Metadata" className="mt-[8px]">
           <p className="text-[10.67px] py-[8px]">{description}</p>
         </ModalTextbox>
-        <ModalTextbox label="Wallet Address" className="mt-[8px]">
-          <p className="text-[10.67px] py-[8px]">{address}</p>
+        <ModalTextbox label="Mint Date" className="mt-[8px]">
+          <p className="text-[10.67px] py-[8px]">{date}</p>
         </ModalTextbox>
         <PrimaryButton
           text="Explore NFT"
@@ -66,7 +88,7 @@ const NFTCard = ({ name, className, preview, id, description, address }) => {
             {name}
           </span>
           <span className="text-[8px] font-secondary text-gray-light leading-[10.42px]">
-            #{id.toString().padStart(4, "0")}
+            {cid.slice(0, 5) + "..."}
           </span>
         </div>
         <div className="mt-[6.46px] flex gap-[3px]">

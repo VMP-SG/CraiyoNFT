@@ -4,14 +4,14 @@ const utils = require("./utils");
 async function main() {
   const operator = await Operator.init();
   try {
-    // console.log(await mintNFTTest(operator));
+    console.log(await mintNFTTest(operator));
     // console.log(await generateTest(operator));
     // console.log(await storeTest(operator));
     // console.log(await storeMetaTest(operator));
     // console.log(await addTest(operator));
     // console.log(await addMetaTest(operator));
     // console.log(await readTest(operator));
-    console.log(await removeTest(operator));
+    // console.log(await removeTest(operator));
   } catch (error) {
     console.log(error);
   }
