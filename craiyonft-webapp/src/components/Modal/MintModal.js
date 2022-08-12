@@ -6,7 +6,7 @@ import Refresh from "../../assets/Refresh.svg";
 import Trash from "../../assets/Trash.svg";
 import Bear from "../../assets/placeholders/Bear.svg";
 import randomWords from "random-words";
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateMint } from "../../store/ui";
 import Spinner from "../Spinner";
@@ -15,6 +15,7 @@ import Cross from "../../assets/Cross.svg";
 import RPC, { CONTRACTADDRESS, BACKENDADDRESS } from "../../constants/tezos";
 import { TezosToolkit, MichelsonMap } from "@taquito/taquito";
 import { char2Bytes } from '@taquito/utils';
+import WalletContext from "../../store/context";
 
 const errorTypes = {
   insufficient: "insufficient",
@@ -28,8 +29,9 @@ const nftCreationStatus = {
   error: "error"
 }
 
-const MintModal = ({ wallet }) => {
+const MintModal = () => {
   const dispatch = useDispatch();
+  const { wallet } = useContext(WalletContext);
   const [time, setTime] = useState(180);
   const dateString = useMemo(() => {
     let date = new Date(0);

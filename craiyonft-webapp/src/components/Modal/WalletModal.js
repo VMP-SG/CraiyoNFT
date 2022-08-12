@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useContext } from "react";
 import Modal from "./Modal";
 import ModalTextbox from "./ModalTextbox";
 import ModalImage from "./ModalImage";
@@ -17,10 +17,12 @@ import { BeaconWallet } from "@taquito/beacon-wallet";
 import { NetworkType } from "@airgap/beacon-wallet";
 import { useNavigate } from "react-router-dom";
 import { updateAddress } from "../../store/wallet";
+import WalletContext from "../../store/context";
 
-const WalletModal = ({ showWallet, setShowWallet, setWallet, wallet }) => {
+const WalletModal = ({ showWallet, setShowWallet }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { wallet, setWallet } = useContext(WalletContext);
   const address = useSelector(state => state.wallet.address);
   const [tezosPrice, setTezosPrice] = useState(BN.ZERO);
   const [loadingBalance, setLoadingBalance] = useState(false);
