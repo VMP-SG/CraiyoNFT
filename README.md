@@ -149,7 +149,7 @@ QmSzTPMHYNE9nTHmetWmBn8xvkaTFKWQtRRX3tKKjfHry7
 
 CraiyoNFT utilises a smart contract for the minting and reading of NFTs. The smart contract is written in SmartPy, and deployed on Tezos Ghostnet.
 
-The smart contract address is [`KT1VDhUkMxipQvg6YmKaom2rikkbTjnWLAtU`](https://better-call.dev/ghostnet/KT1VDhUkMxipQvg6YmKaom2rikkbTjnWLAtU/operations).
+The smart contract address is [`KT1VDhUkMxipQvg6YmKaom2rikkbTjnWLAtU`](https://better-call.dev/ghostnet/KT1VDhUkMxipQvg6YmKaom2rikkbTjnWLAtU/operations). To read the smart contract in SmartPy, the file can also be found at `backend/smartpy/CraiyoNFT.py`.
 
 ### Features
 
