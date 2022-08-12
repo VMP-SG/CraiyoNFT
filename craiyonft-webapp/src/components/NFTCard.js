@@ -22,8 +22,9 @@ const NFTCard = ({ className, cid, preview, description, date, tokenId }) => {
   const [showModal, setShowModal] = React.useState(false);
   const [nftModalButtonContent, setNftModalButtonContent] = React.useState(<Spinner variant="light" />)
   const src = getImageString(preview);
-  if (description.length > 32) {
-    description = `${description.slice(0, 32)}...`;
+  let truncatedDescription = description;
+  if (truncatedDescription.length > 32) {
+    truncatedDescription = `${description.slice(0, 32)}...`;
   }
   React.useEffect(() => {
     if (showModal) {
@@ -93,7 +94,7 @@ const NFTCard = ({ className, cid, preview, description, date, tokenId }) => {
           </span>
         </div>
         <div className="mt-[6.46px] flex gap-[3px]">
-          <span className="text-[10px] leading-[13.66px]">{description}</span>
+          <span className="text-[10px] leading-[13.66px]">{truncatedDescription}</span>
           <img src={Lightning} alt="Logo" height="12.36px" />
         </div>
         <OutlinedButton
