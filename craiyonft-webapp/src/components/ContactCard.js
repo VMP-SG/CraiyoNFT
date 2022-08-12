@@ -9,8 +9,7 @@ const ContactCard = ({ image }) => {
   const [sentMessage, setSentMessage] = useState(false);
   const form = useRef();
   const contactHandler = (e) => {
-    e.preventDefault();
-    console.log(process.env);  
+    e.preventDefault();  
     setButtonContent(<Spinner variant="light" />);
     // setTimeout(() => {
     //   setButtonContent(<p>Contact Us</p>);
