@@ -10,7 +10,6 @@ import { capitalise, getImageString } from "../utils/string";
 import Lightning from "../assets/Lightning.svg";
 
 const CategoryCard = ({ category, data }) => {
-  console.log(data);
   const navigate = useNavigate();
   const exploreCategoryHandler = () => {
     navigate(
@@ -29,10 +28,6 @@ const CategoryCard = ({ category, data }) => {
       <p className="mt-[9.57px] text-[14px] leading-[19.12px] text-blue-dark font-bold">{capitalise(category)}</p>
       <Divider className="mt-[7.56px]" />
       <div className="mt-[10.56px] w-[93px] flex items-center gap-[4px]">
-        {/* <div>
-          <p className="font-extrabold text-[12.67px] leading-[17.3px] text-gray-dark">480k+</p>
-          <p className="font-secondary text-[9.33px] leading-[12.15px] text-gray-light">Owners</p>
-        </div> */}
           <p className="font-extrabold text-[12.67px] leading-[17.3px] text-gray-dark">{data.length}</p>
           <p className="font-secondary text-[10px] leading-[12.15px] text-gray-light">Items</p>
           <img src={Lightning} alt="Logo" height="12.36px" />
