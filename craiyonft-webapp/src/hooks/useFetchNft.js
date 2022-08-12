@@ -20,8 +20,10 @@ const useFetchNft = (address = undefined) => {
       const nftArray = Array.from(nftMetaData.valueMap.values());
       const cidArray = [];
       nftArray.forEach((nft) => {
-        const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
-        cidArray.push(bytes2Char(nftCIDBytes));
+        if (nft !== undefined) {
+          const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
+          cidArray.push(bytes2Char(nftCIDBytes));
+        }
       });
       // checking with localstorage
       let rawCache = localStorage.getItem(localStorageKeys.nftData);
@@ -67,10 +69,11 @@ const useFetchNft = (address = undefined) => {
       const nftArray = Array.from(nftMetaData.valueMap.values());
       const cidArray = [];
       nftArray.forEach((nft) => {
-        const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
-        cidArray.push(bytes2Char(nftCIDBytes));
+        if (nft !== undefined) {
+          const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
+          cidArray.push(bytes2Char(nftCIDBytes));
+        }
       });
-
       let rawCache = localStorage.getItem(localStorageKeys.nftData);
       rawCache = rawCache === "undefined" ? "[]" : rawCache;
       let cachedNftData = JSON.parse(rawCache);
