@@ -59,7 +59,8 @@ app.post("/getdatas", async (req, res) => {
     console.log(`received cid: ${cid}`);
     try {
       const log = await operator.getData(cid);
-      data.push(log);
+      const logWithCid = {cid, ...log};
+      data.push(logWithCid);
     } catch (error) {
       console.error(error);
     }

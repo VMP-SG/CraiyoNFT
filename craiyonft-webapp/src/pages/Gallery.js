@@ -1,6 +1,7 @@
-import React, { useMemo, useEffect } from "react";
+import React from "react";
 import MainLayout from "../layout/MainLayout";
-import gallerytest from "../testdata/gallery.json";
+import useFetchNft from "../hooks/useFetchNft";
+// import gallerytest from "../testdata/gallery.json";
 import NFTCard from "../components/NFTCard";
 import CardSpacing from "../components/spacings/CardSpacing";
 import CategoryChip from "../components/CategoryChip";
@@ -8,13 +9,13 @@ import CategoryButton from "../components/CategoryButton";
 import SortDropdown from "../components/SortDropdown";
 import SORT from "../constants/sort";
 import { useLocation } from "react-router-dom";
-import RPC, { CONTRACTADDRESS } from "../constants/tezos";
-import { TezosToolkit } from "@taquito/taquito";
-import { bytes2Char } from "@taquito/utils";
+import Cross from "../assets/Cross.svg";
+import Spinner from "../components/Spinner";
 
 const Gallery = () => {
   const location = useLocation();
   const [sort, setSort] = React.useState(SORT.DATE_ASC);
+  const galleryData = useFetchNft();
   const [categoryList, setCategoryList] = React.useState(
     location.state ? [location.state.category] : []
   );
@@ -23,28 +24,6 @@ const Gallery = () => {
     const filteredCategoryList = categoryList.filter((item) => item !== text);
     setCategoryList(filteredCategoryList);
   };
-
-  const Tezos = useMemo(() => {
-    return new TezosToolkit(RPC.GHOSTNET);
-  }, []);
-
-  useEffect(() => {
-    const contractInteraction = async () => {
-      const contract = await Tezos.wallet.at(CONTRACTADDRESS);
-      const contractStorage = await contract.storage();
-      const nftCount = await contractStorage.last_token_id.toNumber();
-      const nftDataArg = [...Array(nftCount).keys()];
-      const nftData = await contractStorage.token_metadata.getMultipleValues(
-        nftDataArg
-      );
-      const nftArray = Array.from(nftData.valueMap.values());
-      nftArray.forEach((nft) => {
-        const nftCIDBytes = nft.token_info.valueMap.get('"metadata_cid"');
-        console.log(bytes2Char(nftCIDBytes));
-      });
-    };
-    contractInteraction();
-  }, [Tezos]);
 
   const categoryChipList = categoryList.map((category, index) => {
     return (
@@ -64,14 +43,14 @@ const Gallery = () => {
       : sort === SORT.ALPHABETICAL_ASC
       ? (a, b) => a.prompt.localeCompare(b.prompt)
       : sort === SORT.ALPHABETICAL_DES
-      ? (a, b) => b.prompt.localeCompare(a.prompt)
-      : // : sort === SORT.ADDRESS_ASC
-        // ? (a, b) => b.address.localeCompare(a.address)
-        // : sort === SORT.ADDRESS_DES
-        // ? (a, b) => b.address.localeCompare(a.address)
-        null;
-  const gallery = gallerytest
-    ? gallerytest
+      ? (a, b) => b.name.localeCompare(a.prompt)
+      // : sort === SORT.ADDRESS_ASC
+      // ? (a, b) => b.address.localeCompare(a.address)
+      // : sort === SORT.ADDRESS_DES
+      // ? (a, b) => b.address.localeCompare(a.address)
+      : null;
+  const gallery = galleryData
+    ? galleryData
         .filter((item) =>
           categoryList.every((category) =>
             item.prompt.toLowerCase().includes(category.toLowerCase())
@@ -80,12 +59,12 @@ const Gallery = () => {
         .sort((a, b) => compare(a, b))
         .map((item, i) => {
           return (
-            <CardSpacing key={item.cid}>
-              <NFTCard
-                cid={item.cid}
+            <CardSpacing key={i}>
+              <NFTCard 
+                cid={item.cid} 
+                preview={item.images[0]} 
+                description={item.prompt}
                 date={item.dateTime}
-                prompt={item.prompt}
-                preview={item.images[0]}
               />
             </CardSpacing>
           );
@@ -114,15 +93,24 @@ const Gallery = () => {
             </div>
             <SortDropdown text={`Sort by: ${sort}`} setSort={setSort} />
           </div>
-          <div className="grid grid-cols-5">
-            {gallery.length > 0 ? (
-              gallery
-            ) : (
-              <p className="flex flex-col justify-center items-center font-primary ml-2">
+          {
+            gallery === null ? 
+            <section className="flex flex-col items-center mt-16 gap-4 mb-10">
+              <Spinner className="h-16" />
+              <p className="flex flex-col justify-center items-center font-primary ml-2 text-xl font-bold">
+                Loading NFTs...
+              </p>
+            </section> : gallery.length > 0 ?
+            <section className="grid grid-cols-5">
+              {gallery}
+            </section> :
+            <section className="flex flex-col items-center mt-16 gap-4 mb-10">
+              <img src={Cross} alt="Cross" width="64px" className="animate-pulse"/>
+              <p className="flex flex-col justify-center items-center font-primary ml-2 text-xl font-bold">
                 There are no NFTs with such specifications.
               </p>
-            )}
-          </div>
+            </section>
+          }
         </main>
       </MainLayout>
     </div>

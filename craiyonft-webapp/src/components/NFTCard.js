@@ -9,17 +9,21 @@ import ModalImage from "../components/Modal/ModalImage";
 import ModalTextbox from "../components/Modal/ModalTextbox";
 import PrimaryButton from "../components/PrimaryButton";
 
+import stars from "../assets/stars_resized.png";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
+import { BACKENDADDRESS } from "../constants/tezos";
 
-const NFTCard = ({ preview, prompt, date, className, cid }) => {
+const NFTCard = ({ className, cid, preview, description, date }) => {
   const name = "Placeholder Name";
   const panoRef = React.useRef(null);
+  const [background, setBackground] = React.useState(stars);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
   React.useEffect(() => {
-    axios
-      .post("https://craiyonft-backend-3apmyxpbda-uc.a.run.app/getimage", {
+    if (showModal) {
+      axios
+      .post(BACKENDADDRESS + "/getimage", {
         cid: cid,
       })
       .then((res) => {
@@ -36,7 +40,22 @@ const NFTCard = ({ preview, prompt, date, className, cid }) => {
           viewer.add(panorama);
         }
       });
-  }, [c, cid]);
+    }
+  }, [showModal, cid, c]);
+
+  React.useEffect(() => {
+    const ctr = panoRef.current;
+    if (!ctr) return;
+    if (!c) {
+      setC(ctr);
+      const panorama = new PANOLENS.ImagePanorama(background);
+      const viewer = new PANOLENS.Viewer({
+        container: ctr,
+      });
+      viewer.add(panorama);
+    }
+  }, [c, background]);
+
   return (
     <div>
       <div ref={panoRef} className="max-h-0 max-w-0 childdivsdisplaynone" />
