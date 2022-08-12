@@ -20,5 +20,5 @@ export const getMostCommonCategories = (nftData) => {
 }
 
 export const getCategoryNFTs = (nftData, category) => {
-  return nftData.filter((nft) => nft.prompt.includes(category));
+  return nftData.filter((nft) => nft.prompt.split(" ").includes(category));
 }
