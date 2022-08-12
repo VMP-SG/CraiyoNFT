@@ -68,6 +68,7 @@ const useFetchNft = (address = undefined) => {
           tokenIds.push(key);
         }
       }
+
       const nftMetaData = await contractStorage.token_metadata.getMultipleValues(tokenIds);
       const nftArray = Array.from(nftMetaData.valueMap.values());
       const idArray = [];
@@ -78,11 +79,12 @@ const useFetchNft = (address = undefined) => {
         }
       });
 
+
       let rawCache = localStorage.getItem(localStorageKeys.nftData);
       rawCache = rawCache === "undefined" ? "[]" : rawCache;
       let cachedNftData = JSON.parse(rawCache);
       cachedNftData = cachedNftData === null ? [] : cachedNftData;
-      const cachedUserNftData = cachedNftData.filter((cachedNft) => !idArray.some((id) => cachedNft.cid === id.cid));
+      const cachedUserNftData = cachedNftData.filter((cachedNft) => idArray.some((id) => cachedNft.cid === id.cid));
       const filteredArray = idArray.filter((id) => !cachedNftData.some((cachednft) => cachednft.cid === id.cid));
 
       let combinedNftData = cachedUserNftData;

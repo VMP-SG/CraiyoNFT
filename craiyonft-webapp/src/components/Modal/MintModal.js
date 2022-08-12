@@ -96,7 +96,7 @@ const MintModal = ({ wallet }) => {
       setCreatingNFTStatus(nftCreationStatus.inProgress);
       setCreatingNFTText("Creating NFT...");
       try {
-        Tezos.setProvider({ wallet });
+        Tezos.setWalletProvider({ wallet });
         const content = {
           method: "POST",
           headers: {
