@@ -105,7 +105,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
           </span>
         </div>
         <div className="mt-[6.46px] flex gap-[3px]">
-          <span className="text-[10px] leading-[13.66px]">{prompt}</span>
+          <span className="text-[10px] leading-[13.66px]">{description}</span>
           <img src={Lightning} alt="Logo" height="12.36px" />
         </div>
         <OutlinedButton
