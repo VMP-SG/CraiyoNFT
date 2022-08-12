@@ -41,35 +41,31 @@ const Home = () => {
           </section>
           <section className="mt-[39.1px] h-[443.51px] w-[1070.91px] relative">
             <NFTCard
-              name={"Bob Ali Muthu Curry"}
               className="rotate-[-0.9deg] absolute left-[1rem] top-[1rem] scale-110 animate-pulse z-20 hover:animate-none"
               preview={Lamb}
               cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              description="Sheep Coffee Cap Green Horns"
+              prompt="Sheep Coffee Cap Green Horns"
               address="tz218937132"
             />
             <NFTCard
-              name={"Bob Ali Muthu Curry"}
               className="rotate-[9.98deg] absolute left-[17rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
               preview={Robot}
               cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              description="Robot Candle Needle Blow Orange"
+              prompt="Robot Candle Needle Blow Orange"
               address="tz218937132"
             />
             <NFTCard
-              name={"Bob Ali Muthu Curry"}
               className="rotate-[0.38deg] absolute right-[18rem] bottom-12 scale-110 animate-pulse z-20 hover:animate-none"
               preview={Bird}
               cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              description="Gray Bird Headphones Machine Sky"
+              prompt="Gray Bird Headphones Machine Sky"
               address="tz218937132"
             />
             <NFTCard
-              name={"Bob Ali Muthu Curry"}
               className="rotate-[8.62deg] absolute right-[2rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
               preview={Cloud}
               cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              description="3D Cloud Hat Ethereum Rainbow"
+              prompt="3D Cloud Hat Ethereum Rainbow"
               address="tz218937132"
             />
           </section>

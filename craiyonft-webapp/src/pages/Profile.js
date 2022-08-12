@@ -35,33 +35,32 @@ const Profile = () => {
   });
   const compare =
     sort === SORT.DATE_ASC
-      ? (a, b) => a.cindex - b.cindex
+      ? (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
       : sort === SORT.DATE_DES
-      ? (a, b) => b.cindex - a.cindex
+      ? (a, b) => new Date(b.dateTime) - new Date(a.dateTime)
       : sort === SORT.ALPHABETICAL_ASC
-      ? (a, b) => a.name.localeCompare(b.name)
+      ? (a, b) => a.prompt.localeCompare(b.prompt)
       : sort === SORT.ALPHABETICAL_DES
-      ? (a, b) => b.name.localeCompare(a.name)
-      : sort === SORT.ADDRESS_ASC
-      ? (a, b) => b.address.localeCompare(a.address)
-      : sort === SORT.ADDRESS_DES
-      ? (a, b) => b.address.localeCompare(a.address)
-      : null;
+      ? (a, b) => b.prompt.localeCompare(a.prompt)
+      : // : sort === SORT.ADDRESS_ASC
+        // ? (a, b) => b.address.localeCompare(a.address)
+        // : sort === SORT.ADDRESS_DES
+        // ? (a, b) => b.address.localeCompare(a.address)
+        null;
   const data = profiletest
-    ? profiletest.data
+    ? profiletest
         .filter((item) =>
-          categoryList.every((category) => item.description.includes(category))
+          categoryList.every((category) => item.prompt.includes(category))
         )
         .sort((a, b) => compare(a, b))
         .map((item, i) => {
           return (
             <CardSpacing key={item.cindex}>
               <NFTCard
-                name={item.name}
-                description={item.description}
-                id={item.cindex}
-                preview={item.preview}
-                address={item.address}
+                cid={item.cid}
+                date={item.dateTime}
+                prompt={item.prompt}
+                preview={item.images[0]}
               />
             </CardSpacing>
           );

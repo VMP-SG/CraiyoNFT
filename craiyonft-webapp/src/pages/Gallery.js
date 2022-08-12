@@ -29,20 +29,22 @@ const Gallery = () => {
   }, []);
 
   useEffect(() => {
-    const contractInteraction = async() => {
+    const contractInteraction = async () => {
       const contract = await Tezos.wallet.at(CONTRACTADDRESS);
       const contractStorage = await contract.storage();
       const nftCount = await contractStorage.last_token_id.toNumber();
       const nftDataArg = [...Array(nftCount).keys()];
-      const nftData = await contractStorage.token_metadata.getMultipleValues(nftDataArg);
+      const nftData = await contractStorage.token_metadata.getMultipleValues(
+        nftDataArg
+      );
       const nftArray = Array.from(nftData.valueMap.values());
       nftArray.forEach((nft) => {
-        const nftCIDBytes = nft.token_info.valueMap.get("\"metadata_cid\"");
-        console.log(bytes2Char(nftCIDBytes))
+        const nftCIDBytes = nft.token_info.valueMap.get('"metadata_cid"');
+        console.log(bytes2Char(nftCIDBytes));
       });
-    }
+    };
     contractInteraction();
-  },[Tezos]);
+  }, [Tezos]);
 
   const categoryChipList = categoryList.map((category, index) => {
     return (
@@ -56,30 +58,35 @@ const Gallery = () => {
   });
   const compare =
     sort === SORT.DATE_ASC
-      ? (a, b) => a.cindex - b.cindex
+      ? (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
       : sort === SORT.DATE_DES
-      ? (a, b) => b.cindex - a.cindex
+      ? (a, b) => new Date(b.dateTime) - new Date(a.dateTime)
       : sort === SORT.ALPHABETICAL_ASC
-      ? (a, b) => a.name.localeCompare(b.name)
+      ? (a, b) => a.prompt.localeCompare(b.prompt)
       : sort === SORT.ALPHABETICAL_DES
-      ? (a, b) => b.name.localeCompare(a.name)
-      : sort === SORT.ADDRESS_ASC
-      ? (a, b) => b.address.localeCompare(a.address)
-      : sort === SORT.ADDRESS_DES
-      ? (a, b) => b.address.localeCompare(a.address)
-      : null;
+      ? (a, b) => b.prompt.localeCompare(a.prompt)
+      : // : sort === SORT.ADDRESS_ASC
+        // ? (a, b) => b.address.localeCompare(a.address)
+        // : sort === SORT.ADDRESS_DES
+        // ? (a, b) => b.address.localeCompare(a.address)
+        null;
   const gallery = gallerytest
-    ? gallerytest.data["collection"]
+    ? gallerytest
         .filter((item) =>
           categoryList.every((category) =>
-            item.description.toLowerCase().includes(category.toLowerCase())
+            item.prompt.toLowerCase().includes(category.toLowerCase())
           )
         )
         .sort((a, b) => compare(a, b))
         .map((item, i) => {
           return (
-            <CardSpacing key={item.cindex}>
-              <NFTCard cid={item.cindex} />
+            <CardSpacing key={item.cid}>
+              <NFTCard
+                cid={item.cid}
+                date={item.dateTime}
+                prompt={item.prompt}
+                preview={item.images[0]}
+              />
             </CardSpacing>
           );
         })
