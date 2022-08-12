@@ -13,6 +13,7 @@ import stars from "../assets/stars_resized.png";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
 import { BACKENDADDRESS } from "../constants/tezos";
+import { getImageString } from "../utils/string";
 
 const NFTCard = ({ className, cid, preview, description, date }) => {
   const name = "Placeholder Name";
@@ -20,8 +21,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
   const [background, setBackground] = React.useState(stars);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
-  console.log(preview);
-  const src = preview.startsWith("/9j/") ? `data:image/jpeg;base64,${preview}` : preview;
+  const src = getImageString(preview);
   React.useEffect(() => {
     if (showModal) {
       axios
@@ -30,7 +30,6 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
         })
         .then((res) => {
           const im = res.data.image;
-          console.log(im);
           setBackground(im);
         });
     }

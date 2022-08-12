@@ -10,6 +10,7 @@ import CategoryCard from "../components/CategoryCard";
 import FooterArrow from "../assets/FooterArrow.svg";
 import FooterEmphasis from "../assets/FooterEmphasis.svg";
 import { useNavigate } from "react-router-dom";
+import { getMostCommonCategories, getCategoryNFTs } from "../utils/nft";
 import useFetchNft from "../hooks/useFetchNft";
 import P from "../constants/paths";
 
@@ -45,6 +46,7 @@ const Home = () => {
   const fetchedNftData = useFetchNft();
   const nftData = fetchedNftData === undefined ? dummyNftData : fetchedNftData;
   const nftDataLength = nftData.length;
+  const categoryArray = getMostCommonCategories(nftData);
   const contactUsHandler = () => {
     navigate(P.PATH_ABOUT, { state: { location: "contact" } });
   };
@@ -106,11 +108,9 @@ const Home = () => {
               <p>Browse by category</p>
             </div>
             <div className="flex gap-[18.13px] mt-[32.33px] relative">
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
+              {
+                categoryArray.map((category, i) => <CategoryCard key={i} category={category} data={getCategoryNFTs(nftData, category)}/>)
+              }
             </div>
           </section>
           <section>
