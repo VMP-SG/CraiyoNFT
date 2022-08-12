@@ -23,7 +23,6 @@ const Profile = () => {
   const [searchParams] = useSearchParams();
   const address = searchParams.get("address");
   const profileData = useFetchNft(address);
-  // const profileData = null;
   const deleteChip = (text) => {
     const filteredCategoryList = categoryList.filter((item) => item !== text);
     setCategoryList(filteredCategoryList);
@@ -84,7 +83,7 @@ const Profile = () => {
             <section className="mt-[40px] text-[18.67px] font-semibold leading-[25.5px]">
               <p>{address}</p>
               <p className="mt-[4px] flex leading-[16.39px] justify-center text-[12px]">
-                <span className="text-primary">10</span>
+                <span className="text-primary">{profileData ? profileData.length : 0}</span>
                 <span className="text-gray">&nbsp;ITEMS</span>
                 <img src={VerifiedCheck} alt="Check" className="ml-[3px]" />
               </p>

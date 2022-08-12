@@ -20,6 +20,8 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
   const [background, setBackground] = React.useState(stars);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
+  console.log(preview);
+  const src = preview.startsWith("/9j/") ? `data:image/jpeg;base64,${preview}` : preview;
   React.useEffect(() => {
     if (showModal) {
       axios
@@ -56,7 +58,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
         open={showModal}
       >
         <ModalImage
-          src={`data:image/jpeg;base64,${preview}`}
+          src={src}
           className="mt-[16px]"
         />
         <ModalTextbox label="Metadata" className="mt-[8px]">
@@ -77,7 +79,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
         className={`w-[223.96px] h-[311.36px] bg-white border-gray-dark border ${className} rounded-[6px] pt-[12.81px] pl-[12.85px] pr-[13.3px] pb-[15.21px] font-primary hover:border-2`}
       >
         <img
-          src={`data:image/jpeg;base64,${preview}`}
+          src={src}
           height="197.8"
           width="100%"
           className="rounded-[5.62887px]"
