@@ -9,53 +9,40 @@ import ModalImage from "../components/Modal/ModalImage";
 import ModalTextbox from "../components/Modal/ModalTextbox";
 import PrimaryButton from "../components/PrimaryButton";
 
-import huix from "../assets/huix.jpg";
-import stars from "../assets/stars_resized.png";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
+import { BACKENDADDRESS } from "../constants/tezos";
+import { getImageString } from "../utils/string";
 
-const NFTCard = ({ className, cid }) => {
+const NFTCard = ({ className, cid, preview, description, date }) => {
   const name = "Placeholder Name";
   const panoRef = React.useRef(null);
-  const [preview, setPreview] = React.useState(huix);
-  const [description, setDescription] = React.useState("");
-  const [date, setDate] = React.useState("");
-  const [background, setBackground] = React.useState(stars);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
+  const src = getImageString(preview);
   React.useEffect(() => {
-    axios
-      .post("https://craiyonft-backend-3apmyxpbda-uc.a.run.app/getdata", {
-        cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
-      })
-      .then((res) => {
-        const data = res.data;
-        console.log(data);
-        setPreview(data.images[0]);
-        setDescription(data.prompt);
-        setDate(data.dateTime);
-      });
-    axios
-      .post("https://craiyonft-backend-3apmyxpbda-uc.a.run.app/getimage", {
-        cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
-      })
-      .then((res) => {
-        const im = res.data.image;
-        setBackground(im);
-      });
-  }, []);
-  React.useEffect(() => {
-    const ctr = panoRef.current;
-    if (!ctr) return;
-    if (!c) {
-      setC(ctr);
-      const panorama = new PANOLENS.ImagePanorama(background);
-      const viewer = new PANOLENS.Viewer({
-        container: ctr,
-      });
-      viewer.add(panorama);
+    if (showModal) {
+      axios
+        .post(BACKENDADDRESS + "/getimage", {
+          cid: cid,
+        })
+        .then((res) => {
+          const im = res.data.image;
+          console.log(im);
+          const ctr = panoRef.current;
+          if (!ctr) return;
+          if (!c) {
+            setC(ctr);
+            const panorama = new PANOLENS.ImagePanorama(im);
+            const viewer = new PANOLENS.Viewer({
+              container: ctr,
+            });
+            viewer.add(panorama);
+          }
+        });
     }
-  }, [c, background]);
+  }, [showModal, cid, c]);
+
   return (
     <div>
       <div ref={panoRef} className="max-h-0 max-w-0 childdivsdisplaynone" />
@@ -66,10 +53,7 @@ const NFTCard = ({ className, cid }) => {
         }}
         open={showModal}
       >
-        <ModalImage
-          src={`data:image/jpeg;base64,${preview}`}
-          className="mt-[16px]"
-        />
+        <ModalImage src={src} className="mt-[16px]" />
         <ModalTextbox label="Metadata" className="mt-[8px]">
           <p className="text-[10.67px] py-[8px]">{description}</p>
         </ModalTextbox>
@@ -88,7 +72,7 @@ const NFTCard = ({ className, cid }) => {
         className={`w-[223.96px] h-[311.36px] bg-white border-gray-dark border ${className} rounded-[6px] pt-[12.81px] pl-[12.85px] pr-[13.3px] pb-[15.21px] font-primary hover:border-2`}
       >
         <img
-          src={`data:image/jpeg;base64,${preview}`}
+          src={src}
           height="197.8"
           width="100%"
           className="rounded-[5.62887px]"

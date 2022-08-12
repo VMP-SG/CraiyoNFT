@@ -26,6 +26,14 @@ yarn start
 
 The server will be running on [http://localhost:8080](http://localhost:8080) by default
 
+### IPFS
+
+After generating the images with a Craiyon API, the files are stored using the IPFS system.
+
+When starting the server, an IPFS node will be started and will sync with the network. This node serves as the intermediary for our read and write operations on the file system. An operator is then used to execute methods specific to our usage at CraiyoNFT, for storing of images, token metadata, and retrieval of data.
+
+The IPFS code and methods should, in most circumstances, not be called directly by users unless through our webapp.
+
 ### Endpoints
 
 #### `GET /`
@@ -34,11 +42,13 @@ Description:
 `Health Check to ensure that the server is up and running`
 
 Request Body:
+
 ```
 -
 ```
 
-Response:  
+Response:
+
 ```
 POST to /getdata or /getdatas or /getimage or /mintnft
 ```
@@ -49,13 +59,15 @@ Description:
 `Get NFT Data for a single CID`
 
 Request Body:
+
 ```JSON
 {
 "cid": "INSERT CID HERE"
 }
 ```
 
-Response:  
+Response:
+
 ```JSON
 {
 "dateTime": "Wed, 10 Aug 2022 08:34:44 GMT",
@@ -70,13 +82,15 @@ Description:
 `Get NFT Data for a multiple CIDs`
 
 Request Body:
+
 ```JSON
 {
 "cids": ["CID1", "CID2", "..."]
 }
 ```
 
-Response:  
+Response:
+
 ```JSON
 [
 {
@@ -99,13 +113,15 @@ Description:
 `Get stitched 3D image for single NFT`
 
 Request Body:
+
 ```JSON
 {
 "cid": "INSERT CID HERE"
 }
 ```
 
-Response:  
+Response:
+
 ```
 Stitched Image
 ```
@@ -116,21 +132,22 @@ Description:
 `Mint NFT with 5 word prompt`
 
 Request Body:
+
 ```JSON
 {
 "prompt": "INSERT 5 WORD PROMPT HERE"
 }
 ```
 
-Response:  
+Response:
+
 ```
 QmSzTPMHYNE9nTHmetWmBn8xvkaTFKWQtRRX3tKKjfHry7
 ```
 
 ## Smart Contract
 
-CraiyoNFT utilises a smart contract for the minting and reading of NFTs. 
-The smart contract is written in SmartPy, and deployed on Tezos Ghostnet.
+CraiyoNFT utilises a smart contract for the minting and reading of NFTs. The smart contract is written in SmartPy, and deployed on Tezos Ghostnet.
 
 ### Features
 

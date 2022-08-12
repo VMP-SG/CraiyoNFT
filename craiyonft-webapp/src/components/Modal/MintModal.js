@@ -13,9 +13,8 @@ import Spinner from "../Spinner";
 import Check from "../../assets/Check.svg";
 import Cross from "../../assets/Cross.svg";
 import RPC, { CONTRACTADDRESS, BACKENDADDRESS } from "../../constants/tezos";
-import { TezosToolkit } from "@taquito/taquito";
-// import { MichelsonMap } from "@taquito/taquito";
-// import { char2Bytes } from '@taquito/utils';
+import { TezosToolkit, MichelsonMap } from "@taquito/taquito";
+import { char2Bytes } from '@taquito/utils';
 
 const errorTypes = {
   insufficient: "insufficient",
@@ -114,14 +113,13 @@ const MintModal = ({ wallet }) => {
         if (!cid) {
           throw new Error("No CID returned");
         }
-        console.log(typeof address, address);
         setCreatingNFTText("Initiating Transaction...");
         Tezos.setProvider({ wallet });
         const contract = await Tezos.wallet.at(CONTRACTADDRESS);
-        // const metadata = MichelsonMap.fromLiteral({
-          // cid: char2Bytes(cid),
-        // });
-        const op = contract.methods.mint(address, cid).send();
+        const metadata = MichelsonMap.fromLiteral({
+          cid: char2Bytes(cid),
+        });
+        const op = await contract.methods.mint([{ to_: address, metadata }]).send();
         await op.confirmation();
         setCreatingNFTStatus(nftCreationStatus.done);
       } catch (error) {
@@ -174,7 +172,6 @@ const MintModal = ({ wallet }) => {
     >
       <div className="flex justify-center flex-col mt-[16px]">
         <img src={error ? Cross : Check} alt="Check" width="64px" className={`m-auto ${error ? undefined : "m-auto animate-bounce"}`} />
-        <p className="text-sm text-center mt-[16px] font-extrabold">{creatingNFTText}</p>
         <p className="text-sm text-center font-extrabold">{error ? "An error was encountered." : "Your NFT has been minted!"}</p>
       </div>
     </Modal>

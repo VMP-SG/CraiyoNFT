@@ -31,9 +31,13 @@ app.post("/mintnft", async (req, res) => {
     const prompt = req.body.prompt;
     console.log(`received prompt: ${prompt}`);
     const log = await operator.mintNFT(prompt);
+    if (log === undefined) {
+      throw new Error("Undefined CID");
+    }
     res.send(log.toString());
     console.log(`mintnft request closed with cid of ${log}`);
   } catch (error) {
+    res.send("");
     console.error(error);
   }
 });
@@ -59,7 +63,8 @@ app.post("/getdatas", async (req, res) => {
     console.log(`received cid: ${cid}`);
     try {
       const log = await operator.getData(cid);
-      data.push(log);
+      const logWithCid = {cid, ...log};
+      data.push(logWithCid);
     } catch (error) {
       console.error(error);
     }
