@@ -1,8 +1,8 @@
 {
-  "name": "crainyoNFT-backend",
-  "version": "0.1.0",
-  "description": "js-ipfs and dall-e server for craiyoNFT",
-  "main": "index.js",
+  "name": "craiyonft-backend",
+  "version": "1.0.0",
+  "description": "js-ipfs server for craiyoNFT",
+  "main": "app.js",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.27.2",
@@ -13,5 +13,8 @@
     "jimp": "^0.16.1",
     "json-bigint": "^1.0.0",
     "node-fetch": "2.6.1"
+  },
+  "scripts": {
+    "start": "node app.js"
   }
 }

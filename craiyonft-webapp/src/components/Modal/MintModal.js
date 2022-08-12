@@ -96,6 +96,7 @@ const MintModal = ({ wallet }) => {
       setCreatingNFTStatus(nftCreationStatus.inProgress);
       setCreatingNFTText("Creating NFT...");
       try {
+        Tezos.setProvider({ wallet });
         const content = {
           method: "POST",
           headers: {
@@ -113,7 +114,6 @@ const MintModal = ({ wallet }) => {
           throw new Error("No CID returned");
         }
         setCreatingNFTText("Initiating Transaction...");
-        Tezos.setProvider({ wallet });
         const contract = await Tezos.wallet.at(CONTRACTADDRESS);
         const metadata = MichelsonMap.fromLiteral({
           cid: char2Bytes(cid),

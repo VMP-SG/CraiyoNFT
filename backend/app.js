@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 8080;
+const port = parseInt(process.env.PORT) || 8080;
 const Jimp = require("jimp");
 const axios = require("axios");
 
@@ -18,6 +18,7 @@ const { Operator } = require("./operator");
 let operator;
 Operator.init().then((result) => {
   operator = result;
+  console.log("Operator running");
 });
 
 const logIP = (req) => {

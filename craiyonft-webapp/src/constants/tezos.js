@@ -4,8 +4,8 @@ const RPC = {
 }
 
 export const CONTRACTADDRESS = "KT1VDhUkMxipQvg6YmKaom2rikkbTjnWLAtU";
-// export const BACKENDADDRESS = "https://craiyonft-backend-3apmyxpbda-uc.a.run.app";
-export const BACKENDADDRESS = "https://1174-219-75-72-115.ap.ngrok.io";
+export const BACKENDADDRESS = "https://craiyonft-backend-3apmyxpbda-uc.a.run.app";
+// export const BACKENDADDRESS = "https://1174-219-75-72-115.ap.ngrok.io";
 
 export const localStorageKeys = {
     nftData: "craiyonft:nftdata"
