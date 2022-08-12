@@ -9,7 +9,6 @@ import ModalImage from "../components/Modal/ModalImage";
 import ModalTextbox from "../components/Modal/ModalTextbox";
 import PrimaryButton from "../components/PrimaryButton";
 
-import stars from "../assets/stars_resized.png";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
 import { BACKENDADDRESS } from "../constants/tezos";
@@ -18,45 +17,31 @@ import { getImageString } from "../utils/string";
 const NFTCard = ({ className, cid, preview, description, date }) => {
   const name = "Placeholder Name";
   const panoRef = React.useRef(null);
-  const [background, setBackground] = React.useState(stars);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
   const src = getImageString(preview);
   React.useEffect(() => {
     if (showModal) {
       axios
-      .post(BACKENDADDRESS + "/getimage", {
-        cid: cid,
-      })
-      .then((res) => {
-        const im = res.data.image;
-        console.log(im);
-        const ctr = panoRef.current;
-        if (!ctr) return;
-        if (!c) {
-          setC(ctr);
-          const panorama = new PANOLENS.ImagePanorama(im);
-          const viewer = new PANOLENS.Viewer({
-            container: ctr,
-          });
-          viewer.add(panorama);
-        }
-      });
+        .post(BACKENDADDRESS + "/getimage", {
+          cid: cid,
+        })
+        .then((res) => {
+          const im = res.data.image;
+          console.log(im);
+          const ctr = panoRef.current;
+          if (!ctr) return;
+          if (!c) {
+            setC(ctr);
+            const panorama = new PANOLENS.ImagePanorama(im);
+            const viewer = new PANOLENS.Viewer({
+              container: ctr,
+            });
+            viewer.add(panorama);
+          }
+        });
     }
   }, [showModal, cid, c]);
-
-  React.useEffect(() => {
-    const ctr = panoRef.current;
-    if (!ctr) return;
-    if (!c) {
-      setC(ctr);
-      const panorama = new PANOLENS.ImagePanorama(background);
-      const viewer = new PANOLENS.Viewer({
-        container: ctr,
-      });
-      viewer.add(panorama);
-    }
-  }, [c, background]);
 
   return (
     <div>
@@ -68,10 +53,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
         }}
         open={showModal}
       >
-        <ModalImage
-          src={src}
-          className="mt-[16px]"
-        />
+        <ModalImage src={src} className="mt-[16px]" />
         <ModalTextbox label="Metadata" className="mt-[8px]">
           <p className="text-[10.67px] py-[8px]">{description}</p>
         </ModalTextbox>
