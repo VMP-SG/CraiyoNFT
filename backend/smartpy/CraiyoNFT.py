@@ -4,6 +4,7 @@ FA2 = sp.io.import_script_from_url("https://smartpy.io/templates/fa2_lib.py")
 class CraiyoNft(
     FA2.OnchainviewBalanceOf,
     FA2.OffchainviewTokenMetadata,
+    FA2.BurnNft,
     FA2.Fa2Nft
 ):
     def __init__(self, metadata, token_metadata = {}, ledger = {}, policy = None, metadata_base = None):
@@ -58,7 +59,25 @@ def core_test(craiyoNft):
                 metadata = NFT1
             )]).run(sender = alice)
 
-        sc.show(craiyoNft.token_metadata(1))
+        # view token metadata
+        sc.show(craiyoNft.token_metadata(0))
+
+        # burn an nft
+        craiyoNft.burn([
+            sp.record(
+                from_ = bob.address,
+                token_id = 0,
+                amount = 1
+            )]
+                       ).run(valid = False, sender = bob)
+
+        craiyoNft.burn([
+            sp.record(
+                from_ = alice.address,
+                token_id = 0,
+                amount = 1
+            )]
+                       ).run(sender = alice)
 
 if "templates" not in __name__:
     craiyoNft = CraiyoNft(
