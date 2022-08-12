@@ -73,7 +73,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
           className="mt-[16px]"
         />
         <ModalTextbox label="Metadata" className="mt-[8px]">
-          <p className="text-[10.67px] py-[8px]">{prompt}</p>
+          <p className="text-[10.67px] py-[8px]">{description}</p>
         </ModalTextbox>
         <ModalTextbox label="Mint Date" className="mt-[8px]">
           <p className="text-[10.67px] py-[8px]">{date}</p>
