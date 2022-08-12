@@ -10,10 +10,43 @@ import CategoryCard from "../components/CategoryCard";
 import FooterArrow from "../assets/FooterArrow.svg";
 import FooterEmphasis from "../assets/FooterEmphasis.svg";
 import { useNavigate } from "react-router-dom";
+import { getMostCommonCategories, getCategoryNFTs } from "../utils/nft";
+import useFetchNft from "../hooks/useFetchNft";
 import P from "../constants/paths";
+
+const dummyNftData = [
+  {
+    images: [Lamb],
+    cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
+    prompt: "Sheep Coffee Cap Green Horns",
+    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+  },
+  {
+    images: [Robot],
+    cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
+    prompt: "Robot Candle Needle Blow Orange",
+    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+  },
+  {
+    images: [Bird],
+    cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
+    prompt: "Gray Bird Headphones Machine Sky",
+    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+  },
+  {
+    images: [Cloud],
+    cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
+    prompt: "3D Cloud Hat Ethereum Rainbow",
+    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+  }
+];
 
 const Home = () => {
   const navigate = useNavigate();
+  const fetchedNftData = useFetchNft();
+  const nftData = fetchedNftData === undefined ? dummyNftData : fetchedNftData;
+  const nftDataLength = nftData.length;
+  const categoryArray = getMostCommonCategories(nftData);
   const contactUsHandler = () => {
     navigate(P.PATH_ABOUT, { state: { location: "contact" } });
   };
@@ -42,31 +75,31 @@ const Home = () => {
           <section className="mt-[39.1px] h-[443.51px] w-[1070.91px] relative">
             <NFTCard
               className="rotate-[-0.9deg] absolute left-[1rem] top-[1rem] scale-110 animate-pulse z-20 hover:animate-none"
-              preview={Lamb}
-              cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              prompt="Sheep Coffee Cap Green Horns"
-              address="tz218937132"
+              preview={nftData[nftDataLength-4].images[0]}
+              cid={nftData[nftDataLength-4].cid}
+              description={nftData[nftDataLength-4].prompt}
+              date={nftData[nftDataLength-4].dateTime}
             />
             <NFTCard
               className="rotate-[9.98deg] absolute left-[17rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
-              preview={Robot}
-              cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              prompt="Robot Candle Needle Blow Orange"
-              address="tz218937132"
+              preview={nftData[nftDataLength-3].images[0]}
+              cid={nftData[nftDataLength-3].cid}
+              description={nftData[nftDataLength-3].prompt}
+              date={nftData[nftDataLength-3].dateTime}
             />
             <NFTCard
               className="rotate-[0.38deg] absolute right-[18rem] bottom-12 scale-110 animate-pulse z-20 hover:animate-none"
-              preview={Bird}
-              cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              prompt="Gray Bird Headphones Machine Sky"
-              address="tz218937132"
+              preview={nftData[nftDataLength-2].images[0]}
+              cid={nftData[nftDataLength-2].cid}
+              description={nftData[nftDataLength-2].prompt}
+              date={nftData[nftDataLength-2].dateTime}
             />
             <NFTCard
               className="rotate-[8.62deg] absolute right-[2rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
-              preview={Cloud}
-              cid={"QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A"}
-              prompt="3D Cloud Hat Ethereum Rainbow"
-              address="tz218937132"
+              preview={nftData[nftDataLength-1].images[0]}
+              cid={nftData[nftDataLength-1].cid}
+              description={nftData[nftDataLength-1].prompt}
+              date={nftData[nftDataLength-1].dateTime}
             />
           </section>
           <section className="mt-[61.4px] self-start w-[1150px]">
@@ -75,11 +108,9 @@ const Home = () => {
               <p>Browse by category</p>
             </div>
             <div className="flex gap-[18.13px] mt-[32.33px] relative">
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
-              <CategoryCard category="Sheep" />
+              {
+                categoryArray.map((category, i) => <CategoryCard key={i} category={category} data={getCategoryNFTs(nftData, category)}/>)
+              }
             </div>
           </section>
           <section>
