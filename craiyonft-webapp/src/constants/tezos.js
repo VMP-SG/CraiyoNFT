@@ -3,7 +3,7 @@ const RPC = {
     FLORENCENET: "https://api.tez.ie/rpc/florencenet",
 }
 
-export const CONTRACTADDRESS = "KT1AWrGFNC7QRGte7ZMuXpFkpooBAxrtHZja";
+export const CONTRACTADDRESS = "KT1VDhUkMxipQvg6YmKaom2rikkbTjnWLAtU";
 // export const BACKENDADDRESS = "https://craiyonft-backend-3apmyxpbda-uc.a.run.app";
 export const BACKENDADDRESS = "https://1174-219-75-72-115.ap.ngrok.io";
 
