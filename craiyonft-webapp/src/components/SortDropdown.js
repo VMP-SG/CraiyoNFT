@@ -18,8 +18,8 @@ const options = [
   SORT.DATE_DES,
   SORT.ALPHABETICAL_ASC,
   SORT.ALPHABETICAL_DES,
-  SORT.ADDRESS_ASC,
-  SORT.ADDRESS_DES,
+  // SORT.ADDRESS_ASC,
+  // SORT.ADDRESS_DES,
 ];
 
 const SortDropdown = ({ text, setSort }) => {

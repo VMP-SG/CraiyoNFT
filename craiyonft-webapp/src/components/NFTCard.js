@@ -25,15 +25,26 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
   React.useEffect(() => {
     if (showModal) {
       axios
-        .post(BACKENDADDRESS + "/getimage", {
-          cid,
-        })
-        .then((res) => {
-          const im = res.data.image;
-          setBackground(im);
-        });
+      .post(BACKENDADDRESS + "/getimage", {
+        cid: cid,
+      })
+      .then((res) => {
+        const im = res.data.image;
+        console.log(im);
+        const ctr = panoRef.current;
+        if (!ctr) return;
+        if (!c) {
+          setC(ctr);
+          const panorama = new PANOLENS.ImagePanorama(im);
+          const viewer = new PANOLENS.Viewer({
+            container: ctr,
+          });
+          viewer.add(panorama);
+        }
+      });
     }
-  }, [showModal, cid]);
+  }, [showModal, cid, c]);
+
   React.useEffect(() => {
     const ctr = panoRef.current;
     if (!ctr) return;
@@ -46,6 +57,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
       viewer.add(panorama);
     }
   }, [c, background]);
+
   return (
     <div>
       <div ref={panoRef} className="max-h-0 max-w-0 childdivsdisplaynone" />
@@ -61,7 +73,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
           className="mt-[16px]"
         />
         <ModalTextbox label="Metadata" className="mt-[8px]">
-          <p className="text-[10.67px] py-[8px]">{description}</p>
+          <p className="text-[10.67px] py-[8px]">{prompt}</p>
         </ModalTextbox>
         <ModalTextbox label="Mint Date" className="mt-[8px]">
           <p className="text-[10.67px] py-[8px]">{date}</p>
@@ -93,7 +105,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
           </span>
         </div>
         <div className="mt-[6.46px] flex gap-[3px]">
-          <span className="text-[10px] leading-[13.66px]">{description}</span>
+          <span className="text-[10px] leading-[13.66px]">{prompt}</span>
           <img src={Lightning} alt="Logo" height="12.36px" />
         </div>
         <OutlinedButton
