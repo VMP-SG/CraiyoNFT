@@ -19,25 +19,29 @@ const dummyNftData = [
     images: [Lamb],
     cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
     prompt: "Sheep Coffee Cap Green Horns",
-    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+    date: "Wed, 10 Aug 2022 08:34:44 GMT",
+    tokenId: 1
   },
   {
     images: [Robot],
     cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
     prompt: "Robot Candle Needle Blow Orange",
-    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+    date: "Wed, 10 Aug 2022 08:34:44 GMT",
+    tokenId: 2
   },
   {
     images: [Bird],
     cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
     prompt: "Gray Bird Headphones Machine Sky",
-    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+    date: "Wed, 10 Aug 2022 08:34:44 GMT",
+    tokenId: 3
   },
   {
     images: [Cloud],
     cid: "QmbkHyv439z8NX5yY1Srgu1Vbn6cAeDa4gFA3RwFcfTK9A",
     prompt: "3D Cloud Hat Ethereum Rainbow",
-    date: "Wed, 10 Aug 2022 08:34:44 GMT"
+    date: "Wed, 10 Aug 2022 08:34:44 GMT",
+    tokenId: 4
   }
 ];
 
@@ -79,6 +83,7 @@ const Home = () => {
               cid={nftData[nftDataLength-4].cid}
               description={nftData[nftDataLength-4].prompt}
               date={nftData[nftDataLength-4].dateTime}
+              tokenId={nftData[nftDataLength-4].tokenId}
             />
             <NFTCard
               className="rotate-[9.98deg] absolute left-[17rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
@@ -86,6 +91,7 @@ const Home = () => {
               cid={nftData[nftDataLength-3].cid}
               description={nftData[nftDataLength-3].prompt}
               date={nftData[nftDataLength-3].dateTime}
+              tokenId={nftData[nftDataLength-3].tokenId}
             />
             <NFTCard
               className="rotate-[0.38deg] absolute right-[18rem] bottom-12 scale-110 animate-pulse z-20 hover:animate-none"
@@ -93,6 +99,7 @@ const Home = () => {
               cid={nftData[nftDataLength-2].cid}
               description={nftData[nftDataLength-2].prompt}
               date={nftData[nftDataLength-2].dateTime}
+              tokenId={nftData[nftDataLength-2].tokenId}
             />
             <NFTCard
               className="rotate-[8.62deg] absolute right-[2rem] bottom-[2rem] scale-110 animate-pulse-2.25 z-20 hover:animate-none"
@@ -100,6 +107,7 @@ const Home = () => {
               cid={nftData[nftDataLength-1].cid}
               description={nftData[nftDataLength-1].prompt}
               date={nftData[nftDataLength-1].dateTime}
+              tokenId={nftData[nftDataLength-1].tokenId}
             />
           </section>
           <section className="mt-[61.4px] self-start w-[1150px]">

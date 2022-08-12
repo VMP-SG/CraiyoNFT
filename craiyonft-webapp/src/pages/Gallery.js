@@ -65,6 +65,7 @@ const Gallery = () => {
                 preview={item.images[0]} 
                 description={item.prompt}
                 date={item.dateTime}
+                tokenId={item.tokenId}
               />
             </CardSpacing>
           );

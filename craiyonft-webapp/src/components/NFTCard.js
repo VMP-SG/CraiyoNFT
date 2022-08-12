@@ -12,11 +12,11 @@ import PrimaryButton from "../components/PrimaryButton";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
 import { BACKENDADDRESS } from "../constants/tezos";
-import { getImageString } from "../utils/string";
+import { getImageString, padThousands } from "../utils/string";
 import Spinner from "./Spinner";
 
-const NFTCard = ({ className, cid, preview, description, date }) => {
-  const name = "Placeholder Name";
+const NFTCard = ({ className, cid, preview, description, date, tokenId }) => {
+  const name = "CraiyoNFT";
   const panoRef = React.useRef(null);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
@@ -89,7 +89,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
             {name}
           </span>
           <span className="text-[8px] font-secondary text-gray-light leading-[10.42px]">
-            {cid.slice(0, 5) + "..."}
+            {`#${padThousands(tokenId)}`}
           </span>
         </div>
         <div className="mt-[6.46px] flex gap-[3px]">
