@@ -12,24 +12,30 @@ import PrimaryButton from "../components/PrimaryButton";
 // import background from "../assets/stars_resized.png";
 import { toggleFullScreen } from "../utils/utilFunctions";
 import { BACKENDADDRESS } from "../constants/tezos";
-import { getImageString } from "../utils/string";
+import { getImageString, padThousands } from "../utils/string";
+import Spinner from "./Spinner";
 
-const NFTCard = ({ className, cid, preview, description, date }) => {
-  const name = "Placeholder Name";
+const NFTCard = ({ className, cid, preview, description, date, tokenId }) => {
+  const name = "CraiyoNFT";
   const panoRef = React.useRef(null);
   const [c, setC] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
+  const [nftModalButtonContent, setNftModalButtonContent] = React.useState(<Spinner variant="light" />)
   const src = getImageString(preview);
+  if (description.length > 32) {
+    description = `${description.slice(0, 32)}...`;
+  }
   React.useEffect(() => {
     if (showModal) {
+      setNftModalButtonContent(<Spinner variant="light" />)
       axios
         .post(BACKENDADDRESS + "/getimage", {
           cid: cid,
         })
         .then((res) => {
           const im = res.data.image;
-          console.log(im);
           const ctr = panoRef.current;
+          setNftModalButtonContent("Explore NFT")
           if (!ctr) return;
           if (!c) {
             setC(ctr);
@@ -61,7 +67,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
           <p className="text-[10.67px] py-[8px]">{date}</p>
         </ModalTextbox>
         <PrimaryButton
-          text="Explore NFT"
+          text={nftModalButtonContent}
           className="m-auto mt-[16px]"
           onClick={() => {
             toggleFullScreen(c);
@@ -83,7 +89,7 @@ const NFTCard = ({ className, cid, preview, description, date }) => {
             {name}
           </span>
           <span className="text-[8px] font-secondary text-gray-light leading-[10.42px]">
-            {cid.slice(0, 5) + "..."}
+            {`#${padThousands(tokenId)}`}
           </span>
         </div>
         <div className="mt-[6.46px] flex gap-[3px]">

@@ -109,7 +109,6 @@ const MintModal = ({ wallet }) => {
           return;
         }
         const cid = await response.text();
-        console.log(cid);
         if (!cid) {
           throw new Error("No CID returned");
         }

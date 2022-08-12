@@ -18,31 +18,36 @@ const useFetchNft = (address = undefined) => {
       const nftDataArg = [...Array(nftCount).keys()];
       const nftMetaData = await contractStorage.token_metadata.getMultipleValues(nftDataArg);
       const nftArray = Array.from(nftMetaData.valueMap.values());
-      const cidArray = [];
-      nftArray.forEach((nft) => {
-        const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
-        cidArray.push(bytes2Char(nftCIDBytes));
+      const idArray = [];
+      nftArray.forEach((nft, i) => {
+        if (nft !== undefined) {
+          const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
+          idArray.push({cid: bytes2Char(nftCIDBytes), tokenId: i});
+        }
       });
+
       // checking with localstorage
       let rawCache = localStorage.getItem(localStorageKeys.nftData);
       rawCache = rawCache === "undefined" ? "[]" : rawCache;
       let cachedNftData = JSON.parse(rawCache);
       cachedNftData = cachedNftData === null ? [] : cachedNftData;
-      const filteredArray = cidArray.filter((cid) => !cachedNftData.some((cachednft) => cachednft.cid === cid));
-
+      const filteredArray = idArray.filter((id) => !cachedNftData.some((cachednft) => cachednft.cid === id.cid));
       let combinedNftData = cachedNftData;
+
       if (filteredArray.length > 0) {
         // getting prompts from backend server
+        const cidArray = filteredArray.map((id) => id.cid);
         const content = {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({cids: filteredArray})
+          body: JSON.stringify({cids: cidArray})
         };
         const nftDataResponse = await fetch(BACKENDADDRESS + "/getdatas", content);
         const nftData = await nftDataResponse.json();
-        combinedNftData = [...cachedNftData, ...nftData];
+        const nftDataWithToken = nftData.map((nft, index) => {return {...nft, tokenId: filteredArray[index].tokenId}})
+        combinedNftData = [...cachedNftData, ...nftDataWithToken];
         localStorage.setItem(localStorageKeys.nftData, JSON.stringify(combinedNftData));
       }
       setGalleryData(combinedNftData);
@@ -65,34 +70,37 @@ const useFetchNft = (address = undefined) => {
       }
       const nftMetaData = await contractStorage.token_metadata.getMultipleValues(tokenIds);
       const nftArray = Array.from(nftMetaData.valueMap.values());
-      const cidArray = [];
-      nftArray.forEach((nft) => {
-        const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
-        cidArray.push(bytes2Char(nftCIDBytes));
+      const idArray = [];
+      nftArray.forEach((nft, i) => {
+        if (nft !== undefined) {
+          const nftCIDBytes = nft.token_info.valueMap.get("\"cid\"");
+          idArray.push({cid: bytes2Char(nftCIDBytes), tokenId: i});
+        }
       });
 
       let rawCache = localStorage.getItem(localStorageKeys.nftData);
       rawCache = rawCache === "undefined" ? "[]" : rawCache;
       let cachedNftData = JSON.parse(rawCache);
       cachedNftData = cachedNftData === null ? [] : cachedNftData;
-      const cachedUserNftData = cachedNftData.filter((cachedNft) => cidArray.includes(cachedNft.cid));
-      
-      const filteredArray = cidArray.filter((cid) => !cachedNftData.some((cachednft) => cachednft.cid === cid));
+      const cachedUserNftData = cachedNftData.filter((cachedNft) => !idArray.some((id) => cachedNft.cid === id.cid));
+      const filteredArray = idArray.filter((id) => !cachedNftData.some((cachednft) => cachednft.cid === id.cid));
 
       let combinedNftData = cachedUserNftData;
       if (filteredArray.length > 0) {
         // getting prompts from backend server
+        const cidArray = filteredArray.map((id) => id.cid);
         const content = {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({cids: filteredArray})
+          body: JSON.stringify({cids: cidArray})
         };
         const nftDataResponse = await fetch(BACKENDADDRESS + "/getdatas", content);
         const nftData = await nftDataResponse.json();
-        combinedNftData = [...cachedUserNftData, ...nftData];
-        localStorage.setItem(localStorageKeys.nftData, JSON.stringify());
+        const nftDataWithToken = nftData.map((nft, index) => {return {...nft, tokenId: filteredArray[index].tokenId}})
+        combinedNftData = [...cachedNftData, ...nftDataWithToken];
+        localStorage.setItem(localStorageKeys.nftData, JSON.stringify(combinedNftData));
       }
       setGalleryData(combinedNftData);
     }
