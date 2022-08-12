@@ -154,3 +154,11 @@ CraiyoNFT utilises a smart contract for the minting and reading of NFTs. The sma
 The CraiyoNFT smart contract makes use of the FA2 library for upholding FA2 standard tokens.
 
 The smart contract is capable of minting additional tokens, and querying for all minted tokens with an off-chain view.
+
+## Credits
+
+We used the following resources to aid in the development of our project.
+- [Craiyon](https://www.craiyon.com/) for the server
+- [Figma](https://www.figma.com/community/file/1111420338365515860) for the UI template
+- [CryptoKitties](https://www.cryptokitties.co/) for the use of their images
+- [scy6500](https://github.com/scy6500/DALLE-server) for the Dall-e server API
