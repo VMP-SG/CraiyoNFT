@@ -21,6 +21,15 @@ Operator.init().then((result) => {
   console.log("Operator running");
 });
 
+const awaitTimeout = (delay, reason) =>
+  new Promise((resolve, reject) =>
+    setTimeout(
+      () => (reason === undefined ? resolve() : reject(reason)),
+      delay
+    )
+  );
+const wrapPromise = (promise, delay, reason) => Promise.race([promise, awaitTimeout(delay, reason)]);
+
 const logIP = (req) => {
   var ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   console.log(`Incoming request from IP: ${ip}`);
@@ -63,11 +72,13 @@ app.post("/getdatas", async (req, res) => {
   for (const cid of cids) {
     console.log(`received cid: ${cid}`);
     try {
-      const log = await operator.getData(cid);
+      const log = await wrapPromise(operator.getData(cid), 1000, {
+        reason: 'Fetch timeout',
+      });
       const logWithCid = {cid, ...log};
       data.push(logWithCid);
     } catch (error) {
-      console.error(error);
+      console.error(error.reason);
     }
   }
   res.send(data);

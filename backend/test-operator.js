@@ -4,13 +4,13 @@ const utils = require("./utils");
 async function main() {
   const operator = await Operator.init();
   try {
-    console.log(await mintNFTTest(operator));
+    // console.log(await mintNFTTest(operator));
     // console.log(await generateTest(operator));
     // console.log(await storeTest(operator));
     // console.log(await storeMetaTest(operator));
     // console.log(await addTest(operator));
     // console.log(await addMetaTest(operator));
-    // console.log(await readTest(operator));
+    console.log(await readTest(operator));
     // console.log(await removeTest(operator));
   } catch (error) {
     console.log(error);
@@ -34,7 +34,7 @@ async function generateTest(operator) {
 // tests retrieval of file from ipfs
 async function readTest(operator) {
   // const cid = "QmU61ij6yM61SCz6r92TeKqtnkep5eUmQ53aid7FWuVo14"; // images
-  const cid = "QmZF1BGBkstx2Qm7euprZB6nsQjM31KP9pVg4ZoWRgVdcY"; // meta
+  const cid = "QmXVb9VNvj6MahPsquPozJ8NuL2J6gE7QXPiJdt7koXK9N"; // meta
   const log = await operator.getData(cid);
   return log;
 }
